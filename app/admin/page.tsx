@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useAlert } from "@/components/ui/alert"
-import { Trash2, Edit, Plus, Users, Calendar, Eye, Lock, LogOut, Settings, UserCheck, UserX, Clock, Download } from "lucide-react"
+import { Trash2, Edit, Plus, Users, Calendar, Eye, Lock, LogOut, Settings, UserCheck, UserX, Clock, Download, Menu, X } from "lucide-react"
 import type { Event, Registration } from "@/lib/database"
 
 interface AdminCredentials {
@@ -20,6 +20,7 @@ export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [loginError, setLoginError] = useState("")
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   
   const [events, setEvents] = useState<Event[]>([])
   const [registrations, setRegistrations] = useState<Registration[]>([])
@@ -275,14 +276,12 @@ export default function AdminPage() {
   }
 
   const getRegistrationStats = () => {
-    const totalRegistrations = registrations.length
     const activeEvents = events.filter(e => e.isActive !== false)
     const totalEvents = events.length
     const upcomingEvents = events.filter(e => new Date(e.date) > new Date() && e.isActive !== false)
     const pastEvents = events.filter(e => new Date(e.date) < new Date())
     
     return {
-      totalRegistrations,
       totalEvents,
       activeEvents: activeEvents.length,
       upcomingEvents: upcomingEvents.length,
@@ -328,8 +327,6 @@ export default function AdminPage() {
     }
   }
 
-
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
@@ -340,7 +337,7 @@ export default function AdminPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center p-6">
+      <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 sm:p-6">
         <Card className="w-full max-w-md bg-gray-900 border-gray-700">
           <CardHeader className="text-center">
             <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-cyan-400/80 to-cyan-600/80 rounded-full flex items-center justify-center">
@@ -389,19 +386,19 @@ export default function AdminPage() {
   const stats = getRegistrationStats()
 
   return (
-    <div className="min-h-screen bg-black text-white p-6">
+    <div className="min-h-screen bg-black text-white p-2 sm:p-4 lg:p-6">
       <AlertContainer />
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto w-full">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-white">Admin Panel</h1>
-            <p className="text-gray-400 mt-1">Manage events, registrations, and settings</p>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">Admin Panel</h1>
+            <p className="text-gray-400 mt-1 text-sm sm:text-base">Manage events, registrations, and settings</p>
           </div>
           <Button
             onClick={handleLogout}
             variant="outline"
-            className="border-red-600 text-red-400 hover:bg-red-400/10"
+            className="border-red-600 text-red-400 hover:bg-red-400/10 w-full sm:w-auto text-sm sm:text-base"
           >
             <LogOut className="w-4 h-4 mr-2" />
             Logout
@@ -409,112 +406,136 @@ export default function AdminPage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 mb-4 sm:mb-6 lg:mb-8">
           <Card className="bg-gray-900 border-gray-700">
-            <CardContent className="p-4">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Total Events</p>
-                  <p className="text-2xl font-bold text-white">{stats.totalEvents}</p>
+                  <p className="text-gray-400 text-xs sm:text-sm">Total Events</p>
+                  <p className="text-lg sm:text-2xl font-bold text-white">{stats.totalEvents}</p>
                 </div>
-                <Calendar className="w-8 h-8 text-cyan-400" />
+                <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-400" />
               </div>
             </CardContent>
           </Card>
           <Card className="bg-gray-900 border-gray-700">
-            <CardContent className="p-4">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Active Events</p>
-                  <p className="text-2xl font-bold text-white">{stats.activeEvents}</p>
+                  <p className="text-gray-400 text-xs sm:text-sm">Active Events</p>
+                  <p className="text-lg sm:text-2xl font-bold text-white">{stats.activeEvents}</p>
                 </div>
-                <UserCheck className="w-8 h-8 text-green-400" />
+                <UserCheck className="w-6 h-6 sm:w-8 sm:h-8 text-green-400" />
               </div>
             </CardContent>
           </Card>
           <Card className="bg-gray-900 border-gray-700">
-            <CardContent className="p-4">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Total Registrations</p>
-                  <p className="text-2xl font-bold text-white">{stats.totalRegistrations}</p>
+                  <p className="text-gray-400 text-xs sm:text-sm">Upcoming</p>
+                  <p className="text-lg sm:text-2xl font-bold text-white">{stats.upcomingEvents}</p>
                 </div>
-                <Users className="w-8 h-8 text-blue-400" />
+                <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400" />
               </div>
             </CardContent>
           </Card>
-                     <Card className="bg-gray-900 border-gray-700">
-             <CardContent className="p-4">
-               <div className="flex items-center justify-between">
-                 <div>
-                   <p className="text-gray-400 text-sm">Upcoming Events</p>
-                   <p className="text-2xl font-bold text-white">{stats.upcomingEvents}</p>
-                 </div>
-                 <Calendar className="w-8 h-8 text-yellow-400" />
-               </div>
-             </CardContent>
-           </Card>
-           <Card className="bg-gray-900 border-gray-700">
-             <CardContent className="p-4">
-               <div className="flex items-center justify-between">
-                 <div>
-                   <p className="text-gray-400 text-sm">Past Events</p>
-                   <p className="text-2xl font-bold text-white">{stats.pastEvents}</p>
-                 </div>
-                 <Calendar className="w-8 h-8 text-red-400" />
-               </div>
-             </CardContent>
-           </Card>
+          <Card className="bg-gray-900 border-gray-700">
+            <CardContent className="p-3 sm:p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-gray-400 text-xs sm:text-sm">Past Events</p>
+                  <p className="text-lg sm:text-2xl font-bold text-white">{stats.pastEvents}</p>
+                </div>
+                <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-red-400" />
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
-                 {/* Navigation Tabs */}
-         <div className="flex gap-4 mb-6">
-           <Button
-             onClick={() => setActiveTab('events')}
-             variant={activeTab === 'events' ? 'default' : 'outline'}
-             className={activeTab === 'events' ? 'bg-cyan-500 hover:bg-cyan-600' : 'border-gray-600 text-gray-300'}
-           >
-             <Calendar className="w-4 h-4 mr-2" />
-             Events
-           </Button>
-           <Button
-             onClick={() => setActiveTab('past-events')}
-             variant={activeTab === 'past-events' ? 'default' : 'outline'}
-             className={activeTab === 'past-events' ? 'bg-cyan-500 hover:bg-cyan-600' : 'border-gray-600 text-gray-300'}
-           >
-             <Calendar className="w-4 h-4 mr-2" />
-             Past Events
-           </Button>
-           <Button
-             onClick={() => setActiveTab('registrations')}
-             variant={activeTab === 'registrations' ? 'default' : 'outline'}
-             className={activeTab === 'registrations' ? 'bg-cyan-500 hover:bg-cyan-600' : 'border-gray-600 text-gray-300'}
-           >
-             <Users className="w-4 h-4 mr-2" />
-             Registrations
-           </Button>
-           <Button
-             onClick={() => setActiveTab('settings')}
-             variant={activeTab === 'settings' ? 'default' : 'outline'}
-             className={activeTab === 'settings' ? 'bg-cyan-500 hover:bg-cyan-600' : 'border-gray-600 text-gray-300'}
-           >
-             <Settings className="w-4 h-4 mr-2" />
-             Settings
-           </Button>
-         </div>
+        {/* Mobile Menu Button */}
+        <div className="sm:hidden mb-3">
+          <Button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            variant="outline"
+            className="w-full border-gray-600 text-gray-300 text-sm"
+          >
+            {isMobileMenuOpen ? (
+              <>
+                <X className="w-4 h-4 mr-2" />
+                Close Menu
+              </>
+            ) : (
+              <>
+                <Menu className="w-4 h-4 mr-2" />
+                Open Menu
+              </>
+            )}
+          </Button>
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} sm:block mb-4 sm:mb-6`}>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 lg:gap-4">
+            <Button
+              onClick={() => {
+                setActiveTab('events')
+                setIsMobileMenuOpen(false)
+              }}
+              variant={activeTab === 'events' ? 'default' : 'outline'}
+              className={activeTab === 'events' ? 'bg-cyan-500 hover:bg-cyan-600' : 'border-gray-600 text-gray-300'}
+            >
+              <Calendar className="w-4 h-4 mr-2" />
+              Events
+            </Button>
+            <Button
+              onClick={() => {
+                setActiveTab('past-events')
+                setIsMobileMenuOpen(false)
+              }}
+              variant={activeTab === 'past-events' ? 'default' : 'outline'}
+              className={activeTab === 'past-events' ? 'bg-cyan-500 hover:bg-cyan-600' : 'border-gray-600 text-gray-300'}
+            >
+              <Calendar className="w-4 h-4 mr-2" />
+              Past Events
+            </Button>
+            <Button
+              onClick={() => {
+                setActiveTab('registrations')
+                setIsMobileMenuOpen(false)
+              }}
+              variant={activeTab === 'registrations' ? 'default' : 'outline'}
+              className={activeTab === 'registrations' ? 'bg-cyan-500 hover:bg-cyan-600' : 'border-gray-600 text-gray-300'}
+            >
+              <Users className="w-4 h-4 mr-2" />
+              Registrations
+            </Button>
+            <Button
+              onClick={() => {
+                setActiveTab('settings')
+                setIsMobileMenuOpen(false)
+              }}
+              variant={activeTab === 'settings' ? 'default' : 'outline'}
+              className={activeTab === 'settings' ? 'bg-cyan-500 hover:bg-cyan-600' : 'border-gray-600 text-gray-300'}
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              Settings
+            </Button>
+          </div>
+        </div>
 
         {/* Events Tab */}
         {activeTab === 'events' && (
           <div>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">Events Management</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-white">Events Management</h2>
               <Button
                 onClick={() => {
                   setShowEventForm(true)
                   setSelectedEvent(null)
                   resetForm()
                 }}
-                className="bg-cyan-500 hover:bg-cyan-600"
+                className="bg-cyan-500 hover:bg-cyan-600 w-full sm:w-auto text-sm sm:text-base"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Event
@@ -531,7 +552,7 @@ export default function AdminPage() {
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={selectedEvent ? handleUpdateEvent : handleCreateEvent} className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                       <div>
                         <Label htmlFor="title" className="text-gray-300">Title</Label>
                         <Input
@@ -554,19 +575,19 @@ export default function AdminPage() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                             <div>
-                         <Label htmlFor="date" className="text-gray-300">Date</Label>
-                         <Input
-                           id="date"
-                           type="date"
-                           value={eventForm.date}
-                           onChange={(e) => setEventForm({...eventForm, date: e.target.value})}
-                           required
-                           className="bg-gray-800 border-gray-600 text-white"
-                           min={new Date().toISOString().split('T')[0]}
-                         />
-                       </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <div>
+                        <Label htmlFor="date" className="text-gray-300">Date</Label>
+                        <Input
+                          id="date"
+                          type="date"
+                          value={eventForm.date}
+                          onChange={(e) => setEventForm({...eventForm, date: e.target.value})}
+                          required
+                          className="bg-gray-800 border-gray-600 text-white"
+                          min={new Date().toISOString().split('T')[0]}
+                        />
+                      </div>
                       <div>
                         <Label htmlFor="time" className="text-gray-300">Time</Label>
                         <Input
@@ -580,7 +601,7 @@ export default function AdminPage() {
                       </div>
                       <div>
                         <Label htmlFor="maxAttendees" className="text-gray-300">
-                          🏢 Max Attendees (Venue Capacity)
+                          🏢 Max Attendees
                         </Label>
                         <Input
                           id="maxAttendees"
@@ -589,12 +610,12 @@ export default function AdminPage() {
                           onChange={(e) => setEventForm({...eventForm, maxAttendees: e.target.value})}
                           required
                           className="bg-gray-800 border-gray-600 text-white placeholder:text-gray-500/50"
-                          placeholder="How many people can physically attend?"
+                          placeholder="Venue capacity"
                         />
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                       <div>
                         <Label htmlFor="location" className="text-gray-300">Location</Label>
                         <Input
@@ -607,7 +628,7 @@ export default function AdminPage() {
                       </div>
                       <div>
                         <Label htmlFor="registrationLimit" className="text-gray-300">
-                          📝 Registration Limit (Sign-up Cap)
+                          📝 Registration Limit
                         </Label>
                         <Input
                           id="registrationLimit"
@@ -615,7 +636,7 @@ export default function AdminPage() {
                           value={eventForm.registrationLimit}
                           onChange={(e) => setEventForm({...eventForm, registrationLimit: e.target.value})}
                           className="bg-gray-800 border-gray-600 text-white placeholder:text-gray-500/50"
-                          placeholder="How many people can register? (Optional)"
+                          placeholder="Sign-up cap (Optional)"
                         />
                       </div>
                     </div>
@@ -653,39 +674,39 @@ export default function AdminPage() {
                       />
                     </div>
 
-                                         <div className="flex items-center gap-4">
-                       <div className="flex items-center gap-2">
-                         <input
-                           type="checkbox"
-                           id="featured"
-                           checked={eventForm.featured}
-                           onChange={(e) => setEventForm({...eventForm, featured: e.target.checked})}
-                           className="w-4 h-4 text-cyan-600 bg-gray-800 border-gray-600 rounded"
-                           aria-label="Mark as featured event"
-                         />
-                         <Label htmlFor="featured" className="text-gray-300">Featured Event</Label>
-                       </div>
-                       <div className="flex items-center gap-2">
-                         <input
-                           type="checkbox"
-                           id="isActive"
-                           checked={eventForm.isActive}
-                           onChange={(e) => setEventForm({...eventForm, isActive: e.target.checked})}
-                           className="w-4 h-4 text-cyan-600 bg-gray-800 border-gray-600 rounded"
-                           aria-label="Mark as active event"
-                         />
-                         <Label htmlFor="isActive" className="text-gray-300">Active Event</Label>
-                       </div>
-                     </div>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          id="featured"
+                          checked={eventForm.featured}
+                          onChange={(e) => setEventForm({...eventForm, featured: e.target.checked})}
+                          className="w-4 h-4 text-cyan-600 bg-gray-800 border-gray-600 rounded"
+                          aria-label="Mark as featured event"
+                        />
+                        <Label htmlFor="featured" className="text-gray-300">Featured Event</Label>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          id="isActive"
+                          checked={eventForm.isActive}
+                          onChange={(e) => setEventForm({...eventForm, isActive: e.target.checked})}
+                          className="w-4 h-4 text-cyan-600 bg-gray-800 border-gray-600 rounded"
+                          aria-label="Mark as active event"
+                        />
+                        <Label htmlFor="isActive" className="text-gray-300">Active Event</Label>
+                      </div>
+                    </div>
 
-                                         <div className="flex gap-4">
-                       <Button 
-                         type="submit" 
-                         className="bg-cyan-500 hover:bg-cyan-600"
-                         disabled={isSubmitting}
-                       >
-                         {isSubmitting ? 'Creating...' : (selectedEvent ? 'Update Event' : 'Create Event')}
-                       </Button>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <Button 
+                        type="submit" 
+                        className="bg-cyan-500 hover:bg-cyan-600 w-full sm:w-auto"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? 'Creating...' : (selectedEvent ? 'Update Event' : 'Create Event')}
+                      </Button>
                       <Button
                         type="button"
                         variant="outline"
@@ -694,7 +715,7 @@ export default function AdminPage() {
                           setSelectedEvent(null)
                           resetForm()
                         }}
-                        className="border-gray-600 text-gray-300"
+                        className="border-gray-600 text-gray-300 w-full sm:w-auto"
                       >
                         Cancel
                       </Button>
@@ -711,74 +732,74 @@ export default function AdminPage() {
               ) : (
                 events.filter(e => e.isActive !== false).map((event) => (
                   <Card key={event.id} className="bg-gray-900 border-gray-700">
-                    <CardContent className="p-6">
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-xl font-bold text-white">{event.title}</h3>
+                    <CardContent className="p-3 sm:p-4 lg:p-6">
+                      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 sm:gap-4">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-1 sm:gap-2 lg:gap-3 mb-2">
+                            <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white truncate">{event.title}</h3>
                             {event.featured && (
-                              <span className="px-2 py-1 bg-yellow-500/20 text-yellow-300 text-xs rounded">
+                              <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-yellow-500/20 text-yellow-300 text-xs rounded">
                                 Featured
                               </span>
                             )}
                             {event.isActive === false && (
-                              <span className="px-2 py-1 bg-red-500/20 text-red-300 text-xs rounded">
+                              <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-red-500/20 text-red-300 text-xs rounded">
                                 Inactive
                               </span>
                             )}
-                            <span className="px-2 py-1 bg-cyan-500/20 text-cyan-300 text-xs rounded">
+                            <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-cyan-500/20 text-cyan-300 text-xs rounded">
                               {event.category}
                             </span>
                           </div>
-                          <div className="flex items-center gap-6 text-gray-300 text-sm mb-2">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 lg:gap-6 text-gray-300 text-xs sm:text-sm mb-2">
                             <div className="flex items-center gap-1">
-                              <Calendar className="w-4 h-4" />
-                              {event.date} • {event.time}
+                              <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
+                              <span className="truncate">{event.date} • {event.time}</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <Users className="w-4 h-4" />
-                              {event.attendees}/{event.maxAttendees} registered
-                              {event.registrationLimit && ` (Limit: ${event.registrationLimit})`}
+                              <Users className="w-3 h-3 sm:w-4 sm:h-4" />
+                              <span className="truncate">{event.attendees}/{event.maxAttendees} registered
+                              {event.registrationLimit && ` (Limit: ${event.registrationLimit})`}</span>
                             </div>
                           </div>
-                          <p className="text-gray-400 text-sm">{event.location}</p>
+                          <p className="text-gray-400 text-xs sm:text-sm truncate">{event.location}</p>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-1 sm:gap-2">
                           <Button
                             onClick={() => window.open(`/admin/events/${event.id}/registrations`, '_blank')}
                             variant="outline"
                             size="sm"
-                            className="border-gray-600 text-gray-300"
+                            className="border-gray-600 text-gray-300 h-8 w-8 sm:h-9 sm:w-9 p-0"
                             title="View Registrations"
                           >
-                            <Eye className="w-4 h-4" />
+                            <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
                           </Button>
 
                           <Button
                             onClick={() => editEvent(event)}
                             variant="outline"
                             size="sm"
-                            className="border-gray-600 text-gray-300"
+                            className="border-gray-600 text-gray-300 h-8 w-8 sm:h-9 sm:w-9 p-0"
                           >
-                            <Edit className="w-4 h-4" />
+                            <Edit className="w-3 h-3 sm:w-4 sm:h-4" />
                           </Button>
 
                           <Button
                             onClick={() => handleMoveToPastEvents(event)}
                             variant="outline"
                             size="sm"
-                            className="border-purple-600 text-purple-400 hover:bg-purple-400/10"
+                            className="border-purple-600 text-purple-400 hover:bg-purple-400/10 h-8 w-8 sm:h-9 sm:w-9 p-0"
                             title="Move to Past Events"
                           >
-                            <Clock className="w-4 h-4" />
+                            <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
                           </Button>
                           <Button
                             onClick={() => handleDeleteEvent(event.id)}
                             variant="outline"
                             size="sm"
-                            className="border-red-600 text-red-400"
+                            className="border-red-600 text-red-400 h-8 w-8 sm:h-9 sm:w-9 p-0"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
                           </Button>
                         </div>
                       </div>
@@ -788,122 +809,122 @@ export default function AdminPage() {
               )}
             </div>
           </div>
-                 )}
+        )}
 
-         {/* Past Events Tab */}
-         {activeTab === 'past-events' && (
-           <div>
-             <div className="flex items-center justify-between mb-6">
-               <h2 className="text-2xl font-bold text-white">Past Events</h2>
-               <div className="flex gap-2">
-                 <Button
-                   onClick={() => {
-                     const pastEvents = events.filter(e => e.isActive === false)
-                     if (pastEvents.length === 0) {
-                       showAlert('info', 'No past events found.', 'Info')
-                     } else {
-                       showAlert('info', `Found ${pastEvents.length} past events.`, 'Info')
-                     }
-                   }}
-                   variant="outline"
-                   className="border-gray-600 text-gray-300"
-                 >
-                   <Eye className="w-4 h-4 mr-2" />
-                   Check Past Events
-                 </Button>
-                 <Button
-                   onClick={() => {
-                     const pastEvents = events.filter(e => e.isActive === false)
-                     console.log('All past events:', pastEvents)
-                     showAlert('info', `Found ${pastEvents.length} past events. Check console for details.`, 'Info')
-                   }}
-                   variant="outline"
-                   className="border-gray-600 text-gray-300"
-                 >
-                   <Calendar className="w-4 h-4 mr-2" />
-                   View Details
-                 </Button>
-               </div>
-             </div>
+        {/* Past Events Tab */}
+        {activeTab === 'past-events' && (
+          <div>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <h2 className="text-2xl font-bold text-white">Past Events</h2>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Button
+                  onClick={() => {
+                    const pastEvents = events.filter(e => e.isActive === false)
+                    if (pastEvents.length === 0) {
+                      showAlert('info', 'No past events found.', 'Info')
+                    } else {
+                      showAlert('info', `Found ${pastEvents.length} past events.`, 'Info')
+                    }
+                  }}
+                  variant="outline"
+                  className="border-gray-600 text-gray-300 w-full sm:w-auto"
+                >
+                  <Eye className="w-4 h-4 mr-2" />
+                  Check Past Events
+                </Button>
+                <Button
+                  onClick={() => {
+                    const pastEvents = events.filter(e => e.isActive === false)
+                    console.log('All past events:', pastEvents)
+                    showAlert('info', `Found ${pastEvents.length} past events. Check console for details.`, 'Info')
+                  }}
+                  variant="outline"
+                  className="border-gray-600 text-gray-300 w-full sm:w-auto"
+                >
+                  <Calendar className="w-4 h-4 mr-2" />
+                  View Details
+                </Button>
+              </div>
+            </div>
 
-             {/* Past Events List */}
-             <div className="grid gap-4">
-               {events.filter(e => e.isActive === false).length === 0 ? (
-                 <p className="text-gray-400">No past events found.</p>
-               ) : (
-                 events
-                   .filter(e => e.isActive === false)
-                   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-                   .map((event) => (
-                     <Card key={event.id} className="bg-gray-900 border-gray-700">
-                       <CardContent className="p-6">
-                         <div className="flex items-center justify-between">
-                           <div className="flex-1">
-                             <div className="flex items-center gap-3 mb-2">
-                               <h3 className="text-xl font-bold text-white">{event.title}</h3>
-                               {event.featured && (
-                                 <span className="px-2 py-1 bg-yellow-500/20 text-yellow-300 text-xs rounded">
-                                   Featured
-                                 </span>
-                               )}
-                               <span className="px-2 py-1 bg-red-500/20 text-red-300 text-xs rounded">
-                                 Past Event
-                               </span>
-                               <span className="px-2 py-1 bg-cyan-500/20 text-cyan-300 text-xs rounded">
-                                 {event.category}
-                               </span>
-                             </div>
-                             <div className="flex items-center gap-6 text-gray-300 text-sm mb-2">
-                               <div className="flex items-center gap-1">
-                                 <Calendar className="w-4 h-4" />
-                                 {event.date} • {event.time}
-                               </div>
-                               <div className="flex items-center gap-1">
-                                 <Users className="w-4 h-4" />
-                                 {event.attendees}/{event.maxAttendees} attended
-                                 {event.registrationLimit && ` (Limit: ${event.registrationLimit})`}
-                               </div>
-                             </div>
-                             <p className="text-gray-400 text-sm">{event.location}</p>
-                           </div>
-                           <div className="flex items-center gap-2">
-                             <Button
-                               onClick={() => window.open(`/admin/events/${event.id}/registrations`, '_blank')}
-                               variant="outline"
-                               size="sm"
-                               className="border-gray-600 text-gray-300"
-                               title="View Registrations"
-                             >
-                               <Eye className="w-4 h-4" />
-                             </Button>
+            {/* Past Events List */}
+            <div className="grid gap-4">
+              {events.filter(e => e.isActive === false).length === 0 ? (
+                <p className="text-gray-400">No past events found.</p>
+              ) : (
+                events
+                  .filter(e => e.isActive === false)
+                  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                  .map((event) => (
+                    <Card key={event.id} className="bg-gray-900 border-gray-700">
+                      <CardContent className="p-4 sm:p-6">
+                        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                          <div className="flex-1">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
+                              <h3 className="text-lg sm:text-xl font-bold text-white">{event.title}</h3>
+                              {event.featured && (
+                                <span className="px-2 py-1 bg-yellow-500/20 text-yellow-300 text-xs rounded">
+                                  Featured
+                                </span>
+                              )}
+                              <span className="px-2 py-1 bg-red-500/20 text-red-300 text-xs rounded">
+                                Past Event
+                              </span>
+                              <span className="px-2 py-1 bg-cyan-500/20 text-cyan-300 text-xs rounded">
+                                {event.category}
+                              </span>
+                            </div>
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-gray-300 text-sm mb-2">
+                              <div className="flex items-center gap-1">
+                                <Calendar className="w-4 h-4" />
+                                {event.date} • {event.time}
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <Users className="w-4 h-4" />
+                                {event.attendees}/{event.maxAttendees} attended
+                                {event.registrationLimit && ` (Limit: ${event.registrationLimit})`}
+                              </div>
+                            </div>
+                            <p className="text-gray-400 text-sm">{event.location}</p>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <Button
+                              onClick={() => window.open(`/admin/events/${event.id}/registrations`, '_blank')}
+                              variant="outline"
+                              size="sm"
+                              className="border-gray-600 text-gray-300"
+                              title="View Registrations"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Button>
 
-                             <Button
-                               onClick={() => editEvent(event)}
-                               variant="outline"
-                               size="sm"
-                               className="border-gray-600 text-gray-300"
-                             >
-                               <Edit className="w-4 h-4" />
-                             </Button>
-                             <Button
-                               onClick={() => handleDeleteEvent(event.id)}
-                               variant="outline"
-                               size="sm"
-                               className="border-red-600 text-red-400"
-                             >
-                               <Trash2 className="w-4 h-4" />
-                             </Button>
-                           </div>
-                         </div>
-                       </CardContent>
-                     </Card>
-                   ))
-               )}
-             </div>
-           </div>
-         )}
+                            <Button
+                              onClick={() => editEvent(event)}
+                              variant="outline"
+                              size="sm"
+                              className="border-gray-600 text-gray-300"
+                            >
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              onClick={() => handleDeleteEvent(event.id)}
+                              variant="outline"
+                              size="sm"
+                              className="border-red-600 text-red-400"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))
+              )}
+            </div>
+          </div>
+        )}
 
-         {/* Registrations Tab */}
+        {/* Registrations Tab */}
         {activeTab === 'registrations' && (
           <div>
             <h2 className="text-2xl font-bold text-white mb-6">All Registrations</h2>
@@ -916,15 +937,15 @@ export default function AdminPage() {
                   return (
                     <Card key={registration.id} className="bg-gray-900 border-gray-700">
                       <CardContent className="p-4">
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                           <div>
-                                                         <h4 className="text-white font-medium">
-                               {registration.name}
-                             </h4>
-                             <p className="text-gray-400 text-sm">{registration.email}</p>
-                             <p className="text-gray-500 text-xs">
-                               Event: {event?.title || 'Unknown'} • {registration.branchName} • {registration.academicYear}
-                             </p>
+                            <h4 className="text-white font-medium">
+                              {registration.name}
+                            </h4>
+                            <p className="text-gray-400 text-sm">{registration.email}</p>
+                            <p className="text-gray-500 text-xs">
+                              Event: {event?.title || 'Unknown'} • {registration.branchName} • {registration.academicYear}
+                            </p>
                           </div>
                           <div className="text-gray-500 text-xs">
                             {new Date(registration.registeredAt).toLocaleDateString()}
@@ -948,26 +969,25 @@ export default function AdminPage() {
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-2">System Information</h3>
-                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                       <div>
-                         <p className="text-gray-400">Total Events: <span className="text-white">{stats.totalEvents}</span></p>
-                         <p className="text-gray-400">Active Events: <span className="text-white">{stats.activeEvents}</span></p>
-                         <p className="text-gray-400">Past Events: <span className="text-white">{stats.pastEvents}</span></p>
-                       </div>
-                       <div>
-                         <p className="text-gray-400">Total Registrations: <span className="text-white">{stats.totalRegistrations}</span></p>
-                         <p className="text-gray-400">Upcoming Events: <span className="text-white">{stats.upcomingEvents}</span></p>
-                       </div>
-                     </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-gray-400">Total Events: <span className="text-white">{stats.totalEvents}</span></p>
+                        <p className="text-gray-400">Active Events: <span className="text-white">{stats.activeEvents}</span></p>
+                        <p className="text-gray-400">Past Events: <span className="text-white">{stats.pastEvents}</span></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400">Upcoming Events: <span className="text-white">{stats.upcomingEvents}</span></p>
+                      </div>
+                    </div>
                   </div>
                   
                   <div className="border-t border-gray-700 pt-4">
                     <h3 className="text-lg font-semibold text-white mb-2">Quick Actions</h3>
-                    <div className="flex gap-4">
+                    <div className="flex flex-col sm:flex-row gap-4">
                       <Button
                         onClick={() => setActiveTab('events')}
                         variant="outline"
-                        className="border-gray-600 text-gray-300"
+                        className="border-gray-600 text-gray-300 w-full sm:w-auto"
                       >
                         <Plus className="w-4 h-4 mr-2" />
                         Create Event
@@ -975,7 +995,7 @@ export default function AdminPage() {
                       <Button
                         onClick={() => setActiveTab('registrations')}
                         variant="outline"
-                        className="border-gray-600 text-gray-300"
+                        className="border-gray-600 text-gray-300 w-full sm:w-auto"
                       >
                         <Users className="w-4 h-4 mr-2" />
                         View Registrations
