@@ -74,7 +74,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-in-up">About ACSA</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
               Empowering the next generation of communication technology innovators through hands-on learning and
               industry collaboration
             </p>
@@ -201,7 +201,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-in-up">Upcoming Highlight</h2>
-            <p className="text-xl text-gray-300 animate-fade-in-up animation-delay-200">
+            <p className="text-lg md:text-xl text-gray-300 animate-fade-in-up animation-delay-200">
               Don't miss our next exciting event
             </p>
           </div>
@@ -217,7 +217,7 @@ export default function HomePage() {
               </div>
               <div className="md:w-3/5 p-8">
                 <CardHeader className="p-0 mb-6">
-                  <CardTitle className="text-3xl text-primary mb-2">5G Technology Workshop</CardTitle>
+                  <CardTitle className="text-2xl md:text-3xl text-primary mb-2">5G Technology Workshop</CardTitle>
                   <CardDescription className="text-lg text-gray-300">
                     Comprehensive hands-on workshop exploring 5G fundamentals, implementation, and future applications
                   </CardDescription>
