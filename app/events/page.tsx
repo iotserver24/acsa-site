@@ -245,9 +245,11 @@ export default function EventsPage() {
               seminars, and competitions.
             </p>
             <div className="flex justify-center">
-              <Button className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-medium px-8 py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25">
-                Join ACSA Community
-              </Button>
+              <Link href="https://chat.whatsapp.com/KJz1L9Z0rEd5DlNDdsH1Pm" target="_blank" rel="noopener noreferrer">
+                <Button className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-medium px-8 py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25">
+                  Join ACSA Community
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
