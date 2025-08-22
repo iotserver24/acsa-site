@@ -60,27 +60,30 @@ export function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                onClick={() => setIsMenuOpen(false)}
-                className={cn(
-                  "block px-3 py-2 rounded-md text-base font-medium transition-colors",
-                  pathname === item.href
-                    ? "text-primary bg-primary/10"
-                    : "text-white hover:text-primary hover:bg-white/5",
-                )}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
+      <div
+        className={cn(
+          "md:hidden overflow-hidden transition-all duration-300 ease-in-out",
+          isMenuOpen ? "max-h-96" : "max-h-0",
+        )}
+      >
+        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          {navigation.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              onClick={() => setIsMenuOpen(false)}
+              className={cn(
+                "block px-3 py-2 rounded-md text-base font-medium transition-colors",
+                pathname === item.href
+                  ? "text-primary bg-primary/10"
+                  : "text-white hover:text-primary hover:bg-white/5",
+              )}
+            >
+              {item.name}
+            </Link>
+          ))}
         </div>
-      )}
+      </div>
     </nav>
   )
 }

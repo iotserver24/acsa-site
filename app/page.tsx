@@ -33,7 +33,7 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row gap-6 justify-center mt-12 animate-fade-in-up animation-delay-600">
               <Button
                 size="lg"
-                className="bg-primary text-black font-semibold px-8 py-4 rounded-xl text-lg hover:bg-primary/90 hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30"
+                className="bg-primary text-primary-foreground font-semibold px-8 py-4 rounded-xl text-lg hover:bg-primary/90 hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30"
               >
                 Explore Events
               </Button>
@@ -239,7 +239,7 @@ export default function HomePage() {
                     case studies, and networking opportunities with professionals from leading telecom companies.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Button className="bg-primary text-black font-semibold hover:bg-primary/90 px-6 py-3 rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30">
+                    <Button className="bg-primary text-primary-foreground font-semibold hover:bg-primary/90 px-6 py-3 rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30">
                       Register Now
                     </Button>
                     <Button
