@@ -1,100 +1,39 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import { Calendar, Clock, MapPin, Users, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
+import type { Event } from "@/lib/database"
 
 export default function EventsPage() {
-  const upcomingEvents = [
-    {
-      id: 1,
-      title: "5G Technology Workshop",
-      date: "2024-03-15",
-      time: "2:00 PM - 5:00 PM",
-      location: "Engineering Building, Room 301",
-      description:
-        "Hands-on workshop exploring the latest 5G communication technologies and their real-world applications.",
-      attendees: 45,
-      maxAttendees: 60,
-      category: "Workshop",
-      featured: true,
-      image: "/5g-workshop-banner.png",
-    },
-    {
-      id: 2,
-      title: "AI in Communications Seminar",
-      date: "2024-03-22",
-      time: "1:00 PM - 3:00 PM",
-      location: "Virtual Event",
-      description: "Expert panel discussion on how artificial intelligence is revolutionizing communication systems.",
-      attendees: 78,
-      maxAttendees: 100,
-      category: "Seminar",
-      image: "/ai-communication-seminar.png",
-    },
-    {
-      id: 3,
-      title: "Network Security Bootcamp",
-      date: "2024-04-05",
-      time: "9:00 AM - 4:00 PM",
-      location: "Computer Lab, Building C",
-      description: "Intensive bootcamp covering advanced network security protocols and cybersecurity best practices.",
-      attendees: 32,
-      maxAttendees: 40,
-      category: "Bootcamp",
-      image: "/network-security-bootcamp.png",
-    },
-    {
-      id: 4,
-      title: "IoT Innovation Challenge",
-      date: "2024-04-18",
-      time: "10:00 AM - 6:00 PM",
-      location: "Innovation Hub",
-      description: "24-hour hackathon focused on developing innovative IoT solutions for smart cities.",
-      attendees: 56,
-      maxAttendees: 80,
-      category: "Competition",
-      image: "/iot-hackathon-smart-cities.png",
-    },
-  ]
+  const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([])
+  const [pastEvents, setPastEvents] = useState<Event[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const pastEvents = [
-    {
-      id: 5,
-      title: "Quantum Communication Symposium",
-      date: "2024-02-28",
-      time: "3:00 PM - 6:00 PM",
-      location: "Main Auditorium",
-      description: "Comprehensive overview of quantum communication principles and future applications.",
-      attendees: 120,
-      category: "Symposium",
-      highlights: ["3 keynote speakers", "Live quantum demo", "Research presentations"],
-      image: "/quantum-communication-symposium.png",
-    },
-    {
-      id: 6,
-      title: "Mobile App Development Workshop",
-      date: "2024-02-14",
-      time: "1:00 PM - 5:00 PM",
-      location: "Tech Lab 205",
-      description: "Practical workshop on building communication apps using React Native and Flutter.",
-      attendees: 65,
-      category: "Workshop",
-      highlights: ["Hands-on coding", "Industry mentors", "App deployment"],
-      image: "/mobile-app-dev-workshop.png",
-    },
-    {
-      id: 7,
-      title: "Blockchain in Telecom Conference",
-      date: "2024-01-25",
-      time: "9:00 AM - 4:00 PM",
-      location: "Conference Center",
-      description: "Industry conference exploring blockchain applications in telecommunications.",
-      attendees: 200,
-      category: "Conference",
-      highlights: ["Industry partnerships", "Research showcase", "Networking sessions"],
-      image: "/blockchain-telecom-conference.png",
-    },
-  ]
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const [upcomingRes, pastRes] = await Promise.all([
+          fetch('/api/events?type=upcoming'),
+          fetch('/api/events?type=past')
+        ])
+        
+        const upcoming = await upcomingRes.json()
+        const past = await pastRes.json()
+        
+        setUpcomingEvents(upcoming)
+        setPastEvents(past)
+      } catch (error) {
+        console.error('Failed to fetch events:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchEvents()
+  }, [])
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -122,15 +61,27 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* Upcoming Events */}
-      <section className="py-16 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center gap-3 mb-12">
-            <Calendar className="w-8 h-8 text-cyan-400" />
-            <h2 className="text-4xl font-bold">Upcoming Events</h2>
-          </div>
+      {loading ? (
+        <div className="flex justify-center items-center py-20">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
+        </div>
+      ) : (
+        <>
+          {/* Upcoming Events */}
+          <section className="py-16 px-4">
+            <div className="max-w-6xl mx-auto">
+              <div className="flex items-center gap-3 mb-12">
+                <Calendar className="w-8 h-8 text-cyan-400" />
+                <h2 className="text-4xl font-bold">Upcoming Events</h2>
+              </div>
 
-          <div className="grid gap-8">
+              {upcomingEvents.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-gray-400 text-xl">No upcoming events at the moment.</p>
+                  <p className="text-gray-500 mt-2">Check back soon for new exciting events!</p>
+                </div>
+              ) : (
+                <div className="grid gap-8">
             {upcomingEvents.map((event) => (
               <div
                 key={event.id}
@@ -192,12 +143,19 @@ export default function EventsPage() {
                           {event.attendees}/{event.maxAttendees} registered
                         </span>
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
+                      <div className="w-full bg-gray-700 rounded-full h-2 mb-3">
                         <div
                           className="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full transition-all duration-300"
                           style={{ width: `${(event.attendees / event.maxAttendees) * 100}%` }}
                         />
                       </div>
+                      {event.registrationLimit && event.registrationLimit !== event.maxAttendees && (
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-gray-400">
+                            Registration limit: {event.registrationLimit}
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     <Link href={`/events/register/${event.id}`}>
@@ -210,20 +168,26 @@ export default function EventsPage() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
+                </div>
+              )}
+            </div>
+          </section>
 
-      {/* Past Events */}
-      <section className="py-16 px-4 bg-gradient-to-b from-transparent to-gray-900/20">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center gap-3 mb-12">
-            <Clock className="w-8 h-8 text-gray-400" />
-            <h2 className="text-4xl font-bold">Past Events</h2>
-          </div>
+          {/* Past Events */}
+          <section className="py-16 px-4 bg-gradient-to-b from-transparent to-gray-900/20">
+            <div className="max-w-6xl mx-auto">
+              <div className="flex items-center gap-3 mb-12">
+                <Clock className="w-8 h-8 text-gray-400" />
+                <h2 className="text-4xl font-bold">Past Events</h2>
+              </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {pastEvents.map((event) => (
+              {pastEvents.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-gray-400 text-xl">No past events to display.</p>
+                </div>
+              ) : (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {pastEvents.map((event) => (
               <div
                 key={event.id}
                 className="glass-card p-6 rounded-2xl border border-white/10 hover:border-gray-400/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-gray-500/10"
@@ -247,35 +211,29 @@ export default function EventsPage() {
                 <h3 className="text-xl font-bold mb-3 text-white">{event.title}</h3>
                 <p className="text-gray-400 text-sm mb-4 leading-relaxed">{event.description}</p>
 
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center gap-2 text-gray-400">
-                    <Calendar className="w-3 h-3" />
-                    <span className="text-xs">{formatDate(event.date)}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-400">
-                    <Users className="w-3 h-3" />
-                    <span className="text-xs">{event.attendees} attendees</span>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex items-center gap-2 text-gray-400">
+                      <Calendar className="w-3 h-3" />
+                      <span className="text-xs">{formatDate(event.date)}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-400">
+                      <Users className="w-3 h-3" />
+                      <span className="text-xs">{event.attendees}/{event.maxAttendees} attendees</span>
+                    </div>
+                    {event.registrationLimit && event.registrationLimit !== event.maxAttendees && (
+                      <div className="flex items-center gap-2 text-gray-400">
+                        <span className="text-xs">Reg. limit: {event.registrationLimit}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
-
-                {event.highlights && (
-                  <div>
-                    <h4 className="text-sm font-semibold text-gray-300 mb-2">Highlights:</h4>
-                    <ul className="space-y-1">
-                      {event.highlights.map((highlight, index) => (
-                        <li key={index} className="text-xs text-gray-400 flex items-center gap-2">
-                          <div className="w-1 h-1 bg-cyan-400 rounded-full" />
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              ))}
+                </div>
+              )}
+            </div>
+          </section>
+        </>
+      )}
 
       {/* Call to Action */}
       <section className="py-16 px-4">
@@ -286,15 +244,9 @@ export default function EventsPage() {
               Don't miss out on our upcoming events! Join our community to receive notifications about new workshops,
               seminars, and competitions.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <Button className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-medium px-8 py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25">
                 Join ACSA Community
-              </Button>
-              <Button
-                variant="outline"
-                className="border-cyan-400/50 text-cyan-300 hover:bg-cyan-500/10 font-medium px-8 py-3 rounded-xl transition-all duration-300 bg-transparent"
-              >
-                View Event Calendar
               </Button>
             </div>
           </div>

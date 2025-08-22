@@ -120,7 +120,7 @@ export default function FacultiesPage() {
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Our <span className="text-primary">Faculty Advisors</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Distinguished educators and researchers guiding the next generation of communication engineers
           </p>
         </div>
@@ -155,10 +155,10 @@ export default function FacultiesPage() {
                           {faculty.name}
                         </h3>
                         <p className="text-primary font-medium">{faculty.designation}</p>
-                        <p className="text-sm text-muted-foreground">{faculty.department}</p>
+                        <p className="text-sm text-gray-300">{faculty.department}</p>
                       </div>
 
-                      <p className="text-muted-foreground leading-relaxed">{faculty.bio}</p>
+                      <p className="text-gray-300 leading-relaxed">{faculty.bio}</p>
 
                       {/* Specializations */}
                       <div>
@@ -187,7 +187,7 @@ export default function FacultiesPage() {
                         </h4>
                         <ul className="space-y-1">
                           {faculty.achievements.map((achievement, index) => (
-                            <li key={index} className="text-sm text-muted-foreground flex items-center gap-2">
+                            <li key={index} className="text-sm text-gray-300 flex items-center gap-2">
                               <span className="w-1 h-1 bg-primary rounded-full"></span>
                               {achievement}
                             </li>
@@ -198,7 +198,7 @@ export default function FacultiesPage() {
                       {/* Contact Info */}
                       <div className="pt-4 border-t border-white/10">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                          <div className="flex items-center gap-2 text-muted-foreground">
+                          <div className="flex items-center gap-2 text-gray-300">
                             <Mail className="h-4 w-4 text-primary" />
                             <a
                               href={`mailto:${faculty.contact.email}`}
@@ -207,11 +207,11 @@ export default function FacultiesPage() {
                               {faculty.contact.email}
                             </a>
                           </div>
-                          <div className="flex items-center gap-2 text-muted-foreground">
+                          <div className="flex items-center gap-2 text-gray-300">
                             <Phone className="h-4 w-4 text-primary" />
                             <span>{faculty.contact.phone}</span>
                           </div>
-                          <div className="flex items-center gap-2 text-muted-foreground sm:col-span-2">
+                          <div className="flex items-center gap-2 text-gray-300 sm:col-span-2">
                             <MapPin className="h-4 w-4 text-primary" />
                             <span>{faculty.contact.office}</span>
                           </div>
@@ -223,11 +223,11 @@ export default function FacultiesPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                           <div>
                             <span className="text-white font-medium">Experience: </span>
-                            <span className="text-muted-foreground">{faculty.experience}</span>
+                            <span className="text-gray-300">{faculty.experience}</span>
                           </div>
                           <div>
                             <span className="text-white font-medium">Education: </span>
-                            <span className="text-muted-foreground">{faculty.education}</span>
+                            <span className="text-gray-300">{faculty.education}</span>
                           </div>
                         </div>
                       </div>
@@ -244,7 +244,7 @@ export default function FacultiesPage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 border-t border-white/10">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Academic Guidance</h2>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-xl text-gray-300 mb-8">
             Our faculty advisors are available for academic guidance, research opportunities, and career counseling.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

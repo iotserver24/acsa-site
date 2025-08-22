@@ -138,7 +138,7 @@ export default function TeamPage() {
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Meet Our <span className="text-primary">Team</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Passionate students driving innovation in advanced communication technologies
           </p>
         </div>
@@ -172,11 +172,11 @@ export default function TeamPage() {
                       <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
                         {member.role}
                       </Badge>
-                      <p className="text-sm text-muted-foreground">{member.year}</p>
+                      <p className="text-sm text-gray-300">{member.year}</p>
                     </div>
 
                     {/* Bio */}
-                    <p className="text-sm text-muted-foreground leading-relaxed">{member.bio}</p>
+                    <p className="text-sm text-gray-300 leading-relaxed">{member.bio}</p>
 
                     {/* Skills */}
                     <div className="flex flex-wrap gap-1 justify-center">
@@ -224,28 +224,7 @@ export default function TeamPage() {
       </section>
 
       {/* Join Us Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 border-t border-white/10">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Want to Join Our Team?</h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            We're always looking for passionate students to join our mission of advancing communication technology.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="mailto:contact@acsa.edu"
-              className="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
-            >
-              Get in Touch
-            </a>
-            <a
-              href="/events"
-              className="inline-flex items-center justify-center px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary/10 transition-colors font-medium"
-            >
-              Attend Our Events
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* Removed Join Us section as requested */}
 
       <Footer />
     </div>

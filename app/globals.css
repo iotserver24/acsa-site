@@ -52,7 +52,7 @@
   --secondary: 20 20 20;
   --secondary-foreground: 255 255 255;
   --muted: 20 20 20;
-  --muted-foreground: 160 160 160;
+  --muted-foreground: 200 200 200;
   --accent: 0 255 255;
   --accent-foreground: 255 255 255;
   --destructive: 239 68 68;
@@ -122,6 +122,39 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  
+  /* Ensure no text is accidentally black on black background */
+  .dark * {
+    color: inherit;
+  }
+  
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    color: rgb(255, 255, 255) !important;
+  }
+  
+  .dark p:not([class*="text-"]) {
+    color: rgb(200, 200, 200) !important;
+  }
+  
+  .dark span:not([class*="text-"]) {
+    color: rgb(200, 200, 200) !important;
+  }
+  
+  .dark div:not([class*="text-"]) {
+    color: rgb(200, 200, 200);
+  }
+  
+  /* Ensure muted text is visible */
+  .dark .text-muted-foreground {
+    color: rgb(200, 200, 200) !important;
+  }
+  
+  /* Ensure any remaining dark text is overridden */
+  .dark [class*="text-black"],
+  .dark [class*="text-gray-900"],
+  .dark [class*="text-gray-800"] {
+    color: rgb(200, 200, 200) !important;
   }
 }
 

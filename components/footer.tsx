@@ -7,7 +7,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="text-center md:text-left mb-4 md:mb-0">
             <h3 className="text-xl font-bold text-primary">ACSA</h3>
-            <p className="text-muted-foreground text-sm">Advanced Communication Student Association</p>
+            <p className="text-gray-300 text-sm">Advanced Communication Student Association</p>
           </div>
 
           <div className="flex space-x-6">
@@ -26,7 +26,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-white/10 text-center text-sm text-muted-foreground">
+        <div className="mt-6 pt-6 border-t border-white/10 text-center text-sm text-gray-300">
           <p>&copy; 2024 ACSA - Advanced Communication Student Association. All rights reserved.</p>
         </div>
       </div>

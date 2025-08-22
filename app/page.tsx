@@ -1,10 +1,36 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Calendar, MapPin, Users, Zap, Award, BookOpen, Lightbulb, Target } from "lucide-react"
+import { Calendar, MapPin, Users, Zap, Award, BookOpen, Lightbulb, Target, ArrowRight } from "lucide-react"
+import Link from "next/link"
+import type { Event } from "@/lib/database"
 
 export default function HomePage() {
+  const [latestEvent, setLatestEvent] = useState<Event | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchLatestEvent = async () => {
+      try {
+        const response = await fetch('/api/events?type=upcoming&limit=1')
+        const events = await response.json()
+        if (events.length > 0) {
+          setLatestEvent(events[0])
+        }
+      } catch (error) {
+        console.error('Failed to fetch latest event:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchLatestEvent()
+  }, [])
+
   return (
     <div className="min-h-screen bg-black">
       <Navbar />
@@ -31,19 +57,23 @@ export default function HomePage() {
               innovate, collaborate, and lead the way in cutting-edge communication technologies.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center mt-12 animate-fade-in-up animation-delay-600">
-              <Button
-                size="lg"
-                className="bg-primary text-primary-foreground font-semibold px-8 py-4 rounded-xl text-lg hover:bg-primary/90 hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30"
-              >
-                Explore Events
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-primary text-primary hover:bg-primary/10 bg-transparent px-8 py-4 rounded-xl text-lg hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20"
-              >
-                Meet the Team
-              </Button>
+              <Link href="/events">
+                <Button
+                  size="lg"
+                  className="bg-primary text-primary-foreground font-semibold px-8 py-4 rounded-xl text-lg hover:bg-primary/90 hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30"
+                >
+                  Explore Events
+                </Button>
+              </Link>
+              <Link href="/team">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-primary text-primary hover:bg-primary/10 bg-transparent px-8 py-4 rounded-xl text-lg hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20"
+                >
+                  Meet the Team
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -197,64 +227,101 @@ export default function HomePage() {
       </section>
 
       {/* Upcoming Event Highlight */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-in-up">Upcoming Highlight</h2>
-            <p className="text-lg md:text-xl text-gray-300 animate-fade-in-up animation-delay-200">
-              Don't miss our next exciting event
-            </p>
-          </div>
-
-          <Card className="glass rounded-2xl max-w-5xl mx-auto hover:shadow-primary/30 hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-fade-in-up animation-delay-400">
-            <div className="md:flex">
-              <div className="md:w-2/5">
-                <img
-                  src="/5g-workshop-banner.png"
-                  alt="5G Workshop Banner"
-                  className="w-full h-64 md:h-full object-cover rounded-t-2xl md:rounded-l-2xl md:rounded-t-none hover:scale-105 transition-all duration-500"
-                />
-              </div>
-              <div className="md:w-3/5 p-8">
-                <CardHeader className="p-0 mb-6">
-                  <CardTitle className="text-2xl md:text-3xl text-primary mb-2">5G Technology Workshop</CardTitle>
-                  <CardDescription className="text-lg text-gray-300">
-                    Comprehensive hands-on workshop exploring 5G fundamentals, implementation, and future applications
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="p-0 space-y-6">
-                  <div className="flex flex-col sm:flex-row gap-4 text-gray-300">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-5 w-5 text-primary" />
-                      <span className="font-semibold">March 15, 2024</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-5 w-5 text-primary" />
-                      <span className="font-semibold">Tech Lab A-101</span>
-                    </div>
-                  </div>
-                  <p className="text-gray-300 leading-relaxed">
-                    Join industry experts and fellow students for an intensive workshop covering 5G network
-                    architecture, implementation challenges, and emerging applications. Includes hands-on lab sessions,
-                    case studies, and networking opportunities with professionals from leading telecom companies.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <Button className="bg-primary text-primary-foreground font-semibold hover:bg-primary/90 px-6 py-3 rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30">
-                      Register Now
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="border-primary text-primary hover:bg-primary/10 px-6 py-3 rounded-xl bg-transparent hover:scale-105 transition-all duration-300"
-                    >
-                      Learn More
-                    </Button>
-                  </div>
-                </CardContent>
-              </div>
+      {latestEvent && (
+        <section className="py-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-in-up">Upcoming Highlight</h2>
+              <p className="text-lg md:text-xl text-gray-300 animate-fade-in-up animation-delay-200">
+                Don't miss our next exciting event
+              </p>
             </div>
-          </Card>
-        </div>
-      </section>
+
+            <Card className="glass rounded-2xl max-w-5xl mx-auto hover:shadow-primary/30 hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-fade-in-up animation-delay-400">
+              <div className="md:flex">
+                <div className="md:w-2/5">
+                  <img
+                    src={latestEvent.image || "/placeholder.svg"}
+                    alt={latestEvent.title}
+                    className="w-full h-64 md:h-full object-cover rounded-t-2xl md:rounded-l-2xl md:rounded-t-none hover:scale-105 transition-all duration-500"
+                  />
+                </div>
+                <div className="md:w-3/5 p-8">
+                  <CardHeader className="p-0 mb-6">
+                    <div className="flex items-center gap-3 mb-2">
+                      <CardTitle className="text-2xl md:text-3xl text-primary">{latestEvent.title}</CardTitle>
+                      {latestEvent.featured && (
+                        <span className="px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-sm font-medium">
+                          Featured
+                        </span>
+                      )}
+                    </div>
+                    <CardDescription className="text-lg text-gray-300">
+                      {latestEvent.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="p-0 space-y-6">
+                    <div className="flex flex-col sm:flex-row gap-4 text-gray-300">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-5 w-5 text-primary" />
+                        <span className="font-semibold">{new Date(latestEvent.date).toLocaleDateString('en-US', { 
+                          weekday: 'long', 
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: 'numeric' 
+                        })}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <MapPin className="h-5 w-5 text-primary" />
+                        <span className="font-semibold">{latestEvent.location}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Users className="h-5 w-5 text-primary" />
+                        <span className="font-semibold">{latestEvent.attendees}/{latestEvent.maxAttendees} registered</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <Link href={`/events/register/${latestEvent.id}`}>
+                        <Button className="bg-primary text-primary-foreground font-semibold hover:bg-primary/90 px-6 py-3 rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30">
+                          Register Now
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      </Link>
+                      <Link href="/events">
+                        <Button
+                          variant="outline"
+                          className="border-primary text-primary hover:bg-primary/10 px-6 py-3 rounded-xl bg-transparent hover:scale-105 transition-all duration-300"
+                        >
+                          View All Events
+                        </Button>
+                      </Link>
+                    </div>
+                  </CardContent>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </section>
+      )}
+
+      {/* No Events Message */}
+      {!loading && !latestEvent && (
+        <section className="py-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto text-center">
+            <div className="glass rounded-2xl max-w-2xl mx-auto p-12">
+              <h2 className="text-3xl font-bold text-white mb-4">No Upcoming Events</h2>
+              <p className="text-gray-300 mb-8">
+                We're currently planning our next exciting events. Check back soon for updates!
+              </p>
+              <Link href="/events">
+                <Button className="bg-primary text-primary-foreground font-semibold hover:bg-primary/90 px-6 py-3 rounded-xl hover:scale-105 transition-all duration-300">
+                  View All Events
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       <Footer />
     </div>
