@@ -49,7 +49,7 @@ export default function LoadingScreen() {
       {/* Main loading content */}
       <div className="relative z-10 text-center">
         <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-cyan-400/80 to-cyan-600/80 rounded-full flex items-center justify-center animate-pulse">
-          <span className="text-xl font-bold text-black">ACSA</span>
+          <span className="text-xl font-bold text-primary-foreground">ACSA</span>
         </div>
 
         {/* Loading text with subtle fade-in */}
