@@ -69,9 +69,19 @@ let registrationIdCounter = 0
 export const eventDatabase = {
   // Get all events
   getAllEvents: async (): Promise<Event[]> => {
-    const eventsData = await withTimeout(redis.hGetAll(EVENTS_KEY))
-    const events = Object.values(eventsData).map(eventJson => JSON.parse(eventJson) as Event)
-    return events.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    try {
+      // Ensure Redis is connected
+      if (!redis.isOpen) {
+        await redis.connect()
+      }
+      
+      const eventsData = await withTimeout(redis.hGetAll(EVENTS_KEY))
+      const events = Object.values(eventsData).map(eventJson => JSON.parse(eventJson) as Event)
+      return events.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    } catch (error) {
+      console.error('Redis error in getAllEvents:', error)
+      return []
+    }
   },
 
   // Get event by ID
@@ -249,6 +259,11 @@ export const registrationDatabase = {
 // Initialize with sample data if empty
 export const initializeDatabase = async () => {
   try {
+    // Ensure Redis is connected
+    if (!redis.isOpen) {
+      await redis.connect()
+    }
+    
     const eventCount = await redis.hLen(EVENTS_KEY)
     
     if (eventCount === 0) {

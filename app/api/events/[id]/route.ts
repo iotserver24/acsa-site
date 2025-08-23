@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { eventDatabase } from "@/lib/file-database"
+import { eventDatabase } from "@/lib/database"
 
 interface RouteParams {
   params: Promise<{ id: string }>

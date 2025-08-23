@@ -1,4 +1,4 @@
-const { initializeDatabase } = require('../lib/file-database.ts')
+const { initializeDatabase } = require('../lib/database.ts')
 
 async function main() {
   try {
