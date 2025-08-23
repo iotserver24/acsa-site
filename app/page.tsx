@@ -8,9 +8,6 @@ import Link from "next/link"
 import type { Event } from "@/lib/database"
 import HeroSection from "@/components/hero-section"
 import BackgroundEarthScene from "@/components/background-earth"
-import { EventsShowcase } from "@/components/events-showcase"
-import { TestimonialsSection } from "@/components/testimonials-section"
-import { ContactSection } from "@/components/contact-section"
 
 export default function HomePage() {
   const [latestEvent, setLatestEvent] = useState<Event | null>(null)
@@ -48,15 +45,15 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center group hover:scale-105 transition-all duration-300">
-              <div className="text-4xl md:text-5xl font-bold text-primary mb-2 group-hover:animate-pulse">200+</div>
+              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-2 group-hover:animate-pulse">200+</div>
               <div className="text-gray-300">Active Members</div>
             </div>
             <div className="text-center group hover:scale-105 transition-all duration-300">
-              <div className="text-4xl md:text-5xl font-bold text-primary mb-2 group-hover:animate-pulse">50+</div>
+              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-2 group-hover:animate-pulse">50+</div>
               <div className="text-gray-300">Projects Completed</div>
             </div>
             <div className="text-center group hover:scale-105 transition-all duration-300">
-              <div className="text-4xl md:text-5xl font-bold text-primary mb-2 group-hover:animate-pulse">5+</div>
+              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-2 group-hover:animate-pulse">5+</div>
               <div className="text-gray-300">Years of Excellence</div>
             </div>
           </div>
@@ -106,7 +103,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <Card className="glass-card rounded-2xl hover:shadow-cyan-500/20 hover:shadow-2xl transition-all duration-500 hover:scale-105">
+            <Card className="glass-card rounded-2xl hover:shadow-cyan-500/20 hover:shadow-2xl transition-all duration-500 hover:scale-105 bg-black/20 backdrop-blur-sm border-cyan-400/20">
               <CardHeader>
                 <CardTitle className="text-cyan-400 text-2xl">Our Mission</CardTitle>
                 <CardDescription className="text-gray-300 text-lg">
@@ -145,7 +142,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="glass-card rounded-2xl hover:shadow-cyan-500/20 hover:shadow-xl transition-all duration-500 hover:scale-105">
+            <Card className="glass-card rounded-2xl hover:shadow-cyan-500/20 hover:shadow-xl transition-all duration-500 hover:scale-105 bg-black/20 backdrop-blur-sm border-cyan-400/20">
               <CardHeader className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4 hover:rotate-12 transition-all duration-300">
                   <Zap className="h-8 w-8 text-cyan-400" />
@@ -159,7 +156,7 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="glass-card rounded-2xl hover:shadow-cyan-500/20 hover:shadow-xl transition-all duration-500 hover:scale-105">
+            <Card className="glass-card rounded-2xl hover:shadow-cyan-500/20 hover:shadow-xl transition-all duration-500 hover:scale-105 bg-black/20 backdrop-blur-sm border-cyan-400/20">
               <CardHeader className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4 hover:rotate-12 transition-all duration-300">
                   <BookOpen className="h-8 w-8 text-cyan-400" />
@@ -173,7 +170,7 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="glass-card rounded-2xl hover:shadow-cyan-500/20 hover:shadow-xl transition-all duration-500 hover:scale-105">
+            <Card className="glass-card rounded-2xl hover:shadow-cyan-500/20 hover:shadow-xl transition-all duration-500 hover:scale-105 bg-black/20 backdrop-blur-sm border-cyan-400/20">
               <CardHeader className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4 hover:rotate-12 transition-all duration-300">
                   <Award className="h-8 w-8 text-cyan-400" />
@@ -201,7 +198,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <Card className="glass rounded-2xl max-w-5xl mx-auto hover:shadow-primary/30 hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-fade-in-up animation-delay-400">
+            <Card className="glass rounded-2xl max-w-5xl mx-auto hover:shadow-cyan-500/30 hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-fade-in-up animation-delay-400 bg-black/20 backdrop-blur-sm border-cyan-400/20">
               <div className="md:flex">
                 <div className="md:w-2/5">
                   <img
@@ -213,7 +210,7 @@ export default function HomePage() {
                 <div className="md:w-3/5 p-8">
                   <CardHeader className="p-0 mb-6">
                     <div className="flex items-center gap-3 mb-2">
-                      <CardTitle className="text-2xl md:text-3xl text-primary">{latestEvent.title}</CardTitle>
+                      <CardTitle className="text-2xl md:text-3xl text-cyan-400">{latestEvent.title}</CardTitle>
                       {latestEvent.featured && (
                         <span className="px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-sm font-medium">
                           Featured
@@ -227,7 +224,7 @@ export default function HomePage() {
                   <CardContent className="p-0 space-y-6">
                     <div className="flex flex-col sm:flex-row gap-4 text-gray-300">
                       <div className="flex items-center gap-2">
-                        <ArrowRight className="h-5 w-5 text-primary" />
+                        <ArrowRight className="h-5 w-5 text-cyan-400" />
                         <span className="font-semibold">{new Date(latestEvent.date).toLocaleDateString('en-US', { 
                           weekday: 'long', 
                           year: 'numeric', 
@@ -236,17 +233,17 @@ export default function HomePage() {
                         })}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <ArrowRight className="h-5 w-5 text-primary" />
+                        <ArrowRight className="h-5 w-5 text-cyan-400" />
                         <span className="font-semibold">{latestEvent.location}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Users className="h-5 w-5 text-primary" />
+                        <Users className="h-5 w-5 text-cyan-400" />
                         <span className="font-semibold">{latestEvent.attendees}/{latestEvent.maxAttendees} registered</span>
                       </div>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4">
                       <Link href={`/events/register/${latestEvent.id}`}>
-                        <Button className="bg-primary text-primary-foreground font-semibold hover:bg-primary/90 px-6 py-3 rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30">
+                        <Button className="bg-cyan-500 text-white font-semibold hover:bg-cyan-600 px-6 py-3 rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/30">
                           Register Now
                           <ArrowRight className="w-4 h-4 ml-2" />
                         </Button>
@@ -254,7 +251,7 @@ export default function HomePage() {
                       <Link href="/events">
                         <Button
                           variant="outline"
-                          className="border-primary text-primary hover:bg-primary/10 px-6 py-3 rounded-xl bg-transparent hover:scale-105 transition-all duration-300"
+                          className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/10 px-6 py-3 rounded-xl bg-transparent hover:scale-105 transition-all duration-300"
                         >
                           View All Events
                         </Button>
@@ -272,13 +269,13 @@ export default function HomePage() {
       {!loading && !latestEvent && (
         <section className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-7xl mx-auto text-center">
-            <div className="glass rounded-2xl max-w-2xl mx-auto p-12">
+            <div className="glass rounded-2xl max-w-2xl mx-auto p-12 bg-black/20 backdrop-blur-sm border-cyan-400/20">
               <h2 className="text-3xl font-bold text-white mb-4">No Upcoming Events</h2>
               <p className="text-gray-300 mb-8">
                 We're currently planning our next exciting events. Check back soon for updates!
               </p>
               <Link href="/events">
-                <Button className="bg-primary text-primary-foreground font-semibold hover:bg-primary/90 px-6 py-3 rounded-xl hover:scale-105 transition-all duration-300">
+                <Button className="bg-cyan-500 text-white font-semibold hover:bg-cyan-600 px-6 py-3 rounded-xl hover:scale-105 transition-all duration-300">
                   View All Events
                 </Button>
               </Link>
@@ -286,15 +283,6 @@ export default function HomePage() {
           </div>
         </section>
       )}
-
-      {/* Events Showcase */}
-      <EventsShowcase />
-
-      {/* Testimonials Section */}
-      <TestimonialsSection />
-
-      {/* Contact Section */}
-      <ContactSection />
     </div>
   )
 }
