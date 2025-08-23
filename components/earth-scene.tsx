@@ -2,10 +2,10 @@
 
 import { useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Stars, useTexture, useGLTF } from '@react-three/drei'
+import { OrbitControls, Stars, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 
-// Earth component with enhanced brightness
+// Earth component with enhanced brightness and bigger size
 function Earth() {
   const earthRef = useRef<THREE.Mesh>(null)
   const earthTexture = useTexture('/earth-texture.jpg')
@@ -18,169 +18,244 @@ function Earth() {
 
   return (
     <mesh ref={earthRef}>
-      <sphereGeometry args={[2, 64, 64]} />
+      <sphereGeometry args={[3, 64, 64]} />
       <meshStandardMaterial 
         map={earthTexture}
-        roughness={0.5}
+        roughness={0.2}
         metalness={0.1}
-        emissive={new THREE.Color(0x111111)}
-        emissiveIntensity={0.1}
+        emissive={new THREE.Color(0x444444)}
+        emissiveIntensity={0.5}
       />
     </mesh>
   )
 }
 
-// Enhanced satellite component with different models
+// Enhanced neon dot component for Earth surface points
+function NeonDot({ 
+  position, 
+  color = "#ffffff"
+}: { 
+  position: [number, number, number]
+  color?: string
+}) {
+  return (
+    <mesh position={position}>
+      <sphereGeometry args={[0.2, 16, 16]} />
+      <meshBasicMaterial 
+        color={color}
+        emissive={new THREE.Color(color)}
+        emissiveIntensity={2.0}
+      />
+    </mesh>
+  )
+}
+
+// Create straight lines that follow Earth's curvature
+function NetworkLine({ 
+  startPoint, 
+  endPoint, 
+  color = "#ffffff"
+}: { 
+  startPoint: [number, number, number]
+  endPoint: [number, number, number]
+  color?: string
+}) {
+  const lineRef = useRef<THREE.Line>(null)
+
+  const points = useMemo(() => {
+    if (!startPoint || !endPoint || !Array.isArray(startPoint) || !Array.isArray(endPoint)) {
+      return []
+    }
+    
+    const start = new THREE.Vector3(startPoint[0], startPoint[1], startPoint[2])
+    const end = new THREE.Vector3(endPoint[0], endPoint[1], endPoint[2])
+    
+    // Create points along a straight line between start and end
+    const numPoints = 20
+    const points = []
+    
+    for (let i = 0; i <= numPoints; i++) {
+      const t = i / numPoints
+      const point = new THREE.Vector3()
+      point.lerpVectors(start, end, t)
+      points.push(point)
+    }
+    
+    return points
+  }, [startPoint, endPoint])
+
+  return (
+    <line ref={lineRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={points.length}
+          array={new Float32Array(points.flatMap(p => [p.x, p.y, p.z]))}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <lineBasicMaterial
+        color={color}
+        linewidth={8}
+      />
+    </line>
+  )
+}
+
+// Generate nodes positioned just above Earth surface
+function generateEarthNodes() {
+  const nodes = []
+  const radius = 3.3 // Just above Earth surface
+  
+  // Generate nodes using spherical coordinates with better distribution
+  for (let i = 0; i < 40; i++) {
+    // Use golden ratio to distribute points evenly
+    const phi = Math.acos(1 - 2 * (i + 0.5) / 40)
+    const theta = Math.PI * (1 + Math.sqrt(5)) * (i + 0.5)
+    
+    const x = radius * Math.sin(phi) * Math.cos(theta)
+    const y = radius * Math.sin(phi) * Math.sin(theta)
+    const z = radius * Math.cos(phi)
+    
+    nodes.push([x, y, z] as [number, number, number])
+  }
+  
+  return nodes
+}
+
+// Network of neon dots and lines connecting nodes
+function CommunicationNetwork() {
+  const networkNodes = useMemo(() => generateEarthNodes(), [])
+
+  // Create connections between nearby nodes
+  const networkConnections = useMemo(() => {
+    const connections = []
+    
+    for (let i = 0; i < networkNodes.length; i++) {
+      for (let j = i + 1; j < networkNodes.length; j++) {
+        const node1 = networkNodes[i]
+        const node2 = networkNodes[j]
+        
+        // Calculate distance between nodes
+        const distance = Math.sqrt(
+          Math.pow(node1[0] - node2[0], 2) + 
+          Math.pow(node1[1] - node2[1], 2) + 
+          Math.pow(node1[2] - node2[2], 2)
+        )
+        
+        // Connect nodes that are within a reasonable distance
+        if (distance < 2.5) {
+          connections.push({
+            start: node1,
+            end: node2,
+            color: "#ffffff"
+          })
+        }
+      }
+    }
+    
+    return connections
+  }, [networkNodes])
+
+  return (
+    <>
+      {/* Render neon dots */}
+      {networkNodes.map((node, index) => (
+        <NeonDot 
+          key={`dot-${index}`}
+          position={node}
+          color="#ffffff"
+        />
+      ))}
+      
+      {/* Render network lines */}
+      {networkConnections.map((connection, index) => (
+        <NetworkLine 
+          key={`line-${index}`}
+          startPoint={connection.start}
+          endPoint={connection.end}
+          color={connection.color}
+        />
+      ))}
+    </>
+  )
+}
+
+// Enhanced satellite component
 function Satellite({ 
   orbitRadius, 
   speed, 
-  inclination = 0, 
-  color = "#ffffff",
-  satelliteType = "cube"
+  color = "#ffffff"
 }: { 
   orbitRadius: number
   speed: number
-  inclination?: number
   color?: string
-  satelliteType?: "cube" | "sphere" | "cylinder" | "complex"
 }) {
-  const satelliteRef = useRef<THREE.Mesh>(null)
   const groupRef = useRef<THREE.Group>(null)
   
   useFrame((state) => {
     if (groupRef.current) {
       groupRef.current.rotation.y += speed
-      groupRef.current.rotation.x = inclination
     }
   })
 
-  const renderSatelliteModel = () => {
-    switch (satelliteType) {
-      case "sphere":
-        return (
-          <mesh ref={satelliteRef} position={[orbitRadius, 0, 0]}>
-            <sphereGeometry args={[0.08, 16, 16]} />
-            <meshStandardMaterial color={color} />
-          </mesh>
-        )
-      case "cylinder":
-        return (
-          <mesh ref={satelliteRef} position={[orbitRadius, 0, 0]}>
-            <cylinderGeometry args={[0.05, 0.05, 0.3, 8]} />
-            <meshStandardMaterial color={color} />
-          </mesh>
-        )
-      case "complex":
-        return (
-          <group ref={satelliteRef} position={[orbitRadius, 0, 0]}>
-            {/* Main body */}
-            <mesh>
-              <boxGeometry args={[0.1, 0.1, 0.2]} />
-              <meshStandardMaterial color={color} />
-            </mesh>
-            {/* Solar panels */}
-            <mesh position={[0.15, 0, 0]}>
-              <boxGeometry args={[0.2, 0.05, 0.1]} />
-              <meshStandardMaterial color="#444444" />
-            </mesh>
-            <mesh position={[-0.15, 0, 0]}>
-              <boxGeometry args={[0.2, 0.05, 0.1]} />
-              <meshStandardMaterial color="#444444" />
-            </mesh>
-            {/* Antenna */}
-            <mesh position={[0, 0, 0.15]}>
-              <cylinderGeometry args={[0.01, 0.01, 0.1, 8]} />
-              <meshStandardMaterial color="#666666" />
-            </mesh>
-          </group>
-        )
-      default: // cube
-        return (
-          <mesh ref={satelliteRef} position={[orbitRadius, 0, 0]}>
-            <boxGeometry args={[0.1, 0.1, 0.3]} />
-            <meshStandardMaterial color={color} />
-          </mesh>
-        )
-    }
-  }
-
   return (
     <group ref={groupRef}>
-      {renderSatelliteModel()}
+      {/* Main satellite body */}
+      <mesh position={[orbitRadius, 0, 0]}>
+        <boxGeometry args={[0.4, 0.4, 1.0]} />
+        <meshStandardMaterial 
+          color={color}
+          emissive={new THREE.Color(color)}
+          emissiveIntensity={0.8}
+        />
+      </mesh>
+      
+      {/* Solar panels */}
+      <mesh position={[orbitRadius + 0.6, 0, 0]}>
+        <boxGeometry args={[0.8, 0.1, 0.4]} />
+        <meshStandardMaterial color="#444444" />
+      </mesh>
+      <mesh position={[orbitRadius - 0.6, 0, 0]}>
+        <boxGeometry args={[0.8, 0.1, 0.4]} />
+        <meshStandardMaterial color="#444444" />
+      </mesh>
+      
+      {/* Antenna */}
+      <mesh position={[orbitRadius, 0, 0.6]}>
+        <cylinderGeometry args={[0.03, 0.03, 0.5, 8]} />
+        <meshStandardMaterial color="#666666" />
+      </mesh>
+      
+      {/* Glowing core */}
+      <mesh position={[orbitRadius, 0, 0]}>
+        <sphereGeometry args={[0.15, 8, 8]} />
+        <meshBasicMaterial 
+          color={color}
+          emissive={new THREE.Color(color)}
+          emissiveIntensity={2.0}
+        />
+      </mesh>
     </group>
   )
 }
 
-// Multiple satellites with diverse orbits and models
+// Two satellites orbiting in opposite directions
 function Satellites() {
-  const satellites = useMemo(() => [
-    // Low Earth Orbit (LEO) satellites
-    { 
-      orbitRadius: 3.2, 
-      speed: 0.015, 
-      inclination: 0.1, 
-      color: "#ff6b6b",
-      satelliteType: "complex" as const
-    },
-    { 
-      orbitRadius: 3.5, 
-      speed: 0.012, 
-      inclination: -0.2, 
-      color: "#4ecdc4",
-      satelliteType: "sphere" as const
-    },
-    // Medium Earth Orbit (MEO) satellites
-    { 
-      orbitRadius: 4.2, 
-      speed: 0.008, 
-      inclination: 0.3, 
-      color: "#45b7d1",
-      satelliteType: "cylinder" as const
-    },
-    { 
-      orbitRadius: 4.8, 
-      speed: 0.006, 
-      inclination: -0.4, 
-      color: "#96ceb4",
-      satelliteType: "complex" as const
-    },
-    // High Earth Orbit satellites
-    { 
-      orbitRadius: 5.5, 
-      speed: 0.004, 
-      inclination: 0.15, 
-      color: "#feca57",
-      satelliteType: "sphere" as const
-    },
-    { 
-      orbitRadius: 6.0, 
-      speed: 0.003, 
-      inclination: -0.25, 
-      color: "#ff9ff3",
-      satelliteType: "cube" as const
-    },
-    // Geostationary-like satellites
-    { 
-      orbitRadius: 6.8, 
-      speed: 0.002, 
-      inclination: 0.05, 
-      color: "#54a0ff",
-      satelliteType: "complex" as const
-    },
-    { 
-      orbitRadius: 7.2, 
-      speed: 0.0015, 
-      inclination: -0.1, 
-      color: "#5f27cd",
-      satelliteType: "cylinder" as const
-    }
-  ], [])
-
   return (
     <>
-      {satellites.map((sat, index) => (
-        <Satellite key={index} {...sat} />
-      ))}
+      {/* Satellite 1 - clockwise */}
+      <Satellite 
+        orbitRadius={6.0}
+        speed={0.015}
+        color="#00ffff"
+      />
+      {/* Satellite 2 - counter-clockwise */}
+      <Satellite 
+        orbitRadius={6.8}
+        speed={-0.012}
+        color="#ffffff"
+      />
     </>
   )
 }
@@ -188,33 +263,34 @@ function Satellites() {
 // Main Earth Scene component with enhanced lighting
 export default function EarthScene() {
   return (
-    <div className="w-full h-screen relative">
+    <div className="w-1/2 h-screen relative">
       <Canvas
-        camera={{ position: [0, 0, 8], fov: 60 }}
-        style={{ background: 'linear-gradient(to bottom, #000000, #1a1a2e)' }}
+        camera={{ position: [0, 0, 12], fov: 60 }}
+        style={{ background: 'linear-gradient(to bottom, #000033, #1a1a4e)' }}
         gl={{ 
           toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.8
+          toneMappingExposure: 2.5
         }}
       >
         {/* Enhanced lighting for brighter Earth */}
-        <ambientLight intensity={0.4} />
+        <ambientLight intensity={1.0} />
         <hemisphereLight 
-          intensity={0.6} 
+          intensity={1.2} 
           groundColor={new THREE.Color(0x000000)} 
           color={new THREE.Color(0xffffff)} 
         />
-        <pointLight position={[10, 10, 10]} intensity={1.2} />
-        <pointLight position={[-10, -10, -10]} intensity={0.8} />
+        <pointLight position={[10, 10, 10]} intensity={2.5} />
+        <pointLight position={[-10, -10, -10]} intensity={2.0} />
         <directionalLight 
           position={[5, 5, 5]} 
-          intensity={0.5} 
+          intensity={1.5} 
           castShadow 
         />
         
         <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
         
         <Earth />
+        <CommunicationNetwork />
         <Satellites />
         
         <OrbitControls 

@@ -23,23 +23,6 @@ export default function HeroSection() {
     return () => clearTimeout(timer)
   }, [])
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!heroRef.current || !textRef.current) return
-      
-      const scrollY = window.scrollY
-      const heroHeight = heroRef.current.offsetHeight
-      const scrollProgress = Math.min(scrollY / heroHeight, 1)
-      
-      // Move text up as user scrolls
-      textRef.current.style.transform = `translateY(${-scrollProgress * 100}px)`
-      textRef.current.style.opacity = `${1 - scrollProgress}`
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   const stats = [
     { icon: Users, value: "200+", label: "Active Members" },
     { icon: Award, value: "50+", label: "Projects Completed" },
@@ -58,12 +41,12 @@ export default function HeroSection() {
 
   return (
     <div ref={heroRef} className="relative w-full h-screen overflow-hidden">
-      {/* 3D Earth Scene */}
+      {/* Background Earth Scene */}
       <div className="absolute inset-0 z-0">
         <EarthScene />
       </div>
       
-      {/* Overlay Content */}
+      {/* Content Overlay */}
       <div className="absolute inset-0 z-10 flex items-center justify-center">
         <div 
           ref={textRef}
@@ -142,16 +125,6 @@ export default function HeroSection() {
                 </CardContent>
               </Card>
             ))}
-          </div>
-        </div>
-      </div>
-      
-      {/* Scroll Indicator */}
-      <div className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 transition-all duration-1000 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <div className="flex flex-col items-center text-cyan-400/60 animate-bounce">
-          <span className="text-sm mb-2">Scroll to explore</span>
-          <div className="w-6 h-10 border-2 border-cyan-400/60 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-cyan-400/60 rounded-full mt-2 animate-pulse"></div>
           </div>
         </div>
       </div>

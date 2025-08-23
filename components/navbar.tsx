@@ -11,6 +11,7 @@ const navigation = [
   { name: "Events", href: "/events" },
   { name: "Team", href: "/team" },
   { name: "Faculties", href: "/faculties" },
+  { name: "Networking", href: "/networking" },
 ]
 
 export function Navbar() {
