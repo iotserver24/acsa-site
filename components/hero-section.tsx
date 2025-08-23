@@ -10,6 +10,7 @@ import EarthScene from './earth-scene'
 export default function HeroSection() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
   const heroRef = useRef<HTMLDivElement>(null)
   const textRef = useRef<HTMLDivElement>(null)
 
@@ -28,12 +29,17 @@ export default function HeroSection() {
       if (!heroRef.current || !textRef.current) return
       
       const scrollY = window.scrollY
-      const heroHeight = heroRef.current.offsetHeight
+      const heroHeight = window.innerHeight // Use viewport height for more responsive movement
       const scrollProgress = Math.min(scrollY / heroHeight, 1)
       
-      // Move text up as user scrolls
-      textRef.current.style.transform = `translateY(${-scrollProgress * 100}px)`
-      textRef.current.style.opacity = `${1 - scrollProgress}`
+      console.log('Hero scroll progress:', scrollProgress, 'Scroll Y:', scrollY)
+      
+      // Move text to the right as user scrolls
+      textRef.current.style.transform = `translateX(${scrollProgress * 400}px)`
+      textRef.current.style.opacity = `${1 - scrollProgress * 0.3}`
+      
+      // Update scroll progress for Earth movement
+      setScrollProgress(scrollProgress)
     }
 
     window.addEventListener('scroll', handleScroll)
@@ -58,11 +64,6 @@ export default function HeroSection() {
 
   return (
     <div ref={heroRef} className="relative w-full h-screen overflow-hidden">
-      {/* 3D Earth Scene */}
-      <div className="absolute inset-0 z-0">
-        <EarthScene />
-      </div>
-      
       {/* Overlay Content */}
       <div className="absolute inset-0 z-10 flex items-center justify-center">
         <div 

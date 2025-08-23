@@ -1,18 +1,27 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useEffect, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Stars, useTexture, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 
-// Earth component with enhanced brightness
-function Earth() {
+// Earth component with enhanced brightness and scroll-based movement
+function Earth({ scrollProgress }: { scrollProgress: number }) {
   const earthRef = useRef<THREE.Mesh>(null)
   const earthTexture = useTexture('/earth-texture.jpg')
   
   useFrame((state) => {
     if (earthRef.current) {
-      earthRef.current.rotation.y += 0.002 // Slow rotation
+      // Move Earth to left side when scrolling to About section
+      // Start at center (0, 0, 0) and move to left (-8, 0, 0) when scrollProgress reaches 1
+      earthRef.current.position.x = scrollProgress * -8
+      earthRef.current.position.y = 0
+      earthRef.current.position.z = 0
+      
+      // Keep consistent scale
+      earthRef.current.scale.setScalar(1.2)
+      
+      // No rotation - completely still
     }
   })
 
@@ -30,27 +39,33 @@ function Earth() {
   )
 }
 
-// Enhanced satellite component with different models
+// Enhanced satellite component with scroll-based movement
 function Satellite({ 
   orbitRadius, 
   speed, 
   inclination = 0, 
   color = "#ffffff",
-  satelliteType = "cube"
+  satelliteType = "cube",
+  scrollProgress
 }: { 
   orbitRadius: number
   speed: number
   inclination?: number
   color?: string
   satelliteType?: "cube" | "sphere" | "cylinder" | "complex"
+  scrollProgress: number
 }) {
   const satelliteRef = useRef<THREE.Mesh>(null)
   const groupRef = useRef<THREE.Group>(null)
   
   useFrame((state) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y += speed
-      groupRef.current.rotation.x = inclination
+      // Move satellites with Earth to left side
+      groupRef.current.position.x = scrollProgress * -8
+      groupRef.current.position.y = 0
+      groupRef.current.position.z = 0
+      
+      // No orbital movement - completely still
     }
   })
 
@@ -112,7 +127,7 @@ function Satellite({
 }
 
 // Multiple satellites with diverse orbits and models
-function Satellites() {
+function Satellites({ scrollProgress }: { scrollProgress: number }) {
   const satellites = useMemo(() => [
     // Low Earth Orbit (LEO) satellites
     { 
@@ -140,7 +155,7 @@ function Satellites() {
     { 
       orbitRadius: 4.8, 
       speed: 0.006, 
-      inclination: -0.4, 
+      inclination: -0.4,
       color: "#96ceb4",
       satelliteType: "complex" as const
     },
@@ -179,7 +194,7 @@ function Satellites() {
   return (
     <>
       {satellites.map((sat, index) => (
-        <Satellite key={index} {...sat} />
+        <Satellite key={index} {...sat} scrollProgress={scrollProgress} />
       ))}
     </>
   )
@@ -187,8 +202,23 @@ function Satellites() {
 
 // Main Earth Scene component with enhanced lighting
 export default function EarthScene() {
+  const [scrollProgress, setScrollProgress] = useState(0)
+
+  useEffect(() => {
+    const updateScrollProgress = () => {
+      const scrollY = window.scrollY
+      const windowHeight = window.innerHeight
+      const aboutSectionOffset = windowHeight * 1.5 // Start animation when About section comes into view
+      const progress = Math.max(0, Math.min(1, (scrollY - aboutSectionOffset) / (windowHeight * 0.5)))
+      setScrollProgress(progress)
+    }
+
+    window.addEventListener('scroll', updateScrollProgress)
+    return () => window.removeEventListener('scroll', updateScrollProgress)
+  }, [])
+
   return (
-    <div className="w-full h-screen relative">
+    <div className="fixed inset-0 pointer-events-none z-0">
       <Canvas
         camera={{ position: [0, 0, 8], fov: 60 }}
         style={{ background: 'linear-gradient(to bottom, #000000, #1a1a2e)' }}
@@ -214,8 +244,8 @@ export default function EarthScene() {
         
         <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
         
-        <Earth />
-        <Satellites />
+        <Earth scrollProgress={scrollProgress} />
+        <Satellites scrollProgress={scrollProgress} />
         
         <OrbitControls 
           enableZoom={false}

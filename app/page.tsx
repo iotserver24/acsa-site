@@ -7,11 +7,12 @@ import { Users, Zap, Award, BookOpen, Target, Lightbulb, ArrowRight } from "luci
 import Link from "next/link"
 import type { Event } from "@/lib/database"
 import HeroSection from "@/components/hero-section"
-import BackgroundEarthScene from "@/components/background-earth"
+import EarthScene from "@/components/earth-scene"
 
 export default function HomePage() {
   const [latestEvent, setLatestEvent] = useState<Event | null>(null)
   const [loading, setLoading] = useState(true)
+  const [scrollProgress, setScrollProgress] = useState(0)
 
   useEffect(() => {
     const fetchLatestEvent = async () => {
@@ -31,17 +32,29 @@ export default function HomePage() {
     fetchLatestEvent()
   }, [])
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      const windowHeight = window.innerHeight
+      const aboutSectionOffset = windowHeight * 1.5 // Start animation when About section comes into view
+      const progress = Math.max(0, Math.min(1, (scrollY - aboutSectionOffset) / (windowHeight * 0.5)))
+      setScrollProgress(progress)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <div className="min-h-screen bg-black relative">
-
-      {/* Background Earth Scene */}
-      <BackgroundEarthScene />
+      {/* Fixed 3D Earth Scene - stays above all content */}
+      <EarthScene />
 
       {/* 3D Earth Hero Section */}
       <HeroSection />
 
       {/* Stats Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 relative z-10">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 relative z-20">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center group hover:scale-105 transition-all duration-300">
@@ -60,8 +73,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* About Section with Right-Side Layout */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 relative z-20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">About ACSA</h2>
@@ -72,7 +85,12 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-            <div className="space-y-6">
+            <div 
+              className="space-y-6 transition-transform duration-700 ease-out"
+              style={{
+                transform: `translateX(${scrollProgress * 100}px)`
+              }}
+            >
               <p className="text-lg text-gray-300 leading-relaxed">
                 The Advanced Communication Student Association (ACSA) is a vibrant community of passionate students from
                 the Electronics & Communication (Advanced Communication Tech) branch. We serve as the bridge between
@@ -189,7 +207,7 @@ export default function HomePage() {
 
       {/* Upcoming Event Highlight */}
       {latestEvent && (
-        <section className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
+        <section className="py-20 px-4 sm:px-6 lg:px-8 relative z-20">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-in-up">Upcoming Highlight</h2>
@@ -267,7 +285,7 @@ export default function HomePage() {
 
       {/* No Events Message */}
       {!loading && !latestEvent && (
-        <section className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
+        <section className="py-20 px-4 sm:px-6 lg:px-8 relative z-20">
           <div className="max-w-7xl mx-auto text-center">
             <div className="glass rounded-2xl max-w-2xl mx-auto p-12 bg-black/20 backdrop-blur-sm border-cyan-400/20">
               <h2 className="text-3xl font-bold text-white mb-4">No Upcoming Events</h2>
