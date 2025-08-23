@@ -1,5 +1,3 @@
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Github, Linkedin, Mail } from "lucide-react"
@@ -130,7 +128,6 @@ const teamMembers = [
 export default function TeamPage() {
   return (
     <div className="min-h-screen bg-black">
-      <Navbar />
 
       {/* Header Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
@@ -225,8 +222,6 @@ export default function TeamPage() {
 
       {/* Join Us Section */}
       {/* Removed Join Us section as requested */}
-
-      <Footer />
     </div>
   )
 }

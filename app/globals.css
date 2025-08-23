@@ -121,7 +121,11 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-black text-foreground;
+  }
+  
+  html {
+    @apply bg-black;
   }
   
   /* Ensure no text is accidentally black on black background */
@@ -155,6 +159,25 @@
   .dark [class*="text-gray-900"],
   .dark [class*="text-gray-800"] {
     color: rgb(200, 200, 200) !important;
+  }
+  
+  /* Force black backgrounds everywhere */
+  .dark * {
+    background-color: transparent !important;
+  }
+  
+  .dark body,
+  .dark html,
+  .dark #__next,
+  .dark [data-nextjs-page] {
+    background-color: rgb(0, 0, 0) !important;
+  }
+  
+  /* Override any white backgrounds */
+  [class*="bg-white"],
+  [class*="bg-gray-50"],
+  [class*="bg-gray-100"] {
+    background-color: rgb(0, 0, 0) !important;
   }
 }
 
@@ -332,7 +355,7 @@
 /* Added glassmorphism utility class */
 @layer utilities {
   .glass {
-    @apply bg-white/5 backdrop-blur-md border border-white/10;
+    @apply bg-black/20 backdrop-blur-md border border-white/10;
   }
 
   /* Enhanced animation utility classes with more variety */

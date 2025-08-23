@@ -1,5 +1,3 @@
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Mail, Phone, MapPin, Award, BookOpen } from "lucide-react"
@@ -112,7 +110,6 @@ const facultyAdvisors = [
 export default function FacultiesPage() {
   return (
     <div className="min-h-screen bg-black">
-      <Navbar />
 
       {/* Header Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
@@ -263,8 +260,6 @@ export default function FacultiesPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   )
 }

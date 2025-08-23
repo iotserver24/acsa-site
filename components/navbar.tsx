@@ -8,9 +8,9 @@ import { X, Menu } from "lucide-react"
 
 const navigation = [
   { name: "Home", href: "/" },
+  { name: "Events", href: "/events" },
   { name: "Team", href: "/team" },
   { name: "Faculties", href: "/faculties" },
-  { name: "Events", href: "/events" },
 ]
 
 export function Navbar() {
@@ -18,7 +18,7 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <nav className="sticky top-0 z-50 glass border-b border-white/10">
+    <nav className="sticky top-0 z-50 bg-black/95 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -51,7 +51,6 @@ export function Navbar() {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-white hover:text-primary p-2"
-              aria-expanded={isMenuOpen}
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>

@@ -1,8 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Calendar, MapPin, Users, Zap, Award, BookOpen, Lightbulb, Target, ArrowRight } from "lucide-react"
@@ -33,7 +31,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-black">
-      <Navbar />
 
       {/* Hero Section */}
       <section className="relative py-32 px-4 sm:px-6 lg:px-8">
@@ -322,8 +319,6 @@ export default function HomePage() {
           </div>
         </section>
       )}
-
-      <Footer />
     </div>
   )
 }

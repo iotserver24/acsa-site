@@ -3,6 +3,8 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import LoadingScreen from "@/components/loading-screen"
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
 import "@/lib/init"
 
 const inter = Inter({
@@ -24,9 +26,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} dark`}>
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased bg-black">
         <LoadingScreen />
-        {children}
+        <div className="min-h-screen flex flex-col bg-black">
+          <Navbar />
+          <main className="flex-1 bg-black">
+            {children}
+          </main>
+          <Footer />
+        </div>
       </body>
     </html>
   )
