@@ -58,16 +58,31 @@ export default function HeroSection() {
 
   return (
     <div ref={heroRef} className="relative w-full h-screen overflow-hidden">
-      {/* 3D Earth Scene */}
-      <div className="absolute inset-0 z-0">
+      {/* Background - Only visible on desktop */}
+      <div className="absolute inset-0 z-0 hidden md:block bg-gradient-to-br from-black via-gray-900 to-blue-900">
+        <div className="absolute inset-0 opacity-30">
+          <div className="w-full h-full bg-[radial-gradient(circle_at_1px_1px,rgba(156,146,172,0.1)_1px,transparent_0)] bg-[length:20px_20px]"></div>
+        </div>
+      </div>
+      
+      {/* Mobile Background - Original Earth scene background */}
+      <div className="absolute inset-0 z-0 md:hidden">
         <EarthScene />
       </div>
       
       {/* Overlay Content */}
-      <div className="absolute inset-0 z-10 flex items-center justify-center">
+      <div className="absolute inset-0 z-10 flex flex-col md:flex-row items-center justify-between px-8">
+        {/* Left Side - Earth Scene (Desktop only) */}
+        <div className="hidden md:flex w-full md:w-1/2 h-full items-center justify-center">
+          <div className="w-full h-full">
+            <EarthScene />
+          </div>
+        </div>
+        
+        {/* Right Side - ACSA Information */}
         <div 
           ref={textRef}
-          className="text-center text-white px-4 transition-all duration-1000"
+          className="w-full md:w-1/2 text-center md:text-center text-white transition-all duration-1000"
         >
           {/* Main Logo Animation */}
           <div className={`flex justify-center mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -96,7 +111,7 @@ export default function HeroSection() {
             <p className="text-xl md:text-2xl mb-6 text-cyan-400 font-semibold">
               Advanced Communication Student Association
             </p>
-            <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto">
               Exploring the frontiers of communication technology through innovation, 
               collaboration, and cutting-edge research in electronics & communication.
             </p>
@@ -126,17 +141,17 @@ export default function HeroSection() {
           </div>
 
           {/* Stats Section */}
-          <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`flex gap-6 mt-16 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             {stats.map((stat, index) => (
-              <Card key={index} className="glass-card border-cyan-400/20 hover:border-cyan-400/40 transition-all duration-300 hover:scale-105 group bg-black/20 backdrop-blur-sm">
+              <Card key={index} className="glass-card border-cyan-400/20 hover:border-cyan-400/40 transition-all duration-300 hover:scale-105 group bg-black/20 backdrop-blur-sm flex-1">
                 <CardContent className="p-4 text-center">
-                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-                    <stat.icon className="h-6 w-6 text-cyan-400" />
+                  <div className="w-10 h-10 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform">
+                    <stat.icon className="h-5 w-5 text-cyan-400" />
                   </div>
-                  <div className="text-2xl md:text-3xl font-bold text-cyan-400 mb-1 group-hover:text-white transition-colors">
+                  <div className="text-xl font-bold text-cyan-400 mb-1 group-hover:text-white transition-colors">
                     {stat.value}
                   </div>
-                  <div className="text-gray-300 text-sm font-medium">
+                  <div className="text-gray-300 text-xs font-medium">
                     {stat.label}
                   </div>
                 </CardContent>
@@ -146,15 +161,7 @@ export default function HeroSection() {
         </div>
       </div>
       
-      {/* Scroll Indicator */}
-      <div className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 transition-all duration-1000 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <div className="flex flex-col items-center text-cyan-400/60 animate-bounce">
-          <span className="text-sm mb-2">Scroll to explore</span>
-          <div className="w-6 h-10 border-2 border-cyan-400/60 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-cyan-400/60 rounded-full mt-2 animate-pulse"></div>
-          </div>
-        </div>
-      </div>
+
     </div>
   )
 }
