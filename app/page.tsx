@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Calendar, MapPin, Users, Zap, Award, BookOpen, Lightbulb, Target, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import type { Event } from "@/lib/database"
+import HeroSection from "@/components/hero-section"
+import BackgroundEarthScene from "@/components/background-earth"
 
 export default function HomePage() {
   const [latestEvent, setLatestEvent] = useState<Event | null>(null)
@@ -30,54 +32,16 @@ export default function HomePage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black relative">
 
-      {/* Hero Section */}
-      <section className="relative py-32 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="space-y-8">
-            <div className="flex justify-center mb-8">
-              <div className="w-32 h-32 bg-gradient-to-br from-primary/30 to-primary/10 rounded-full flex items-center justify-center border-2 border-primary/50 animate-pulse hover:animate-spin transition-all duration-500">
-                <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center">
-                  <span className="text-primary font-bold text-2xl">ACSA</span>
-                </div>
-              </div>
-            </div>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight animate-fade-in-up">
-              <span className="block">ACSA</span>
-            </h1>
-            <p className="text-2xl md:text-3xl text-primary font-semibold animate-fade-in-up animation-delay-200">
-              Advanced Communication Student Association
-            </p>
-            <p className="text-lg md:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed animate-fade-in-up animation-delay-400">
-              The official student association of Electronics & Communication (Advanced Communication Tech) branch. We
-              innovate, collaborate, and lead the way in cutting-edge communication technologies.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center mt-12 animate-fade-in-up animation-delay-600">
-              <Link href="/events">
-                <Button
-                  size="lg"
-                  className="bg-primary text-primary-foreground font-semibold px-8 py-4 rounded-xl text-lg hover:bg-primary/90 hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30"
-                >
-                  Explore Events
-                </Button>
-              </Link>
-              <Link href="/team">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-primary text-primary hover:bg-primary/10 bg-transparent px-8 py-4 rounded-xl text-lg hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20"
-                >
-                  Meet the Team
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Background Earth Scene */}
+      <BackgroundEarthScene />
+
+      {/* 3D Earth Hero Section */}
+      <HeroSection />
 
       {/* Stats Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center group hover:scale-105 transition-all duration-300">
@@ -97,7 +61,7 @@ export default function HomePage() {
       </section>
 
       {/* About Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-in-up">About ACSA</h2>
@@ -225,7 +189,7 @@ export default function HomePage() {
 
       {/* Upcoming Event Highlight */}
       {latestEvent && (
-        <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <section className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-in-up">Upcoming Highlight</h2>
@@ -303,7 +267,7 @@ export default function HomePage() {
 
       {/* No Events Message */}
       {!loading && !latestEvent && (
-        <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <section className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-7xl mx-auto text-center">
             <div className="glass rounded-2xl max-w-2xl mx-auto p-12">
               <h2 className="text-3xl font-bold text-white mb-4">No Upcoming Events</h2>
