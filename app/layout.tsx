@@ -16,7 +16,6 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "ACSA - Advanced Communication Student Association",
   description: "Electronics & Communication - Advanced Communication Tech Branch",
-  generator: "v0.app",
 }
 
 export default function RootLayout({
