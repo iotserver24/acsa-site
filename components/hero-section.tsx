@@ -21,6 +21,7 @@ function Earth() {
   })
 
   return (
+<<<<<<< HEAD
     <mesh ref={earthRef}>
       <sphereGeometry args={[8, 32, 32]} />
       <meshStandardMaterial 
@@ -136,6 +137,65 @@ function ACSAIntro() {
           >
             <p className="text-base md:text-lg text-gray-200 leading-relaxed font-light">
               Exploring the frontiers of communication technology through innovation, collaboration, and cutting-edge research in electronics & communication.
+=======
+    <div ref={heroRef} className="relative w-full h-screen overflow-hidden">
+      {/* Background - Only visible on desktop */}
+      <div className="absolute inset-0 z-0 hidden md:block bg-gradient-to-br from-black via-gray-900 to-blue-900">
+        <div className="absolute inset-0 opacity-30">
+          <div className="w-full h-full bg-[radial-gradient(circle_at_1px_1px,rgba(156,146,172,0.1)_1px,transparent_0)] bg-[length:20px_20px]"></div>
+        </div>
+      </div>
+      
+      {/* Mobile Background - Original Earth scene background */}
+      <div className="absolute inset-0 z-0 md:hidden">
+        <EarthScene />
+      </div>
+      
+      {/* Overlay Content */}
+      <div className="absolute inset-0 z-10 flex flex-col md:flex-row items-center justify-between px-8">
+        {/* Left Side - Earth Scene (Desktop only) */}
+        <div className="hidden md:flex w-full md:w-1/2 h-full items-center justify-center">
+          <div className="w-full h-full">
+            <EarthScene />
+          </div>
+        </div>
+        
+        {/* Right Side - ACSA Information */}
+        <div 
+          ref={textRef}
+          className="w-full md:w-1/2 text-center md:text-center text-white transition-all duration-1000"
+        >
+          {/* Main Logo Animation */}
+          <div className={`flex justify-center mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="relative group">
+              <div className="w-32 h-32 bg-gradient-to-br from-cyan-400/30 to-blue-500/30 rounded-full flex items-center justify-center border-2 border-cyan-400/50 animate-pulse hover:animate-spin transition-all duration-500 group-hover:scale-110">
+                <div className="w-20 h-20 bg-gradient-to-br from-cyan-400/40 to-blue-500/40 rounded-full flex items-center justify-center border border-cyan-400/30">
+                  <span className="text-cyan-400 font-bold text-2xl group-hover:text-white transition-colors">ACSA</span>
+                </div>
+              </div>
+              
+              {/* Orbiting Elements */}
+              <div className="absolute inset-0 animate-spin">
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-cyan-400 rounded-full"></div>
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-blue-400 rounded-full"></div>
+                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-cyan-300 rounded-full"></div>
+                <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-blue-300 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Main Title */}
+          <div className={`space-y-6 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h1 className="text-6xl md:text-8xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-cyan-200 to-purple-600 bg-clip-text text-transparent animate-pulse">
+              ACSA
+            </h1>
+            <p className="text-xl md:text-2xl mb-6 text-cyan-400 font-semibold">
+              Advanced Communication Student Association
+            </p>
+            <p className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto">
+              Exploring the frontiers of communication technology through innovation, 
+              collaboration, and cutting-edge research in electronics & communication.
+>>>>>>> f71d4efb4f5b617119fb33d8f4b318679b6747bb
             </p>
             
             {/* Animated border effect */}
@@ -183,8 +243,34 @@ function ACSAIntro() {
               </Button>
             </Link>
           </div>
+<<<<<<< HEAD
         </div>
       </div>
+=======
+
+          {/* Stats Section */}
+          <div className={`flex gap-6 mt-16 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            {stats.map((stat, index) => (
+              <Card key={index} className="glass-card border-cyan-400/20 hover:border-cyan-400/40 transition-all duration-300 hover:scale-105 group bg-black/20 backdrop-blur-sm flex-1">
+                <CardContent className="p-4 text-center">
+                  <div className="w-10 h-10 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform">
+                    <stat.icon className="h-5 w-5 text-cyan-400" />
+                  </div>
+                  <div className="text-xl font-bold text-cyan-400 mb-1 group-hover:text-white transition-colors">
+                    {stat.value}
+                  </div>
+                  <div className="text-gray-300 text-xs font-medium">
+                    {stat.label}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+      
+
+>>>>>>> f71d4efb4f5b617119fb33d8f4b318679b6747bb
     </div>
   )
 }

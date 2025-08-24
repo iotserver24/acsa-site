@@ -1,4 +1,4 @@
-import { Github, Linkedin, Twitter, Instagram } from "lucide-react"
+import { Github, Linkedin, Instagram } from "lucide-react"
 
 export function Footer() {
   return (
@@ -18,16 +18,13 @@ export function Footer() {
               <Linkedin className="h-5 w-5" />
             </a>
             <a href="#" className="text-white hover:text-primary transition-colors">
-              <Twitter className="h-5 w-5" />
-            </a>
-            <a href="#" className="text-white hover:text-primary transition-colors">
               <Instagram className="h-5 w-5" />
             </a>
           </div>
         </div>
 
         <div className="mt-6 pt-6 border-t border-white/10 text-center text-sm text-gray-300">
-          <p>&copy; 2024 ACSA - Advanced Communication Student Association. All rights reserved.</p>
+          <p>&copy; 2025 ACSA - Advanced Communication Student Association. All rights reserved.</p>
         </div>
       </div>
     </footer>
