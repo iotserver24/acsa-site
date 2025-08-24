@@ -7,7 +7,6 @@ import { Users, Zap, Award, BookOpen, Target, Lightbulb, ArrowRight } from "luci
 import Link from "next/link"
 import type { Event } from "@/lib/database"
 import HeroSection from "@/components/hero-section"
-import BackgroundEarthScene from "@/components/background-earth"
 
 export default function HomePage() {
   const [latestEvent, setLatestEvent] = useState<Event | null>(null)
@@ -33,9 +32,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-black relative">
-
-      {/* Background Earth Scene */}
-      <BackgroundEarthScene />
 
       {/* 3D Earth Hero Section */}
       <HeroSection />

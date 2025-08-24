@@ -3,46 +3,117 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { useState } from "react"
-import { X, Menu } from "lucide-react"
+import { useState, useEffect } from "react"
+import { X, Menu, Zap, Users, Calendar, GraduationCap } from "lucide-react"
 
 const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Events", href: "/events" },
-  { name: "Team", href: "/team" },
-  { name: "Faculties", href: "/faculties" },
+  { name: "Home", href: "/", icon: Zap },
+  { name: "Events", href: "/events", icon: Calendar },
+  { name: "Team", href: "/team", icon: Users },
+  { name: "Faculties", href: "/faculties", icon: GraduationCap },
 ]
 
 export function Navbar() {
   const pathname = usePathname()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
-    <nav className="sticky top-0 z-50 bg-black/95 backdrop-blur-md border-b border-white/10">
+    <nav className={cn(
+      "sticky top-0 z-50 transition-all duration-500 ease-in-out",
+      scrolled 
+        ? "bg-black/95 backdrop-blur-xl border-b border-cyan-400/20 shadow-2xl shadow-cyan-500/10" 
+        : "bg-black/80 backdrop-blur-md border-b border-cyan-400/10"
+    )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="text-2xl font-bold text-primary hover:text-primary/80 transition-colors">
-              ACSA
+            <Link 
+              href="/" 
+              className="group relative"
+            >
+              <div className="text-3xl font-black tracking-[0.3em] uppercase transition-all duration-300 group-hover:scale-110"
+                   style={{
+                     fontFamily: "'Orbitron', 'Arial', sans-serif",
+                     background: 'linear-gradient(45deg, #00ffff, #ffffff, #00ffff)',
+                     backgroundSize: '200% 200%',
+                     WebkitBackgroundClip: 'text',
+                     WebkitTextFillColor: 'transparent',
+                     textShadow: '0 0 20px #00ffff, 0 0 40px #00ffff',
+                     animation: 'gradientShift 3s ease-in-out infinite'
+                   }}>
+                ACSA
+              </div>
+              <div className="absolute inset-0 blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-300"
+                   style={{
+                     background: 'radial-gradient(circle, #00ffff, transparent 70%)',
+                     transform: 'translate(-50%, -50%)',
+                     left: '50%',
+                     top: '50%'
+                   }} />
             </Link>
           </div>
 
+          {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={cn(
-                    "px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                    pathname === item.href
-                      ? "text-primary bg-primary/10"
-                      : "text-white hover:text-primary hover:bg-white/5",
-                  )}
-                >
-                  {item.name}
-                </Link>
-              ))}
+            <div className="flex items-center space-x-2">
+              {navigation.map((item) => {
+                const Icon = item.icon
+                const isActive = pathname === item.href
+                
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={cn(
+                      "group relative px-6 py-3 rounded-xl transition-all duration-300 font-semibold tracking-wider",
+                      "hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20",
+                      isActive
+                        ? "text-cyan-400 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 shadow-lg shadow-cyan-500/20"
+                        : "text-white hover:text-cyan-400 hover:bg-white/5 border border-transparent hover:border-cyan-400/20"
+                    )}
+                    style={{
+                      fontFamily: "'Orbitron', 'Arial', sans-serif"
+                    }}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <Icon className={cn(
+                        "h-4 w-4 transition-all duration-300",
+                        isActive ? "text-cyan-400" : "text-gray-400 group-hover:text-cyan-400"
+                      )} />
+                      <span className="relative z-10">{item.name}</span>
+                    </div>
+                    
+                    {/* Glow effect */}
+                    <div className={cn(
+                      "absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300",
+                      isActive ? "opacity-20" : "group-hover:opacity-10"
+                    )}
+                         style={{
+                           background: 'radial-gradient(circle, #00ffff20, transparent 70%)'
+                         }} />
+                    
+                    {/* Animated border */}
+                    <div className={cn(
+                      "absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300",
+                      isActive ? "opacity-100" : "group-hover:opacity-50"
+                    )}
+                         style={{
+                           background: 'linear-gradient(45deg, transparent, #00ffff20, transparent)',
+                           animation: isActive ? 'borderGlow 2s ease-in-out infinite' : 'none'
+                         }} />
+                  </Link>
+                )
+              })}
             </div>
           </div>
 
@@ -50,9 +121,19 @@ export function Navbar() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-white hover:text-primary p-2"
+              className="relative p-3 rounded-xl border border-cyan-400/20 bg-black/50 backdrop-blur-sm hover:bg-cyan-500/10 transition-all duration-300 group"
             >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              <div className="relative z-10">
+                {isMenuOpen ? (
+                  <X className="h-6 w-6 text-cyan-400 group-hover:text-white transition-colors" />
+                ) : (
+                  <Menu className="h-6 w-6 text-cyan-400 group-hover:text-white transition-colors" />
+                )}
+              </div>
+              <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"
+                   style={{
+                     background: 'radial-gradient(circle, #00ffff20, transparent 70%)'
+                   }} />
             </button>
           </div>
         </div>
@@ -61,28 +142,69 @@ export function Navbar() {
       {/* Mobile Menu */}
       <div
         className={cn(
-          "md:hidden overflow-hidden transition-all duration-300 ease-in-out",
-          isMenuOpen ? "max-h-96" : "max-h-0",
+          "md:hidden overflow-hidden transition-all duration-500 ease-in-out bg-black/95 backdrop-blur-xl border-t border-cyan-400/10",
+          isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         )}
       >
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              onClick={() => setIsMenuOpen(false)}
-              className={cn(
-                "block px-3 py-2 rounded-md text-base font-medium transition-colors",
-                pathname === item.href
-                  ? "text-primary bg-primary/10"
-                  : "text-white hover:text-primary hover:bg-white/5",
-              )}
-            >
-              {item.name}
-            </Link>
-          ))}
+        <div className="px-4 py-6 space-y-3">
+          {navigation.map((item) => {
+            const Icon = item.icon
+            const isActive = pathname === item.href
+            
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={() => setIsMenuOpen(false)}
+                className={cn(
+                  "group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 font-semibold tracking-wider",
+                  "hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20",
+                  isActive
+                    ? "text-cyan-400 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 shadow-lg shadow-cyan-500/20"
+                    : "text-white hover:text-cyan-400 hover:bg-white/5 border border-transparent hover:border-cyan-400/20"
+                )}
+                style={{
+                  fontFamily: "'Orbitron', 'Arial', sans-serif"
+                }}
+              >
+                <Icon className={cn(
+                  "h-5 w-5 transition-all duration-300",
+                  isActive ? "text-cyan-400" : "text-gray-400 group-hover:text-cyan-400"
+                )} />
+                <span className="relative z-10">{item.name}</span>
+                
+                {/* Glow effect */}
+                <div className={cn(
+                  "absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300",
+                  isActive ? "opacity-20" : "group-hover:opacity-10"
+                )}
+                     style={{
+                       background: 'radial-gradient(circle, #00ffff20, transparent 70%)'
+                     }} />
+              </Link>
+            )
+          })}
         </div>
       </div>
+
+      {/* Custom animations */}
+      <style jsx>{`
+        @keyframes gradientShift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        
+        @keyframes borderGlow {
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 0.8; }
+        }
+      `}</style>
+      
+      {/* Import Orbitron font */}
+      <link 
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" 
+        rel="stylesheet" 
+      />
     </nav>
   )
 }
