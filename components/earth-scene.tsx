@@ -1,229 +1,250 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Stars, useTexture, useGLTF } from '@react-three/drei'
+import { OrbitControls, Stars, useTexture, useScroll } from '@react-three/drei'
 import * as THREE from 'three'
 
-// Earth component with enhanced brightness
+// Interactive Earth component with scroll-driven rotation and cursor response
 function Earth() {
   const earthRef = useRef<THREE.Mesh>(null)
   const earthTexture = useTexture('/earth-texture.jpg')
+  const scroll = useScroll()
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  
+  // Track mouse movement for cursor response
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      setMousePosition({
+        x: (event.clientX / window.innerWidth) * 2 - 1,
+        y: -(event.clientY / window.innerHeight) * 2 + 1
+      })
+    }
+    
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [])
   
   useFrame((state) => {
     if (earthRef.current) {
-      earthRef.current.rotation.y += 0.002 // Slow rotation
+      // Scroll-driven rotation (loops seamlessly)
+      const scrollRotation = scroll.offset * Math.PI * 4 // 2 full rotations
+      earthRef.current.rotation.y = scrollRotation
+      
+      // Cursor-responsive movement
+      const cursorInfluence = 0.1
+      earthRef.current.rotation.x = mousePosition.y * cursorInfluence
+      earthRef.current.rotation.z = mousePosition.x * cursorInfluence * 0.5
+      
+      // Subtle hover effect
+      const hoverOffset = Math.sin(state.clock.getElapsedTime() * 0.5) * 0.02
+      earthRef.current.position.y = hoverOffset
     }
   })
 
   return (
     <mesh ref={earthRef}>
-      <sphereGeometry args={[2, 64, 64]} />
+      <sphereGeometry args={[8, 128, 128]} />
       <meshStandardMaterial 
         map={earthTexture}
-        roughness={0.5}
-        metalness={0.1}
+        roughness={0.2}
+        metalness={0.05}
         emissive={new THREE.Color(0x111111)}
-        emissiveIntensity={0.1}
+        emissiveIntensity={0.3}
       />
     </mesh>
   )
 }
 
-// Enhanced satellite component with different models
-function Satellite({ 
-  orbitRadius, 
-  speed, 
-  inclination = 0, 
-  color = "#ffffff",
-  satelliteType = "cube"
-}: { 
-  orbitRadius: number
-  speed: number
-  inclination?: number
-  color?: string
-  satelliteType?: "cube" | "sphere" | "cylinder" | "complex"
-}) {
-  const satelliteRef = useRef<THREE.Mesh>(null)
-  const groupRef = useRef<THREE.Group>(null)
+// 3D Scene component that contains all Canvas elements
+function EarthScene3D() {
+  return (
+    <Canvas
+      camera={{ position: [0, 0, 15], fov: 45 }}
+      style={{ background: 'linear-gradient(to bottom, #000033, #1a1a4e)' }}
+    >
+      {/* Enhanced lighting for horizon effect */}
+      <ambientLight intensity={1.5} />
+      <directionalLight position={[5, 5, 5]} intensity={2.0} />
+      <pointLight position={[10, 10, 10]} intensity={1.5} />
+      <pointLight position={[-10, -10, -10]} intensity={1.0} />
+      
+      <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+      
+      <Earth />
+    </Canvas>
+  )
+}
+
+// Futuristic content overlay component (2D, no R3F hooks)
+function ContentOverlay() {
+  const [currentSection, setCurrentSection] = useState(0)
+  const [scrollProgress, setScrollProgress] = useState(0)
   
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y += speed
-      groupRef.current.rotation.x = inclination
+  const sections = [
+    {
+      title: "ACSA",
+      subtitle: "Advanced Communication Student Association",
+      description: "Exploring the frontiers of communication technology through innovation, collaboration, and cutting-edge research in electronics & communication.",
+      color: "#00ffff"
+    },
+    {
+      title: "About Us",
+      subtitle: "Our Mission",
+      description: "We are a community of passionate students dedicated to advancing communication technologies and fostering innovation in the field of electronics and telecommunications.",
+      color: "#ff00ff"
+    },
+    {
+      title: "Upcoming Events",
+      subtitle: "What's Next",
+      description: "Join us for exciting workshops, hackathons, and networking events. Stay tuned for our latest tech meetups and industry collaborations.",
+      color: "#ffff00"
+    },
+    {
+      title: "Join Us",
+      subtitle: "Be Part of the Future",
+      description: "Ready to explore the cutting edge of communication technology? Join ACSA and connect with like-minded innovators.",
+      color: "#00ff00"
     }
-  })
-
-  const renderSatelliteModel = () => {
-    switch (satelliteType) {
-      case "sphere":
-        return (
-          <mesh ref={satelliteRef} position={[orbitRadius, 0, 0]}>
-            <sphereGeometry args={[0.08, 16, 16]} />
-            <meshStandardMaterial color={color} />
-          </mesh>
-        )
-      case "cylinder":
-        return (
-          <mesh ref={satelliteRef} position={[orbitRadius, 0, 0]}>
-            <cylinderGeometry args={[0.05, 0.05, 0.3, 8]} />
-            <meshStandardMaterial color={color} />
-          </mesh>
-        )
-      case "complex":
-        return (
-          <group ref={satelliteRef} position={[orbitRadius, 0, 0]}>
-            {/* Main body */}
-            <mesh>
-              <boxGeometry args={[0.1, 0.1, 0.2]} />
-              <meshStandardMaterial color={color} />
-            </mesh>
-            {/* Solar panels */}
-            <mesh position={[0.15, 0, 0]}>
-              <boxGeometry args={[0.2, 0.05, 0.1]} />
-              <meshStandardMaterial color="#444444" />
-            </mesh>
-            <mesh position={[-0.15, 0, 0]}>
-              <boxGeometry args={[0.2, 0.05, 0.1]} />
-              <meshStandardMaterial color="#444444" />
-            </mesh>
-            {/* Antenna */}
-            <mesh position={[0, 0, 0.15]}>
-              <cylinderGeometry args={[0.01, 0.01, 0.1, 8]} />
-              <meshStandardMaterial color="#666666" />
-            </mesh>
-          </group>
-        )
-      default: // cube
-        return (
-          <mesh ref={satelliteRef} position={[orbitRadius, 0, 0]}>
-            <boxGeometry args={[0.1, 0.1, 0.3]} />
-            <meshStandardMaterial color={color} />
-          </mesh>
-        )
+  ]
+  
+  // Track scroll progress for content changes
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY
+      const windowHeight = window.innerHeight
+      const documentHeight = document.documentElement.scrollHeight - windowHeight
+      const progress = scrollTop / documentHeight
+      
+      setScrollProgress(progress)
+      
+      // Calculate current section based on scroll progress
+      const sectionIndex = Math.floor(progress * sections.length) % sections.length
+      setCurrentSection(sectionIndex)
     }
-  }
-
+    
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [sections.length])
+  
+  const currentContent = sections[currentSection]
+  
   return (
-    <group ref={groupRef}>
-      {renderSatelliteModel()}
-    </group>
+    <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+      <div className="text-center max-w-4xl mx-auto px-8">
+        {/* Futuristic glow effect */}
+        <div 
+          className="absolute inset-0 blur-3xl opacity-30"
+          style={{
+            background: `radial-gradient(circle, ${currentContent.color}20, transparent 70%)`,
+            transform: 'translate(-50%, -50%)',
+            left: '50%',
+            top: '50%'
+          }}
+        />
+        
+        {/* Main content */}
+        <div className="relative">
+          {/* Animated title */}
+          <h1 
+            className="text-8xl md:text-9xl font-bold mb-4 tracking-wider"
+            style={{
+              background: `linear-gradient(45deg, ${currentContent.color}, #ffffff)`,
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: `0 0 30px ${currentContent.color}40`
+            }}
+          >
+            {currentContent.title}
+          </h1>
+          
+          {/* Subtitle with glow */}
+          <h2 
+            className="text-2xl md:text-3xl font-semibold mb-6 text-white"
+            style={{
+              textShadow: `0 0 20px ${currentContent.color}`
+            }}
+          >
+            {currentContent.subtitle}
+          </h2>
+          
+          {/* Description with animated border */}
+          <div 
+            className="relative p-8 rounded-2xl backdrop-blur-sm"
+            style={{
+              background: 'rgba(0, 0, 0, 0.3)',
+              border: `2px solid ${currentContent.color}40`,
+              boxShadow: `0 0 50px ${currentContent.color}20`
+            }}
+          >
+            <p className="text-lg md:text-xl text-gray-200 leading-relaxed">
+              {currentContent.description}
+            </p>
+            
+            {/* Animated border effect */}
+            <div 
+              className="absolute inset-0 rounded-2xl"
+              style={{
+                background: `linear-gradient(45deg, transparent, ${currentContent.color}20, transparent)`,
+                animation: 'borderGlow 3s ease-in-out infinite'
+              }}
+            />
+          </div>
+          
+          {/* Scroll indicator */}
+          <div className="mt-12 flex justify-center">
+            <div className="flex space-x-2">
+              {sections.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentSection ? 'bg-white scale-125' : 'bg-gray-500'
+                  }`}
+                  style={{
+                    boxShadow: index === currentSection ? `0 0 10px ${currentContent.color}` : 'none'
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
-// Multiple satellites with diverse orbits and models
-function Satellites() {
-  const satellites = useMemo(() => [
-    // Low Earth Orbit (LEO) satellites
-    { 
-      orbitRadius: 3.2, 
-      speed: 0.015, 
-      inclination: 0.1, 
-      color: "#ff6b6b",
-      satelliteType: "complex" as const
-    },
-    { 
-      orbitRadius: 3.5, 
-      speed: 0.012, 
-      inclination: -0.2, 
-      color: "#4ecdc4",
-      satelliteType: "sphere" as const
-    },
-    // Medium Earth Orbit (MEO) satellites
-    { 
-      orbitRadius: 4.2, 
-      speed: 0.008, 
-      inclination: 0.3, 
-      color: "#45b7d1",
-      satelliteType: "cylinder" as const
-    },
-    { 
-      orbitRadius: 4.8, 
-      speed: 0.006, 
-      inclination: -0.4, 
-      color: "#96ceb4",
-      satelliteType: "complex" as const
-    },
-    // High Earth Orbit satellites
-    { 
-      orbitRadius: 5.5, 
-      speed: 0.004, 
-      inclination: 0.15, 
-      color: "#feca57",
-      satelliteType: "sphere" as const
-    },
-    { 
-      orbitRadius: 6.0, 
-      speed: 0.003, 
-      inclination: -0.25, 
-      color: "#ff9ff3",
-      satelliteType: "cube" as const
-    },
-    // Geostationary-like satellites
-    { 
-      orbitRadius: 6.8, 
-      speed: 0.002, 
-      inclination: 0.05, 
-      color: "#54a0ff",
-      satelliteType: "complex" as const
-    },
-    { 
-      orbitRadius: 7.2, 
-      speed: 0.0015, 
-      inclination: -0.1, 
-      color: "#5f27cd",
-      satelliteType: "cylinder" as const
-    }
-  ], [])
-
-  return (
-    <>
-      {satellites.map((sat, index) => (
-        <Satellite key={index} {...sat} />
-      ))}
-    </>
-  )
-}
-
-// Main Earth Scene component with enhanced lighting
+// Main Earth Scene component with full-page horizon
 export default function EarthScene() {
   return (
-    <div className="w-full h-screen relative">
-      <Canvas
-        camera={{ position: [0, 0, 8], fov: 60 }}
-        style={{ background: 'linear-gradient(to bottom, #000000, #1a1a2e)' }}
-        gl={{ 
-          toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.8
-        }}
-      >
-        {/* Enhanced lighting for brighter Earth */}
-        <ambientLight intensity={0.4} />
-        <hemisphereLight 
-          intensity={0.6} 
-          groundColor={new THREE.Color(0x000000)} 
-          color={new THREE.Color(0xffffff)} 
-        />
-        <pointLight position={[10, 10, 10]} intensity={1.2} />
-        <pointLight position={[-10, -10, -10]} intensity={0.8} />
-        <directionalLight 
-          position={[5, 5, 5]} 
-          intensity={0.5} 
-          castShadow 
-        />
+    <div className="w-full h-screen relative overflow-hidden">
+      {/* Full-page scrollable container */}
+      <div className="h-[400vh] relative">
+        {/* 3D Earth Scene */}
+        <div className="sticky top-0 h-screen">
+          <EarthScene3D />
+        </div>
         
-        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-        
-        <Earth />
-        <Satellites />
-        
-        <OrbitControls 
-          enableZoom={false}
-          enablePan={false}
-          autoRotate
-          autoRotateSpeed={0.5}
-        />
-      </Canvas>
+        {/* Content overlay */}
+        <ContentOverlay />
+      </div>
+      
+      {/* Custom scrollbar styling */}
+      <style jsx>{`
+        ::-webkit-scrollbar {
+          width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.3);
+        }
+        ::-webkit-scrollbar-thumb {
+          background: linear-gradient(45deg, #00ffff, #ff00ff);
+          border-radius: 4px;
+        }
+        @keyframes borderGlow {
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 0.8; }
+        }
+      `}</style>
     </div>
   )
 }
