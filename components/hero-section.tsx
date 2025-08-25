@@ -6,6 +6,7 @@ import { Stars, useTexture } from '@react-three/drei'
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Users } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import * as THREE from 'three'
 
 // Earth component with texture loading and proper animation
@@ -124,23 +125,21 @@ function ACSAIntro() {
         
         {/* Main content */}
         <div className="relative">
-          {/* Massive Futuristic ACSA title */}
-          <h1 
-            className={`text-8xl md:text-9xl font-black mb-6 tracking-[0.3em] uppercase leading-none transition-all duration-1000 ${
+          {/* ACSA wordmark image */}
+          <div
+            className={`mb-6 transition-all duration-1000 ${
               textVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
-            style={{
-              fontFamily: "'Orbitron', 'Arial', sans-serif",
-              background: 'linear-gradient(45deg, #00ffff, #ffffff, #00ffff)',
-              backgroundSize: '200% 200%',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              textShadow: '0 0 30px #00ffff, 0 0 60px #00ffff',
-              animation: textVisible ? 'gradientShift 3s ease-in-out infinite, textGlow 2s ease-in-out infinite alternate' : 'none'
-            }}
           >
-            ACSA
-          </h1>
+            <Image
+              src="/ACSA_white-logo_text.png"
+              alt="ACSA"
+              width={1000}
+              height={220}
+              priority
+              className="mx-auto h-auto w-[58vw] md:w-[42vw] max-w-3xl drop-shadow-[0_0_40px_rgba(0,255,255,0.8)] filter blur-[0.5px]"
+            />
+          </div>
           
           {/* Subtitle with futuristic styling */}
           <h2 
@@ -167,7 +166,12 @@ function ACSAIntro() {
               boxShadow: '0 0 30px #00ffff20, inset 0 0 30px rgba(0, 255, 255, 0.1)'
             }}
           >
-            <p className="text-base md:text-lg text-gray-200 leading-relaxed font-light">
+            <p className="text-base md:text-lg text-gray-200 leading-relaxed font-light"
+              style={{
+                fontFamily: "'Space Grotesk', 'Arial', sans-serif",
+                letterSpacing: '0.03em'
+              }}
+            >
               Exploring the frontiers of communication technology through innovation, collaboration, and cutting-edge research in electronics & communication.
             </p>
             
@@ -246,11 +250,14 @@ export default function HeroSection() {
           <directionalLight position={[5, 5, 5]} intensity={2.0} />
           <pointLight position={[10, 10, 10]} intensity={1.5} />
           
-          <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade speed={1} />
+          <Stars radius={100} depth={50} count={3200} factor={6} saturation={0} fade speed={0.8} />
           
           <Earth />
         </Canvas>
       </div>
+
+      {/* Neon circuits overlay */}
+      <div className="absolute inset-0 z-[1] pointer-events-none circuits-overlay" />
       
       {/* ACSA Introduction overlay */}
       <ACSAIntro />
@@ -271,11 +278,34 @@ export default function HeroSection() {
           0% { text-shadow: 0 0 30px #00ffff, 0 0 60px #00ffff; }
           100% { text-shadow: 0 0 50px #00ffff, 0 0 100px #00ffff; }
         }
+        @keyframes circuitsPan {
+          0% { background-position: 0% 0%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 100%; }
+        }
+        .circuits-overlay {
+          opacity: 0.22;
+          background:
+            radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.12), transparent 60%),
+            radial-gradient(circle at 80% 70%, rgba(0, 128, 255, 0.10), transparent 55%),
+            repeating-linear-gradient(0deg, rgba(0, 238, 255, 0.18) 0 1px, transparent 1px 60px),
+            repeating-linear-gradient(90deg, rgba(0, 238, 255, 0.12) 0 1px, transparent 1px 80px);
+          background-size: auto, auto, 100% 60px, 80px 100%;
+          animation: circuitsPan 40s linear infinite;
+        }
       `}</style>
       
-      {/* Import Orbitron font */}
+      {/* Import Orbitron, Michroma and Space Grotesk fonts */}
       <link 
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" 
+        rel="stylesheet" 
+      />
+      <link 
+        href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" 
+        rel="stylesheet" 
+      />
+      <link 
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" 
         rel="stylesheet" 
       />
     </div>

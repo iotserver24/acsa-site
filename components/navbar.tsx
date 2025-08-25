@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { useState, useEffect } from "react"
@@ -37,29 +38,16 @@ export function Navbar() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center">
-            <Link 
-              href="/" 
-              className="group relative"
-            >
-              <div className="text-3xl font-black tracking-[0.3em] uppercase transition-all duration-300 group-hover:scale-110"
-                   style={{
-                     fontFamily: "'Orbitron', 'Arial', sans-serif",
-                     background: 'linear-gradient(45deg, #00ffff, #ffffff, #00ffff)',
-                     backgroundSize: '200% 200%',
-                     WebkitBackgroundClip: 'text',
-                     WebkitTextFillColor: 'transparent',
-                     textShadow: '0 0 20px #00ffff, 0 0 40px #00ffff',
-                     animation: 'gradientShift 3s ease-in-out infinite'
-                   }}>
-                ACSA
-              </div>
-              <div className="absolute inset-0 blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-300"
-                   style={{
-                     background: 'radial-gradient(circle, #00ffff, transparent 70%)',
-                     transform: 'translate(-50%, -50%)',
-                     left: '50%',
-                     top: '50%'
-                   }} />
+            <Link href="/" className="group relative flex items-center">
+              <Image
+                src="/ACSA_white-logo.png"
+                alt="ACSA logo"
+                width={140}
+                height={40}
+                className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                priority
+              />
+              <span className="sr-only">ACSA</span>
             </Link>
           </div>
 

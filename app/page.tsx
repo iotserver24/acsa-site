@@ -12,6 +12,13 @@ export default function HomePage() {
   const [latestEvent, setLatestEvent] = useState<Event | null>(null)
   const [loading, setLoading] = useState(true)
 
+  // Visibility states for reveal animations
+  const [statsVisible, setStatsVisible] = useState(false)
+  const [aboutVisible, setAboutVisible] = useState(false)
+  const [missionVisible, setMissionVisible] = useState(false)
+
+  const statsRef = (typeof window !== 'undefined') ? (document?.createElement ? undefined : undefined) : undefined
+
   useEffect(() => {
     const fetchLatestEvent = async () => {
       try {
@@ -30,27 +37,74 @@ export default function HomePage() {
     fetchLatestEvent()
   }, [])
 
+  // Observe sections for reveal animation
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const observers: IntersectionObserver[] = []
+
+    const makeObserver = (
+      selector: string,
+      setVisible: (v: boolean) => void
+    ) => {
+      const el = document.querySelector(selector)
+      if (!el) return
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setVisible(true)
+              obs.unobserve(entry.target)
+            }
+          })
+        },
+        { threshold: 0.15 }
+      )
+      obs.observe(el)
+      observers.push(obs)
+    }
+
+    makeObserver('#stats-section', setStatsVisible)
+    makeObserver('#about-left', setAboutVisible)
+    makeObserver('#mission-card', setMissionVisible)
+
+    return () => observers.forEach((o) => o.disconnect())
+  }, [])
+
   return (
-    <div className="min-h-screen bg-black relative">
+    <div
+      className="min-h-screen relative"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(0,0,0,0.88), rgba(0,0,0,0.88)), url('/glowing-circuit-matrix-stockcake.jpg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
 
       {/* 3D Earth Hero Section */}
       <HeroSection />
 
       {/* Stats Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 relative z-10">
+      <section id="stats-section" className={`py-16 px-4 sm:px-6 lg:px-8 relative z-10`}>
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center group hover:scale-105 transition-all duration-300">
-              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-2 group-hover:animate-pulse">200+</div>
-              <div className="text-gray-300">Active Members</div>
+          <div className={`grid grid-cols-1 md:grid-cols-3 gap-8`}>
+            <div className={`text-center group hover:scale-105 transition-all duration-500 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-2 group-hover:animate-pulse"
+                   style={{ fontFamily: "'Orbitron', 'Arial', sans-serif", letterSpacing: '0.06em' }}>200+</div>
+              <div className="text-gray-300" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>Active Members</div>
             </div>
-            <div className="text-center group hover:scale-105 transition-all duration-300">
-              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-2 group-hover:animate-pulse">50+</div>
-              <div className="text-gray-300">Projects Completed</div>
+            <div className={`text-center group hover:scale-105 transition-all duration-500 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-2 group-hover:animate-pulse"
+                   style={{ fontFamily: "'Orbitron', 'Arial', sans-serif", letterSpacing: '0.06em' }}>50+</div>
+              <div className="text-gray-300" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>Projects Completed</div>
             </div>
-            <div className="text-center group hover:scale-105 transition-all duration-300">
-              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-2 group-hover:animate-pulse">5+</div>
-              <div className="text-gray-300">Years of Excellence</div>
+            <div className={`text-center group hover:scale-105 transition-all duration-500 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-2 group-hover:animate-pulse"
+                   style={{ fontFamily: "'Orbitron', 'Arial', sans-serif", letterSpacing: '0.06em' }}>5+</div>
+              <div className="text-gray-300" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>Years of Excellence</div>
             </div>
           </div>
         </div>
@@ -59,9 +113,9 @@ export default function HomePage() {
       {/* About Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">About ACSA</h2>
-            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+          <div className={`text-center mb-16 ${aboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'} transition-all duration-700`} id="about-left">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6" style={{ fontFamily: "'Orbitron', 'Arial', sans-serif", letterSpacing: '0.06em' }}>About ACSA</h2>
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif", letterSpacing: '0.02em' }}>
               Empowering the next generation of communication technology innovators through hands-on learning and
               industry collaboration
             </p>
@@ -69,12 +123,12 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
             <div className="space-y-6">
-              <p className="text-lg text-gray-300 leading-relaxed">
+              <p className="text-lg text-gray-300 leading-relaxed" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>
                 The Advanced Communication Student Association (ACSA) is a vibrant community of passionate students from
                 the Electronics & Communication (Advanced Communication Tech) branch. We serve as the bridge between
                 academic excellence and industry innovation.
               </p>
-              <p className="text-lg text-gray-300 leading-relaxed">
+              <p className="text-lg text-gray-300 leading-relaxed" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>
                 Our association focuses on emerging technologies like 5G/6G networks, IoT systems, satellite
                 communications, and AI-driven communication solutions. Through workshops, hackathons, and research
                 projects, we prepare students for the future of communication technology.
@@ -99,14 +153,14 @@ export default function HomePage() {
               </div>
             </div>
 
-            <Card className="glass-card rounded-2xl hover:shadow-cyan-500/20 hover:shadow-2xl transition-all duration-500 hover:scale-105 bg-black/20 backdrop-blur-sm border-cyan-400/20">
+            <Card className={`glass-card rounded-2xl hover:shadow-cyan-500/20 hover:shadow-2xl transition-all duration-700 hover:scale-105 bg-black/20 backdrop-blur-sm border-cyan-400/20 ${missionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} id="mission-card">
               <CardHeader>
-                <CardTitle className="text-cyan-400 text-2xl">Our Mission</CardTitle>
-                <CardDescription className="text-gray-300 text-lg">
+                <CardTitle className="text-cyan-400 text-2xl" style={{ fontFamily: "'Orbitron', 'Arial', sans-serif", letterSpacing: '0.06em' }}>Our Mission</CardTitle>
+                <CardDescription className="text-gray-300 text-lg" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>
                   Building tomorrow's communication leaders today
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-6" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>
                 <p className="text-gray-300 leading-relaxed">
                   To create a collaborative ecosystem where students explore cutting-edge communication technologies,
                   develop practical skills, and build meaningful industry connections.
