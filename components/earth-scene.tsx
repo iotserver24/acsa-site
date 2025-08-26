@@ -5,6 +5,67 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Stars, useTexture, useScroll } from '@react-three/drei'
 import * as THREE from 'three'
 
+// Animated star particles component
+function StarParticles() {
+  const particlesRef = useRef<THREE.Points>(null)
+  
+  useFrame((state) => {
+    if (particlesRef.current) {
+      particlesRef.current.rotation.y += 0.001
+      particlesRef.current.rotation.x += 0.0005
+    }
+  })
+
+  // Create star particles
+  const particleCount = 200
+  const positions = new Float32Array(particleCount * 3)
+  const colors = new Float32Array(particleCount * 3)
+  
+  for (let i = 0; i < particleCount; i++) {
+    const i3 = i * 3
+    // Random positions in a sphere around the Earth
+    const radius = 20 + Math.random() * 30
+    const theta = Math.random() * Math.PI * 2
+    const phi = Math.random() * Math.PI
+    
+    positions[i3] = radius * Math.sin(phi) * Math.cos(theta)
+    positions[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta)
+    positions[i3 + 2] = radius * Math.cos(phi)
+    
+    // Neon blue colors with some variation
+    const blueIntensity = 0.8 + Math.random() * 0.2
+    colors[i3] = 0.0 // R
+    colors[i3 + 1] = blueIntensity // G
+    colors[i3 + 2] = 1.0 // B
+  }
+
+  return (
+    <points ref={particlesRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={particleCount}
+          array={positions}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-color"
+          count={particleCount}
+          array={colors}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.5}
+        vertexColors
+        transparent
+        opacity={0.8}
+        sizeAttenuation
+      />
+    </points>
+  )
+}
+
 // Interactive Earth component with scroll-driven rotation and cursor response
 function Earth() {
   const earthRef = useRef<THREE.Mesh>(null)
@@ -49,8 +110,8 @@ function Earth() {
         map={earthTexture}
         roughness={0.2}
         metalness={0.05}
-        emissive={new THREE.Color(0x111111)}
-        emissiveIntensity={0.3}
+        emissive={new THREE.Color(0x004080)}
+        emissiveIntensity={0.4}
       />
     </mesh>
   )
@@ -69,9 +130,32 @@ function EarthScene3D() {
       <pointLight position={[10, 10, 10]} intensity={1.5} />
       <pointLight position={[-10, -10, -10]} intensity={1.0} />
       
-      <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+      {/* Enhanced stars with neon blue colors */}
+      <Stars 
+        radius={100} 
+        depth={50} 
+        count={8000} 
+        factor={6} 
+        saturation={0.3} 
+        fade 
+        speed={1.5}
+        color="#00ffff"
+      />
+      
+      {/* Additional star field for more density */}
+      <Stars 
+        radius={150} 
+        depth={30} 
+        count={3000} 
+        factor={3} 
+        saturation={0.1} 
+        fade 
+        speed={0.8}
+        color="#0080ff"
+      />
       
       <Earth />
+      <StarParticles />
     </Canvas>
   )
 }
