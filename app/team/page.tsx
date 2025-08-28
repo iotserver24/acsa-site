@@ -208,6 +208,17 @@ const teamMembers = [
       linkedin: "https://www.linkedin.com/in/mohammed-ibrahim-zahi-1a77b1291?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
     },
   },
+  {
+    id: 18,
+    name: "Darshan Sadashivanagouda Linganagoudra",
+    role: "CR (3rd Year ACT)",
+    usn: "NNM23AC016",
+    image: "/team/nnm23ac016.png",
+    social: {
+      instagram: "https://www.instagram.com/darshan.s.linganagoudra?igsh=dHF5ZXc0bm9zc2hk",
+      linkedin: "https://www.linkedin.com/in/darshan-sadashivanagouda-linganagoudra-220367311?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    },
+  },
 ]
 
 export default function TeamPage() {
