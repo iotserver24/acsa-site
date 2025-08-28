@@ -585,7 +585,6 @@ export default function AdminPage() {
                           onChange={(e) => setEventForm({...eventForm, date: e.target.value})}
                           required
                           className="bg-gray-800 border-gray-600 text-white"
-                          min={new Date().toISOString().split('T')[0]}
                         />
                       </div>
                       <div>
