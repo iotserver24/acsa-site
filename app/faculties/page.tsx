@@ -1,244 +1,226 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Mail, Phone, MapPin, Award, BookOpen } from "lucide-react"
+import { Mail, Phone, MapPin, Award, BookOpen, Calendar, GraduationCap } from "lucide-react"
 
 const facultyAdvisors = [
   {
     id: 1,
-    name: "Dr. Rajesh Kumar",
-    designation: "Professor & Head of Department",
-    department: "Electronics & Communication Engineering",
-    specialization: ["5G Networks", "Wireless Communications", "Signal Processing"],
-    experience: "20+ years",
-    education: "Ph.D. in Electronics Engineering, IIT Delhi",
-    image: "/dr-rajesh-kumar-portrait.png",
-    bio: "Leading researcher in 5G technology with extensive industry collaboration experience.",
+    name: "Dr. DURGA PRASAD",
+    designation: "Professor & Head (Incharge) and HoD of A.C.T department",
+    department: "Advanced Communication Technology",
+    specialization: ["Wireless Body Sensor Networks", "Power Electronics", "Electronics Engineering"],
+    experience: "24+ years",
+    education: "Ph.D. in Wireless Body Sensor Networks from Manipal Academy of Higher Education, Manipal",
+    image: "/faculty/durgaprasadsir.png",
+    bio: "Leading expert in Wireless Body Sensor Networks with extensive research experience in power electronics and electronics engineering.",
     contact: {
-      email: "rajesh.kumar@university.edu",
-      phone: "+91-9876543210",
-      office: "ECE Block, Room 301",
+      email: "durgaprasad@nitte.edu.in",
+      phone: "+91-XXXXXXXXXX",
+      office: "A.C.T Department, NMAM Institute of Technology",
     },
-    achievements: ["IEEE Senior Member", "50+ Research Publications", "Best Teacher Award 2023"],
+    achievements: ["Ph.D. in Wireless Body Sensor Networks", "M.E. in Power Electronics", "B.E. in Electronics", "24+ Years of Experience"],
+    joiningDate: "10-03-2000",
+    qualifications: [
+      "Ph.D. in the area of Wireless Body Sensor Networks from Manipal Academy of Higher Education, Manipal",
+      "M.E. in Power Electronics from B.M.S. College of Engineering, Bangalore in the year 2000",
+      "B.E. in Electronics from University Visvesvaraya College of Engineering, Bangalore in the year 1995"
+    ]
   },
   {
     id: 2,
-    name: "Dr. Priya Mehta",
+    name: "Dr. MADAN H T",
     designation: "Associate Professor",
-    department: "Electronics & Communication Engineering",
-    specialization: ["VLSI Design", "Embedded Systems", "IoT Applications"],
+    department: "Advanced Communication Technology",
+    specialization: ["Wireless Communication", "Artificial Intelligence and Robotics", "Autonomous Systems", "Computer Network Engineering"],
     experience: "15+ years",
-    education: "Ph.D. in VLSI Design, IISc Bangalore",
-    image: "/dr-priya-mehta-portrait.png",
-    bio: "Expert in VLSI design and embedded systems with focus on IoT innovations.",
+    education: "Ph.D. in Electronics and Communication Engineering from REVA University, Bengaluru",
+    image: "/faculty/madansir.png",
+    bio: "Distinguished researcher with expertise in wireless communication, AI, robotics, and autonomous systems. Published approximately 15 research papers in reputed international journals and conferences.",
     contact: {
-      email: "priya.mehta@university.edu",
-      phone: "+91-9876543211",
-      office: "ECE Block, Room 205",
+      email: "madan.ht@nitte.edu.in",
+      phone: "+91-XXXXXXXXXX",
+      office: "A.C.T Department, NMAM Institute of Technology",
     },
-    achievements: ["Women in Engineering Award", "30+ Research Papers", "Industry Collaboration Expert"],
-  },
-  {
-    id: 3,
-    name: "Dr. Michael Anderson",
-    designation: "Assistant Professor",
-    department: "Electronics & Communication Engineering",
-    specialization: ["RF & Microwave Engineering", "Antenna Design", "Satellite Communications"],
-    experience: "12+ years",
-    education: "Ph.D. in RF Engineering, Stanford University",
-    image: "/dr-michael-anderson-portrait.png",
-    bio: "Specialist in RF engineering and satellite communication systems.",
-    contact: {
-      email: "michael.anderson@university.edu",
-      phone: "+91-9876543212",
-      office: "ECE Block, Room 158",
-    },
-    achievements: ["NASA Research Collaboration", "25+ IEEE Publications", "Innovation in Teaching Award"],
-  },
-  {
-    id: 4,
-    name: "Dr. Arun Sharma",
-    designation: "Associate Professor",
-    department: "Electronics & Communication Engineering",
-    specialization: ["Digital Signal Processing", "Image Processing", "Machine Learning"],
-    experience: "18+ years",
-    education: "Ph.D. in Signal Processing, IIT Bombay",
-    image: "/dr-arun-sharma-portrait.png",
-    bio: "Research focus on advanced signal processing and AI applications in communications.",
-    contact: {
-      email: "arun.sharma@university.edu",
-      phone: "+91-9876543213",
-      office: "ECE Block, Room 267",
-    },
-    achievements: ["Best Research Paper Award", "40+ International Publications", "AI Research Grant Recipient"],
-  },
-  {
-    id: 5,
-    name: "Dr. Sarah Chen",
-    designation: "Assistant Professor",
-    department: "Electronics & Communication Engineering",
-    specialization: ["Optical Communications", "Photonics", "Fiber Optic Networks"],
-    experience: "10+ years",
-    education: "Ph.D. in Optical Engineering, MIT",
-    image: "/dr-sarah-chen-portrait.png",
-    bio: "Leading expert in optical communication systems and photonic technologies.",
-    contact: {
-      email: "sarah.chen@university.edu",
-      phone: "+91-9876543214",
-      office: "ECE Block, Room 189",
-    },
-    achievements: ["Photonics Society Award", "20+ Journal Publications", "Industry Partnership Leader"],
-  },
-  {
-    id: 6,
-    name: "Dr. Vikram Patel",
-    designation: "Professor",
-    department: "Electronics & Communication Engineering",
-    specialization: ["Network Security", "Cryptography", "Cyber Security"],
-    experience: "22+ years",
-    education: "Ph.D. in Computer Networks, IIT Madras",
-    image: "/dr-vikram-patel-portrait.png",
-    bio: "Cybersecurity expert with extensive research in network security protocols.",
-    contact: {
-      email: "vikram.patel@university.edu",
-      phone: "+91-9876543215",
-      office: "ECE Block, Room 312",
-    },
-    achievements: ["Cybersecurity Excellence Award", "60+ Security Publications", "Government Advisory Panel Member"],
+    achievements: ["15+ Years Teaching Experience", "15+ Research Publications", "Interdisciplinary Research Expert", "Multiple Institution Experience"],
+    joiningDate: "24-07-2024",
+    qualifications: [
+      "Ph.D. in Electronics and Communication Engineering from REVA University, Bengaluru",
+      "M.Tech in Computer Network Engineering from National Institute of Engineering, Mysuru affiliated to Visvesvaraya Technological University, Belagavi",
+      "B.E in Electronics and Communication Engineering from Malnad College of Engineering, Hassan affiliated to Visvesvaraya Technological University"
+    ]
   },
 ]
 
 export default function FacultiesPage() {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
 
       {/* Header Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Our <span className="text-primary">Faculty Advisors</span>
-          </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Distinguished educators and researchers guiding the next generation of communication engineers
-          </p>
+          <div className="animate-fade-in-up">
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 bg-gradient-to-r from-white via-primary to-blue-400 bg-clip-text text-transparent">
+              Our <span className="text-primary">Faculty Advisors</span>
+            </h1>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto animate-fade-in-up delay-200">
+              Distinguished educators and researchers guiding the next generation of communication engineers
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Faculty Grid */}
-      <section className="pb-20 px-4 sm:px-6 lg:px-8">
+      <section className="relative pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {facultyAdvisors.map((faculty) => (
-              <Card
+            {facultyAdvisors.map((faculty, index) => (
+              <div
                 key={faculty.id}
-                className="glass rounded-2xl group hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl hover:shadow-primary/20 border-white/10 hover:border-primary/30"
+                className="animate-fade-in-up"
+                style={{ animationDelay: `${index * 200}ms` }}
               >
-                <CardContent className="p-8">
-                  <div className="flex flex-col md:flex-row gap-6">
-                    {/* Profile Image */}
-                    <div className="flex-shrink-0">
-                      <div className="w-32 h-32 rounded-2xl overflow-hidden ring-2 ring-primary/20 group-hover:ring-primary/50 transition-all duration-300">
-                        <img
-                          src={faculty.image || "/placeholder.svg"}
-                          alt={faculty.name}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                        />
+                <Card className="glass rounded-2xl group hover:scale-[1.02] transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 border-white/10 hover:border-primary/30 bg-black/20 backdrop-blur-sm relative overflow-hidden">
+                  {/* Glow Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+                  
+                  <CardContent className="p-8 relative z-10">
+                    <div className="flex flex-col md:flex-row gap-6">
+                      {/* Profile Image */}
+                      <div className="flex-shrink-0">
+                        <div className="w-32 h-32 rounded-2xl overflow-hidden ring-4 ring-primary/20 group-hover:ring-primary/50 transition-all duration-500">
+                          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                          <img
+                            src={faculty.image || "/placeholder.svg"}
+                            alt={faculty.name}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Faculty Info */}
+                      <div className="flex-1 space-y-4">
+                        <div>
+                          <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors duration-300 mb-1">
+                            {faculty.name}
+                          </h3>
+                          <Badge 
+                            variant="secondary" 
+                            className="bg-primary/20 text-primary border-primary/30 group-hover:bg-primary/30 group-hover:border-primary/50 transition-all duration-300 text-sm font-medium mb-2"
+                          >
+                            {faculty.designation}
+                          </Badge>
+                          <p className="text-sm text-gray-300">{faculty.department}</p>
+                        </div>
+
+                        <p className="text-gray-300 leading-relaxed">{faculty.bio}</p>
+
+                        {/* Joining Date */}
+                        <div className="flex items-center gap-2 text-sm text-gray-300">
+                          <Calendar className="h-4 w-4 text-primary" />
+                          <span>Joined: {faculty.joiningDate}</span>
+                        </div>
+
+                        {/* Specializations */}
+                        <div>
+                          <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
+                            <BookOpen className="h-4 w-4 text-primary" />
+                            Specializations
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {faculty.specialization.map((spec, index) => (
+                              <Badge
+                                key={index}
+                                variant="outline"
+                                className="text-xs border-white/20 text-white/80 hover:border-primary/50 hover:text-primary transition-colors"
+                              >
+                                {spec}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Educational Qualifications */}
+                        <div>
+                          <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
+                            <GraduationCap className="h-4 w-4 text-primary" />
+                            Educational Qualifications
+                          </h4>
+                          <ul className="space-y-1">
+                            {faculty.qualifications.map((qualification, index) => (
+                              <li key={index} className="text-sm text-gray-300 flex items-start gap-2">
+                                <span className="w-1 h-1 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                                <span>{qualification}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Achievements */}
+                        <div>
+                          <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
+                            <Award className="h-4 w-4 text-primary" />
+                            Key Achievements
+                          </h4>
+                          <ul className="space-y-1">
+                            {faculty.achievements.map((achievement, index) => (
+                              <li key={index} className="text-sm text-gray-300 flex items-center gap-2">
+                                <span className="w-1 h-1 bg-primary rounded-full"></span>
+                                {achievement}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Contact Info */}
+                        <div className="pt-4 border-t border-white/10">
+                          <div className="grid grid-cols-1 gap-3 text-sm">
+                            <div className="flex items-center gap-2 text-gray-300">
+                              <Mail className="h-4 w-4 text-primary" />
+                              <a
+                                href={`mailto:${faculty.contact.email}`}
+                                className="hover:text-primary transition-colors truncate"
+                              >
+                                {faculty.contact.email}
+                              </a>
+                            </div>
+                            <div className="flex items-center gap-2 text-gray-300">
+                              <MapPin className="h-4 w-4 text-primary" />
+                              <span>{faculty.contact.office}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Experience & Education */}
+                        <div className="pt-2">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                            <div>
+                              <span className="text-white font-medium">Experience: </span>
+                              <span className="text-gray-300">{faculty.experience}</span>
+                            </div>
+                            <div>
+                              <span className="text-white font-medium">Education: </span>
+                              <span className="text-gray-300">Ph.D. Level</span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-
-                    {/* Faculty Info */}
-                    <div className="flex-1 space-y-4">
-                      <div>
-                        <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors mb-1">
-                          {faculty.name}
-                        </h3>
-                        <p className="text-primary font-medium">{faculty.designation}</p>
-                        <p className="text-sm text-gray-300">{faculty.department}</p>
-                      </div>
-
-                      <p className="text-gray-300 leading-relaxed">{faculty.bio}</p>
-
-                      {/* Specializations */}
-                      <div>
-                        <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
-                          <BookOpen className="h-4 w-4 text-primary" />
-                          Specializations
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                          {faculty.specialization.map((spec, index) => (
-                            <Badge
-                              key={index}
-                              variant="outline"
-                              className="text-xs border-white/20 text-white/80 hover:border-primary/50 hover:text-primary transition-colors"
-                            >
-                              {spec}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Achievements */}
-                      <div>
-                        <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
-                          <Award className="h-4 w-4 text-primary" />
-                          Key Achievements
-                        </h4>
-                        <ul className="space-y-1">
-                          {faculty.achievements.map((achievement, index) => (
-                            <li key={index} className="text-sm text-gray-300 flex items-center gap-2">
-                              <span className="w-1 h-1 bg-primary rounded-full"></span>
-                              {achievement}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      {/* Contact Info */}
-                      <div className="pt-4 border-t border-white/10">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                          <div className="flex items-center gap-2 text-gray-300">
-                            <Mail className="h-4 w-4 text-primary" />
-                            <a
-                              href={`mailto:${faculty.contact.email}`}
-                              className="hover:text-primary transition-colors truncate"
-                            >
-                              {faculty.contact.email}
-                            </a>
-                          </div>
-                          <div className="flex items-center gap-2 text-gray-300">
-                            <Phone className="h-4 w-4 text-primary" />
-                            <span>{faculty.contact.phone}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-gray-300 sm:col-span-2">
-                            <MapPin className="h-4 w-4 text-primary" />
-                            <span>{faculty.contact.office}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Education & Experience */}
-                      <div className="pt-2">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                          <div>
-                            <span className="text-white font-medium">Experience: </span>
-                            <span className="text-gray-300">{faculty.experience}</span>
-                          </div>
-                          <div>
-                            <span className="text-white font-medium">Education: </span>
-                            <span className="text-gray-300">{faculty.education}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 border-t border-white/10">
+      {/* <section className="relative py-20 px-4 sm:px-6 lg:px-8 border-t border-white/10">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Academic Guidance</h2>
           <p className="text-xl text-gray-300 mb-8">
@@ -246,7 +228,7 @@ export default function FacultiesPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="mailto:faculty@acsa.edu"
+              href="mailto:durgaprasad@nitte.edu.in"
               className="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
             >
               Contact Faculty
@@ -259,7 +241,7 @@ export default function FacultiesPage() {
             </a>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   )
 }
