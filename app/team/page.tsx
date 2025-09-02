@@ -13,7 +13,7 @@ type TeamMember = {
   image: string
   social: {
     instagram: string
-    linkedin: string
+    linkedin?: string
     github?: string
   }
 }
@@ -44,7 +44,7 @@ const teamMembers = [
   {
     id: 3,
     name: "Mohammed Farhan Riaz",
-    role: "Technical Head",
+    role: "Technical Lead",
     usn: "NNM23AC034",
     image: "/team/nnm23ac034.png",
     social: {
@@ -56,9 +56,9 @@ const teamMembers = [
   {
     id: 4,
     name: "Anish Kumar",
-    role: "Technical Co-Head",
+    role: "Technical Co-Lead",
     usn: "NNM24AC008",
-    image: "/team/nnm24ac008.png",
+    image: "/team/nnm24ac008.jpg",
     social: {
       instagram: "https://www.instagram.com/anish_kumar1006/",
       linkedin: "https://www.linkedin.com/in/anish-kumar-1a5bb133a/",
@@ -100,6 +100,28 @@ const teamMembers = [
   },
   {
     id: 8,
+    name: "Mohammed Ibrahim Zahi",
+    role: "Treasurer",
+    usn: "NNM23AC035",
+    image: "/team/nnm23ac035.png",
+    social: {
+      instagram: "https://www.instagram.com/_ibrahimzahi?utm_source=qr&igsh=MXVpMTF0MHMza3dtNg==",
+      linkedin: "https://www.linkedin.com/in/mohammed-ibrahim-zahi-1a77b1291?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    },
+  },
+  {
+    id: 9,
+    name: "Sonal Hegde",
+    role: "Joint Treasurer",
+    usn: "NNM24AC050",
+    image: "/team/nnm24ac050.jpeg",
+    social: {
+      instagram: "https://www.instagram.com/_sonalhegde?igsh=MW54d2NmbnA0dGxtcQ%3D%3D&utm_source=qr",
+      linkedin: "https://www.linkedin.com/in/sonalhegde?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+    },
+  },
+  {
+    id: 10,
     name: "Akash K M",
     role: "Social Media Head",
     usn: "NNM23AC004",
@@ -110,7 +132,7 @@ const teamMembers = [
     },
   },
   {
-    id: 9,
+    id: 11,
     name: "Manvith",
     role: "Social Media Co-Head",
     usn: "NNM24AC026",
@@ -121,7 +143,7 @@ const teamMembers = [
     },
   },
   {
-    id: 10,
+    id: 12,
     name: "Manish",
     role: "Social Media Co-Head",
     usn: "NNM24AC025",
@@ -129,28 +151,6 @@ const teamMembers = [
     social: {
       instagram: "https://www.instagram.com/manish__achar_?igsh=dm1uaTZyZWxodDF0",
       linkedin: "https://www.linkedin.com/in/manish-achar-23a8a635a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-    },
-  },
-  {
-    id: 11,
-    name: "Nidish Shetty",
-    role: "Sports Head",
-    usn: "NNM23AC040",
-    image: "/team/nnm23ac040.JPG",
-    social: {
-      instagram: "https://www.instagram.com/shetty.nidhish18?utm_source=qr&igsh=MTRubnhldGxpcWh1eQ==",
-      linkedin: "https://www.linkedin.com/in/nidhish-shetty-21968b356?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-    },
-  },
-  {
-    id: 12,
-    name: "Hithesh P M",
-    role: "Sports Co-Head",
-    usn: "NNM24AC019",
-    image: "/team/nnm24ac019.jpg",
-    social: {
-      instagram: "https://www.instagram.com/_hithesh_polya?igsh=MXN3NXBsd2xvejZrOA==",
-      linkedin: "#",
     },
   },
   {
@@ -188,6 +188,39 @@ const teamMembers = [
   },
   {
     id: 16,
+    name: "Chinmay Shetty",
+    role: "Event Management Head",
+    usn: "NNM23AC011",
+    image: "/team/nnm23ac012.JPG",
+    social: {
+      instagram: "https://www.instagram.com/i.chinn.x?igsh=MXRvMGo4ODRtMnd4bw==",
+      linkedin: "https://www.linkedin.com/in/chinmay-shetty-u-786a15254?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    },
+  },
+  {
+    id: 17,
+    name: "Nidish Shetty",
+    role: "Sports Head",
+    usn: "NNM23AC040",
+    image: "/team/nnm23ac040.JPG",
+    social: {
+      instagram: "https://www.instagram.com/shetty.nidhish18?utm_source=qr&igsh=MTRubnhldGxpcWh1eQ==",
+      linkedin: "https://www.linkedin.com/in/nidhish-shetty-21968b356?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    },
+  },
+  {
+    id: 18,
+    name: "Hithesh P M",
+    role: "Sports Co-Head",
+    usn: "NNM24AC019",
+    image: "/team/nnm24ac019.jpg",
+    social: {
+      instagram: "https://www.instagram.com/_hithesh_polya?igsh=MXN3NXBsd2xvejZrOA==",
+      linkedin: "#",
+    },
+  },
+  {
+    id: 19,
     name: "Ashlesh N Acharya",
     role: "2nd Year CR",
     usn: "NNM24AC010",
@@ -198,18 +231,7 @@ const teamMembers = [
     },
   },
   {
-    id: 17,
-    name: "Mohammed Ibrahim Zahi",
-    role: "Tech Team",
-    usn: "NNM23AC035",
-    image: "/team/nnm23ac035.png",
-    social: {
-      instagram: "https://www.instagram.com/_ibrahimzahi?utm_source=qr&igsh=MXVpMTF0MHMza3dtNg==",
-      linkedin: "https://www.linkedin.com/in/mohammed-ibrahim-zahi-1a77b1291?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-    },
-  },
-  {
-    id: 18,
+    id: 20,
     name: "Darshan Sadashivanagouda Linganagoudra",
     role: "CR (3rd Year ACT)",
     usn: "NNM23AC016",
@@ -217,6 +239,17 @@ const teamMembers = [
     social: {
       instagram: "https://www.instagram.com/darshan.s.linganagoudra?igsh=dHF5ZXc0bm9zc2hk",
       linkedin: "https://www.linkedin.com/in/darshan-sadashivanagouda-linganagoudra-220367311?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    },
+  },
+  {
+    id: 21,
+    name: "Jevin Lesten Dsouza",
+    role: "1st Year CR",
+    usn: "NU25T23",
+    image: "/team/nu25t23.png",
+    social: {
+      instagram: "https://www.instagram.com/jevin.dsouza?igsh=YzhoZWd5dnpmeWR6&utm_source=qr",
+      linkedin: "https://www.linkedin.com/in/jevin-undefined-973344304?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
     },
   },
 ]
