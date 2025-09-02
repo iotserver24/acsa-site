@@ -97,15 +97,19 @@ export default function EventsPage() {
                 {upcomingEvents.map((event) => (
                   <Card
                     key={event.id}
-                    className="glass-card rounded-2xl hover:shadow-cyan-500/20 hover:shadow-xl transition-all duration-500 hover:scale-105 bg-black/20 backdrop-blur-sm border-cyan-400/20"
+                    className="glass-card rounded-2xl hover:shadow-cyan-500/20 hover:shadow-xl transition-all duration-500 hover:scale-105 bg-black/20 backdrop-blur-sm border-cyan-400/20 overflow-hidden"
                   >
                     <div className="md:flex">
-                      <div className="md:w-2/5">
+                      <div className="md:w-2/5 relative">
                         <img
                           src={event.image || "/placeholder.svg"}
                           alt={event.title}
                           className="w-full h-48 md:h-full object-cover rounded-t-2xl md:rounded-l-2xl md:rounded-t-none"
                         />
+                        {/* Liquid glass blur overlay on the right side */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/20 pointer-events-none" />
+                        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-cyan-400/10 to-transparent backdrop-blur-sm liquid-glass" />
+                        <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-cyan-300/20 to-transparent backdrop-blur-md liquid-glass" />
                       </div>
                       <div className="md:w-3/5 p-6">
                         <div className="flex-1">
@@ -121,7 +125,12 @@ export default function EventsPage() {
                           </div>
 
                           <h3 className="text-2xl font-bold mb-3 text-white font-heading">{event.title}</h3>
-                          <p className="text-gray-300 mb-6 leading-relaxed font-mono text-base">{event.description}</p>
+                          <p className="text-gray-300 mb-6 leading-relaxed font-mono text-base">
+                            {event.description.length > 150 
+                              ? `${event.description.substring(0, 150)}...` 
+                              : event.description
+                            }
+                          </p>
 
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                             <div className="flex items-center gap-2 text-gray-300">
@@ -160,12 +169,19 @@ export default function EventsPage() {
                             )}
                           </div>
 
-                          <Link href={`/events/register/${event.id}`}>
-                            <Button className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-medium py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 font-heading">
-                              Register Now
-                              <ArrowRight className="w-4 h-4 ml-2" />
-                            </Button>
-                          </Link>
+                          <div className="flex gap-3 mb-4">
+                            <Link href={`/events/${event.id}`} className="flex-1">
+                              <Button variant="outline" className="w-full border-cyan-400/30 text-cyan-400 hover:bg-cyan-400/10 font-medium py-3 rounded-xl transition-all duration-300 font-heading">
+                                View Details
+                              </Button>
+                            </Link>
+                            <Link href={`/events/register/${event.id}`} className="flex-1">
+                              <Button className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-medium py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 font-heading">
+                                Register Now
+                                <ArrowRight className="w-4 h-4 ml-2" />
+                              </Button>
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -193,17 +209,36 @@ export default function EventsPage() {
                 {pastEvents.map((event) => (
                   <Card
                     key={event.id}
-                    className="glass-card rounded-2xl hover:shadow-gray-500/20 hover:shadow-xl transition-all duration-500 hover:scale-105 bg-black/20 backdrop-blur-sm border-gray-400/20"
+                    className="glass-card rounded-2xl hover:shadow-gray-500/20 hover:shadow-xl transition-all duration-500 hover:scale-105 bg-black/20 backdrop-blur-sm border-gray-400/20 overflow-hidden"
                   >
-                    <div className="p-6">
-                      <div className="mb-4">
-                        <span className="px-3 py-1 bg-gray-500/20 text-gray-300 rounded-full text-sm font-medium font-mono">
-                          {event.category}
-                        </span>
+                    <div className="relative">
+                      {/* Half image with liquid glass effect */}
+                      <div className="relative h-48 w-full">
+                        <img
+                          src={event.image || "/placeholder.svg"}
+                          alt={event.title}
+                          className="w-full h-full object-cover"
+                        />
+                        {/* Liquid glass blur overlay on the right side */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/20 pointer-events-none" />
+                        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-400/10 to-transparent backdrop-blur-sm liquid-glass" />
+                        <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-gray-300/20 to-transparent backdrop-blur-md liquid-glass" />
                       </div>
+                      
+                      <div className="p-6">
+                        <div className="mb-4">
+                          <span className="px-3 py-1 bg-gray-500/20 text-gray-300 rounded-full text-sm font-medium font-mono">
+                            {event.category}
+                          </span>
+                        </div>
 
-                      <h3 className="text-xl font-bold mb-3 text-white font-heading">{event.title}</h3>
-                      <p className="text-gray-400 text-sm mb-4 leading-relaxed font-mono">{event.description}</p>
+                        <h3 className="text-xl font-bold mb-3 text-white font-heading">{event.title}</h3>
+                        <p className="text-gray-400 text-sm mb-4 leading-relaxed font-mono">
+                          {event.description.length > 100 
+                            ? `${event.description.substring(0, 100)}...` 
+                            : event.description
+                          }
+                        </p>
 
                         <div className="space-y-2 mb-4">
                           <div className="flex items-center gap-2 text-gray-400">
@@ -220,6 +255,13 @@ export default function EventsPage() {
                             </div>
                           )}
                         </div>
+                        
+                        <Link href={`/events/${event.id}`}>
+                          <Button variant="outline" className="w-full border-gray-400/30 text-gray-400 hover:bg-gray-400/10 font-medium py-2 rounded-xl transition-all duration-300 font-heading text-sm">
+                            View Details
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   </Card>
                 ))}
@@ -249,7 +291,7 @@ export default function EventsPage() {
         </section>
       </div>
 
-      {/* Styled-jsx for stars animation */}
+      {/* Styled-jsx for stars animation and liquid glass effects */}
       <style jsx>{`
         .stars-container {
           position: absolute;
@@ -278,6 +320,34 @@ export default function EventsPage() {
             opacity: 1; 
             transform: scale(1.2);
           }
+        }
+        
+        /* Liquid glass animation */
+        .liquid-glass {
+          animation: liquid-flow 4s ease-in-out infinite;
+        }
+        
+        @keyframes liquid-flow {
+          0%, 100% { 
+            opacity: 0.3;
+            transform: translateX(0px);
+          }
+          50% { 
+            opacity: 0.6;
+            transform: translateX(-2px);
+          }
+        }
+        
+        /* Enhanced glass card hover effects */
+        .glass-card {
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+          transform: translateY(-4px) scale(1.02);
+          box-shadow: 
+            0 20px 40px rgba(0, 255, 255, 0.1),
+            0 8px 16px rgba(0, 255, 255, 0.05);
         }
       `}</style>
     </div>
