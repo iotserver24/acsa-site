@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Users, Zap, Award, BookOpen, Target, Lightbulb, ArrowRight } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import type { Event } from "@/lib/database"
 import HeroSection from "@/components/hero-section"
 
@@ -17,7 +18,7 @@ export default function HomePage() {
   const [aboutVisible, setAboutVisible] = useState(false)
   const [missionVisible, setMissionVisible] = useState(false)
 
-  const statsRef = (typeof window !== 'undefined') ? (document?.createElement ? undefined : undefined) : undefined
+  const statsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const fetchLatestEvent = async () => {
@@ -94,17 +95,50 @@ export default function HomePage() {
             <div className={`text-center group hover:scale-105 transition-all duration-500 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-2 group-hover:animate-pulse"
                    style={{ fontFamily: "'Orbitron', 'Arial', sans-serif", letterSpacing: '0.06em' }}>200+</div>
-              <div className="text-gray-300" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>Active Members</div>
+              <div className="text-gray-300" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>ACT STUDENTS</div>
             </div>
             <div className={`text-center group hover:scale-105 transition-all duration-500 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-2 group-hover:animate-pulse"
-                   style={{ fontFamily: "'Orbitron', 'Arial', sans-serif", letterSpacing: '0.06em' }}>50+</div>
-              <div className="text-gray-300" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>Projects Completed</div>
+                   style={{ fontFamily: "'Orbitron', 'Arial', sans-serif", letterSpacing: '0.06em' }}>20+</div>
+              <div className="text-gray-300" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>CORE MEMBERS</div>
             </div>
             <div className={`text-center group hover:scale-105 transition-all duration-500 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-2 group-hover:animate-pulse"
-                   style={{ fontFamily: "'Orbitron', 'Arial', sans-serif", letterSpacing: '0.06em' }}>5+</div>
-              <div className="text-gray-300" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>Years of Excellence</div>
+                   style={{ fontFamily: "'Orbitron', 'Arial', sans-serif", letterSpacing: '0.06em' }}>2024</div>
+              <div className="text-gray-300" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>ACSA FOUNDED</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Group Picture Section */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto">
+          {/* Title */}
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4" style={{ fontFamily: "'Orbitron', 'Arial', sans-serif", letterSpacing: '0.06em' }}>
+              ACSA 2025-26
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 mx-auto rounded-full"></div>
+          </div>
+          
+          {/* Group Picture */}
+          <div className="flex justify-center">
+            <div className="relative group">
+              <Image
+                src="/group_pic.JPG"
+                alt="ACSA Team Group Photo"
+                width={1000}
+                height={600}
+                className="rounded-lg shadow-2xl transition-all duration-500 group-hover:scale-105 group-hover:shadow-cyan-400/20 border-2 border-cyan-400/50"
+                style={{
+                  boxShadow: '0 0 30px rgba(34, 211, 238, 0.1)',
+                }}
+              />
+              {/* Permanent neon blue border */}
+              <div className="absolute inset-0 rounded-lg border-2 border-cyan-400/50 shadow-[0_0_20px_rgba(34,211,238,0.3)]"></div>
+              {/* Animated glow effect on hover */}
+              <div className="absolute inset-0 rounded-lg border border-cyan-400/30 opacity-0 group-hover:opacity-100 transition-all duration-500 animate-pulse"></div>
             </div>
           </div>
         </div>
@@ -123,12 +157,12 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
             <div className="space-y-6">
-              <p className="text-lg text-gray-300 leading-relaxed" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>
+              <p className="text-lg text-gray-300 leading-relaxed" style={{ fontFamily: "'JetBrains Mono', 'Consolas', 'Monaco', monospace" }}>
                 The Advanced Communication Student Association (ACSA) is a vibrant community of passionate students from
                 the Electronics & Communication (Advanced Communication Tech) branch. We serve as the bridge between
                 academic excellence and industry innovation.
               </p>
-              <p className="text-lg text-gray-300 leading-relaxed" style={{ fontFamily: "'Space Grotesk', 'Arial', sans-serif" }}>
+              <p className="text-lg text-gray-300 leading-relaxed" style={{ fontFamily: "'JetBrains Mono', 'Consolas', 'Monaco', monospace" }}>
                 Our association focuses on emerging technologies like 5G/6G networks, IoT systems, satellite
                 communications, and AI-driven communication solutions. Through workshops, hackathons, and research
                 projects, we prepare students for the future of communication technology.
@@ -136,19 +170,19 @@ export default function HomePage() {
               <div className="grid grid-cols-2 gap-4 mt-8">
                 <div className="flex items-center gap-3 text-cyan-400 hover:scale-105 transition-all duration-300">
                   <Users className="h-6 w-6" />
-                  <span className="font-semibold">Strong Community</span>
+                  <span className="font-semibold" style={{ fontFamily: "'JetBrains Mono', 'Consolas', 'Monaco', monospace" }}>Strong Community</span>
                 </div>
                 <div className="flex items-center gap-3 text-cyan-400 hover:scale-105 transition-all duration-300">
                   <Zap className="h-6 w-6" />
-                  <span className="font-semibold">Innovation Focus</span>
+                  <span className="font-semibold" style={{ fontFamily: "'JetBrains Mono', 'Consolas', 'Monaco', monospace" }}>Innovation Focus</span>
                 </div>
                 <div className="flex items-center gap-3 text-cyan-400 hover:scale-105 transition-all duration-300">
                   <Award className="h-6 w-6" />
-                  <span className="font-semibold">Industry Recognition</span>
+                  <span className="font-semibold" style={{ fontFamily: "'JetBrains Mono', 'Consolas', 'Monaco', monospace" }}>Industry Recognition</span>
                 </div>
                 <div className="flex items-center gap-3 text-cyan-400 hover:scale-105 transition-all duration-300">
                   <BookOpen className="h-6 w-6" />
-                  <span className="font-semibold">Continuous Learning</span>
+                  <span className="font-semibold" style={{ fontFamily: "'JetBrains Mono', 'Consolas', 'Monaco', monospace" }}>Continuous Learning</span>
                 </div>
               </div>
             </div>
@@ -197,10 +231,10 @@ export default function HomePage() {
                 <div className="w-16 h-16 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4 hover:rotate-12 transition-all duration-300">
                   <Zap className="h-8 w-8 text-cyan-400" />
                 </div>
-                <CardTitle className="text-cyan-400">5G/6G Networks</CardTitle>
+                <CardTitle className="text-cyan-400" style={{ fontFamily: "'JetBrains Mono', 'Consolas', 'Monaco', monospace" }}>5G/6G Networks</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-300 text-center">
+                <p className="text-gray-300 text-center" style={{ fontFamily: "'JetBrains Mono', 'Consolas', 'Monaco', monospace" }}>
                   Exploring next-generation wireless communication technologies and their real-world applications.
                 </p>
               </CardContent>
@@ -211,10 +245,10 @@ export default function HomePage() {
                 <div className="w-16 h-16 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4 hover:rotate-12 transition-all duration-300">
                   <BookOpen className="h-8 w-8 text-cyan-400" />
                 </div>
-                <CardTitle className="text-cyan-400">IoT Systems</CardTitle>
+                <CardTitle className="text-cyan-400" style={{ fontFamily: "'JetBrains Mono', 'Consolas', 'Monaco', monospace" }}>IoT Systems</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-300 text-center">
+                <p className="text-gray-300 text-center" style={{ fontFamily: "'JetBrains Mono', 'Consolas', 'Monaco', monospace" }}>
                   Building smart connected devices and understanding the Internet of Things ecosystem.
                 </p>
               </CardContent>
@@ -225,10 +259,10 @@ export default function HomePage() {
                 <div className="w-16 h-16 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4 hover:rotate-12 transition-all duration-300">
                   <Award className="h-8 w-8 text-cyan-400" />
                 </div>
-                <CardTitle className="text-cyan-400">AI Communications</CardTitle>
+                <CardTitle className="text-cyan-400" style={{ fontFamily: "'JetBrains Mono', 'Consolas', 'Monaco', monospace" }}>AI Communications</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-300 text-center">
+                <p className="text-gray-300 text-center" style={{ fontFamily: "'JetBrains Mono', 'Consolas', 'Monaco', monospace" }}>
                   Integrating artificial intelligence with communication systems for smarter networks.
                 </p>
               </CardContent>

@@ -1,3 +1,5 @@
+"use client"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Mail, Phone, MapPin, Award, BookOpen, Calendar, GraduationCap } from "lucide-react"
@@ -6,7 +8,7 @@ const facultyAdvisors = [
   {
     id: 1,
     name: "Dr. DURGA PRASAD",
-    designation: "Professor & Head (Incharge) and HoD of A.C.T department",
+    designation: "Professor & HoD of A.C.T department",
     department: "Advanced Communication Technology",
     specialization: ["Wireless Body Sensor Networks", "Power Electronics", "Electronics Engineering"],
     experience: "24+ years",
@@ -29,7 +31,7 @@ const facultyAdvisors = [
   {
     id: 2,
     name: "Dr. MADAN H T",
-    designation: "Associate Professor",
+    designation: "Associate Professor and Club Advisor",
     department: "Advanced Communication Technology",
     specialization: ["Wireless Communication", "Artificial Intelligence and Robotics", "Autonomous Systems", "Computer Network Engineering"],
     experience: "15+ years",
@@ -61,14 +63,31 @@ export default function FacultiesPage() {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
+      {/* Animated Stars Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="stars-container">
+          {[...Array(150)].map((_, i) => (
+            <div
+              key={i}
+              className="star"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
       {/* Header Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
           <div className="animate-fade-in-up">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 bg-gradient-to-r from-white via-primary to-blue-400 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 bg-gradient-to-r from-white via-primary to-blue-400 bg-clip-text text-transparent" style={{ fontFamily: "'Orbitron', 'Arial', sans-serif" }}>
               Our <span className="text-primary">Faculty Advisors</span>
             </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto animate-fade-in-up delay-200">
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto animate-fade-in-up delay-200 leading-relaxed tracking-wide" style={{ fontFamily: "'Orbitron', 'Arial', sans-serif" }}>
               Distinguished educators and researchers guiding the next generation of communication engineers
             </p>
           </div>
@@ -85,7 +104,9 @@ export default function FacultiesPage() {
                 className="animate-fade-in-up"
                 style={{ animationDelay: `${index * 200}ms` }}
               >
-                <Card className="glass rounded-2xl group hover:scale-[1.02] transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 border-white/10 hover:border-primary/30 bg-black/20 backdrop-blur-sm relative overflow-hidden">
+                <Card className={`glass rounded-2xl group hover:scale-[1.02] transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 border-white/10 hover:border-primary/30 backdrop-blur-sm relative overflow-hidden ${
+                  faculty.id === 2 ? 'bg-black/60' : 'bg-black/20'
+                }`}>
                   {/* Glow Effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
                   
@@ -242,6 +263,38 @@ export default function FacultiesPage() {
           </div>
         </div>
       </section> */}
+
+      {/* Styled-jsx for stars animation */}
+      <style jsx>{`
+        .stars-container {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+        .star {
+          position: absolute;
+          width: 2px;
+          height: 2px;
+          background: #00ffff;
+          border-radius: 50%;
+          box-shadow: 
+            0 0 4px #00ffff,
+            0 0 8px #00ffff,
+            0 0 12px #00ffff;
+          animation: twinkle 3s ease-in-out infinite;
+        }
+        @keyframes twinkle {
+          0%, 100% { 
+            opacity: 0.3; 
+            transform: scale(1);
+          }
+          50% { 
+            opacity: 1; 
+            transform: scale(1.2);
+          }
+        }
+      `}</style>
     </div>
   )
 }

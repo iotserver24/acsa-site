@@ -37,7 +37,7 @@ export function Footer() {
             <h3 className="text-white font-semibold mb-4 font-heading">Contact</h3>
             <div className="space-y-2 text-sm font-mono">
               <p className="text-gray-300">Email: acsa2024@nmamit.in</p>
-              <p className="text-gray-300">Location: Ramanujann Block, 5th Floor</p>
+              <p className="text-gray-300">Location: Ramanujann Block, 4th Floor</p>
             </div>
             
             {/* Social Media Links */}

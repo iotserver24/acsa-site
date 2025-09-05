@@ -68,6 +68,8 @@ module.exports = {
       },
       fontFamily: {
         sans: ["var(--font-sans)", "Inter", "sans-serif"],
+        orbitron: ["var(--font-orbitron)", "Orbitron", "sans-serif"],
+        quantico: ["var(--font-quantico)", "Quantico", "serif"],
       },
       keyframes: {
         "accordion-down": {

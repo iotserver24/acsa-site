@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
@@ -33,28 +32,59 @@ export function Navbar() {
             />
           </Link>
 
-          {/* Desktop Navigation Links */}
+          {/* Desktop Navigation Links - Moved to Right */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-white hover:text-primary transition-colors font-heading">
-              Home
+            <Link href="/" className="relative group text-white font-orbitron text-base tracking-wider uppercase transition-all duration-500 ease-out hover:scale-105 px-4 py-2">
+              <span className="relative z-10 transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-blue-400 group-hover:to-purple-400">
+                Home
+              </span>
+              {/* Permanent Neon Blue Border */}
+              <div className="absolute inset-0 border border-cyan-400/50 rounded-lg shadow-[0_0_15px_rgba(34,211,238,0.2)] shadow-cyan-400/20"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/5 via-blue-400/5 to-purple-400/5 rounded-lg"></div>
+              {/* Animated Border Glow */}
+              <div className="absolute inset-0 rounded-lg">
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/30 animate-pulse"></div>
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/20 animate-ping"></div>
+              </div>
             </Link>
-            <Link href="/events" className="text-white hover:text-primary transition-colors font-heading">
-              Events
+            <Link href="/events" className="relative group text-white font-orbitron text-base tracking-wider uppercase transition-all duration-500 ease-out hover:scale-105 px-4 py-2">
+              <span className="relative z-10 transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-blue-400 group-hover:to-purple-400">
+                Events
+              </span>
+              {/* Permanent Neon Blue Border */}
+              <div className="absolute inset-0 border border-cyan-400/50 rounded-lg shadow-[0_0_15px_rgba(34,211,238,0.2)] shadow-cyan-400/20"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/5 via-blue-400/5 to-purple-400/5 rounded-lg"></div>
+              {/* Animated Border Glow */}
+              <div className="absolute inset-0 rounded-lg">
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/30 animate-pulse"></div>
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/20 animate-ping"></div>
+              </div>
             </Link>
-            <Link href="/team" className="text-white hover:text-primary transition-colors font-heading">
-              Team
+            <Link href="/team" className="relative group text-white font-orbitron text-base tracking-wider uppercase transition-all duration-500 ease-out hover:scale-105 px-4 py-2">
+              <span className="relative z-10 transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-blue-400 group-hover:to-purple-400">
+                Team
+              </span>
+              {/* Permanent Neon Blue Border */}
+              <div className="absolute inset-0 border border-cyan-400/50 rounded-lg shadow-[0_0_15px_rgba(34,211,238,0.2)] shadow-cyan-400/20"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/5 via-blue-400/5 to-purple-400/5 rounded-lg"></div>
+              {/* Animated Border Glow */}
+              <div className="absolute inset-0 rounded-lg">
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/30 animate-pulse"></div>
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/20 animate-ping"></div>
+              </div>
             </Link>
-            <Link href="/faculties" className="text-white hover:text-primary transition-colors font-heading">
-              Faculty
-            </Link>
-          </div>
-
-          {/* Desktop CTA Button */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Link href="/events">
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-heading">
-                Join Events
-              </Button>
+            <Link href="/faculties" className="relative group text-white font-orbitron text-base tracking-wider uppercase transition-all duration-500 ease-out hover:scale-105 px-4 py-2">
+              <span className="relative z-10 transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-blue-400 group-hover:to-purple-400">
+                Faculty
+              </span>
+              {/* Permanent Neon Blue Border */}
+              <div className="absolute inset-0 border border-cyan-400/50 rounded-lg shadow-[0_0_15px_rgba(34,211,238,0.2)] shadow-cyan-400/20"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/5 via-blue-400/5 to-purple-400/5 rounded-lg"></div>
+              {/* Animated Border Glow */}
+              <div className="absolute inset-0 rounded-lg">
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/30 animate-pulse"></div>
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/20 animate-ping"></div>
+              </div>
             </Link>
           </div>
 
@@ -82,55 +112,84 @@ export function Navbar() {
             {/* Mobile Navigation Links */}
             <Link
               href="/"
-              className={`block px-3 py-2 text-white hover:text-primary hover:bg-white/5 rounded-md transition-all duration-300 font-heading transform ${
+              className={`relative group block px-4 py-3 text-white font-orbitron text-base tracking-wider uppercase transition-all duration-500 ease-out hover:scale-105 transform ${
                 isMobileMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
               }`}
               style={{ transitionDelay: '100ms' }}
               onClick={closeMobileMenu}
             >
-              Home
+              <span className="relative z-10 transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-blue-400 group-hover:to-purple-400">
+                Home
+              </span>
+              {/* Permanent Neon Blue Border */}
+              <div className="absolute inset-0 border border-cyan-400/50 rounded-lg shadow-[0_0_15px_rgba(34,211,238,0.2)] shadow-cyan-400/20"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/5 via-blue-400/5 to-purple-400/5 rounded-lg"></div>
+              {/* Animated Border Glow */}
+              <div className="absolute inset-0 rounded-lg">
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/30 animate-pulse"></div>
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/20 animate-ping"></div>
+              </div>
             </Link>
             <Link
               href="/events"
-              className={`block px-3 py-2 text-white hover:text-primary hover:bg-white/5 rounded-md transition-all duration-300 font-heading transform ${
+              className={`relative group block px-4 py-3 text-white font-orbitron text-base tracking-wider uppercase transition-all duration-500 ease-out hover:scale-105 transform ${
                 isMobileMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
               }`}
               style={{ transitionDelay: '150ms' }}
               onClick={closeMobileMenu}
             >
-              Events
+              <span className="relative z-10 transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-blue-400 group-hover:to-purple-400">
+                Events
+              </span>
+              {/* Permanent Neon Blue Border */}
+              <div className="absolute inset-0 border border-cyan-400/50 rounded-lg shadow-[0_0_15px_rgba(34,211,238,0.2)] shadow-cyan-400/20"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/5 via-blue-400/5 to-purple-400/5 rounded-lg"></div>
+              {/* Animated Border Glow */}
+              <div className="absolute inset-0 rounded-lg">
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/30 animate-pulse"></div>
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/20 animate-ping"></div>
+              </div>
             </Link>
             <Link
               href="/team"
-              className={`block px-3 py-2 text-white hover:text-primary hover:bg-white/5 rounded-md transition-all duration-300 font-heading transform ${
+              className={`relative group block px-4 py-3 text-white font-orbitron text-base tracking-wider uppercase transition-all duration-500 ease-out hover:scale-105 transform ${
                 isMobileMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
               }`}
               style={{ transitionDelay: '200ms' }}
               onClick={closeMobileMenu}
             >
-              Team
+              <span className="relative z-10 transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-blue-400 group-hover:to-purple-400">
+                Team
+              </span>
+              {/* Permanent Neon Blue Border */}
+              <div className="absolute inset-0 border border-cyan-400/50 rounded-lg shadow-[0_0_15px_rgba(34,211,238,0.2)] shadow-cyan-400/20"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/5 via-blue-400/5 to-purple-400/5 rounded-lg"></div>
+              {/* Animated Border Glow */}
+              <div className="absolute inset-0 rounded-lg">
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/30 animate-pulse"></div>
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/20 animate-ping"></div>
+              </div>
             </Link>
             <Link
               href="/faculties"
-              className={`block px-3 py-2 text-white hover:text-primary hover:bg-white/5 rounded-md transition-all duration-300 font-heading transform ${
+              className={`relative group block px-4 py-3 text-white font-orbitron text-base tracking-wider uppercase transition-all duration-500 ease-out hover:scale-105 transform ${
                 isMobileMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
               }`}
               style={{ transitionDelay: '250ms' }}
               onClick={closeMobileMenu}
             >
-              Faculty
+              <span className="relative z-10 transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-blue-400 group-hover:to-purple-400">
+                Faculty
+              </span>
+              {/* Permanent Neon Blue Border */}
+              <div className="absolute inset-0 border border-cyan-400/50 rounded-lg shadow-[0_0_15px_rgba(34,211,238,0.2)] shadow-cyan-400/20"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/5 via-blue-400/5 to-purple-400/5 rounded-lg"></div>
+              {/* Animated Border Glow */}
+              <div className="absolute inset-0 rounded-lg">
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/30 animate-pulse"></div>
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/20 animate-ping"></div>
+              </div>
             </Link>
-            
-            {/* Mobile CTA Button */}
-            <div className={`pt-2 transition-all duration-300 transform ${
-              isMobileMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
-            }`} style={{ transitionDelay: '300ms' }}>
-              <Link href="/events" onClick={closeMobileMenu}>
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-heading">
-                  Join Events
-                </Button>
-              </Link>
-            </div>
           </div>
         </div>
       </div>
