@@ -15,6 +15,7 @@ function Earth() {
   const [animationPhase, setAnimationPhase] = useState(0) // 0: entrance, 1: normal
   const animationStartTime = useRef<number>(0)
   const hasStartedAnimation = useRef<boolean>(false)
+  const introFlagSetRef = useRef<boolean>(false)
   
   // Load Earth texture with error handling
   const earthTexture = useTexture('/earth-texture.jpg', (texture) => {
@@ -25,6 +26,15 @@ function Earth() {
   
   useEffect(() => {
     console.log('Earth component mounted')
+    // If intro has already played this session, skip entrance animation
+    try {
+      if (typeof window !== 'undefined' && sessionStorage.getItem('earthIntroPlayed') === 'true') {
+        setAnimationPhase(1)
+        introFlagSetRef.current = true
+      }
+    } catch (e) {
+      // Ignore storage errors
+    }
   }, [])
   
   useFrame((state) => {
@@ -63,6 +73,17 @@ function Earth() {
         if (progress >= 1) {
           setAnimationPhase(1)
           console.log('Animation phase 1 reached')
+          // Mark that the intro animation has been shown this session
+          if (!introFlagSetRef.current) {
+            try {
+              if (typeof window !== 'undefined') {
+                sessionStorage.setItem('earthIntroPlayed', 'true')
+              }
+            } catch (e) {
+              // Ignore storage errors
+            }
+            introFlagSetRef.current = true
+          }
         }
       } else {
         // Normal phase: gentle rotation and hover
@@ -98,13 +119,24 @@ function ACSAIntro() {
   
   useEffect(() => {
     console.log('ACSAIntro component mounted')
-    // Show text after Earth animation completes (3 seconds)
-    const timer = setTimeout(() => {
+    // If intro already played in this session, show immediately
+    let timer: number | undefined
+    try {
+      if (typeof window !== 'undefined' && sessionStorage.getItem('earthIntroPlayed') === 'true') {
+        setTextVisible(true)
+        return
+      }
+    } catch (e) {
+      // Ignore storage errors and fallback to timed reveal
+    }
+    // Otherwise show after Earth intro duration
+    timer = window.setTimeout(() => {
       setTextVisible(true)
       console.log('Text should be visible now')
-    }, 3000) // After Earth animation completes
-    
-    return () => clearTimeout(timer)
+    }, 3000)
+    return () => {
+      if (timer) clearTimeout(timer)
+    }
   }, [])
   
   return (
