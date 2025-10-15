@@ -66,6 +66,10 @@ export default function EventDetailPage() {
 
   const isUpcoming = new Date(event.date) > new Date()
   const isPast = new Date(event.date) <= new Date()
+  
+  // Check if event is full based on registration limit
+  const registrationLimit = event.registrationLimit || event.maxAttendees
+  const isEventFull = event.attendees >= registrationLimit
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
@@ -194,21 +198,30 @@ export default function EventDetailPage() {
                       <div className="bg-white/5 rounded-xl p-6 border border-white/10">
                         <div className="flex items-center justify-between mb-3">
                           <span className="text-gray-300 font-mono">
-                            {event.attendees} of {event.maxAttendees} registered
+                            {event.attendees} of {registrationLimit} registered
                           </span>
                           <span className="text-cyan-400 font-mono font-medium">
-                            {Math.round((event.attendees / event.maxAttendees) * 100)}%
+                            {Math.round((event.attendees / registrationLimit) * 100)}%
                           </span>
                         </div>
                         <div className="w-full bg-gray-700 rounded-full h-3 mb-4">
                           <div
-                            className="bg-gradient-to-r from-cyan-500 to-blue-500 h-3 rounded-full transition-all duration-300"
-                            style={{ width: `${(event.attendees / event.maxAttendees) * 100}%` }}
+                            className={`h-3 rounded-full transition-all duration-300 ${
+                              isEventFull 
+                                ? 'bg-gradient-to-r from-red-500 to-red-600' 
+                                : 'bg-gradient-to-r from-cyan-500 to-blue-500'
+                            }`}
+                            style={{ width: `${Math.min((event.attendees / registrationLimit) * 100, 100)}%` }}
                           />
                         </div>
                         {event.registrationLimit && event.registrationLimit !== event.maxAttendees && (
                           <p className="text-gray-400 text-sm font-mono">
                             Registration limit: {event.registrationLimit} people
+                          </p>
+                        )}
+                        {isEventFull && (
+                          <p className="text-red-400 text-sm font-mono font-medium">
+                            🚫 Event is full - No more registrations accepted
                           </p>
                         )}
                       </div>
@@ -220,13 +233,21 @@ export default function EventDetailPage() {
                     <div className="sticky top-8">
                       {/* Action Buttons */}
                       <div className="space-y-4 mb-8">
-                        {isUpcoming && (
+                        {isUpcoming && !isEventFull && (
                           <Link href={`/events/register/${event.id}`} className="block">
                             <Button className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-medium py-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 font-heading text-lg">
                               Register Now
                               <ExternalLink className="w-5 h-5 ml-2" />
                             </Button>
                           </Link>
+                        )}
+                        {isUpcoming && isEventFull && (
+                          <Button 
+                            disabled 
+                            className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white font-medium py-4 rounded-xl font-heading text-lg cursor-not-allowed opacity-75"
+                          >
+                            Event Full
+                          </Button>
                         )}
                         
                         <Link href="https://chat.whatsapp.com/KJz1L9Z0rEd5DlNDdsH1Pm" target="_blank" rel="noopener noreferrer">

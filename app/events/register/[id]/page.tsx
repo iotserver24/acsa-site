@@ -23,6 +23,7 @@ export default function EventRegistrationPage() {
   const [loading, setLoading] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [isEventFull, setIsEventFull] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     usn: "",
@@ -39,6 +40,10 @@ export default function EventRegistrationPage() {
         if (response.ok) {
           const eventData = await response.json()
           setEvent(eventData)
+          
+          // Check if event is full
+          const registrationLimit = eventData.registrationLimit || eventData.maxAttendees
+          setIsEventFull(eventData.attendees >= registrationLimit)
         } else {
           console.error('Event not found')
         }
@@ -150,6 +155,33 @@ export default function EventRegistrationPage() {
     )
   }
 
+  if (isEventFull) {
+    const registrationLimit = event.registrationLimit || event.maxAttendees
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="max-w-md mx-auto text-center p-8">
+          <div className="glass-card p-8 rounded-2xl border border-red-400/20 bg-gradient-to-br from-red-500/10 to-red-600/10">
+            <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl">🚫</span>
+            </div>
+            <h1 className="text-2xl font-bold mb-4 text-red-300">Event Full</h1>
+            <p className="text-gray-300 mb-6">
+              Sorry, this event has reached its maximum capacity of {registrationLimit} registrations. 
+              No more registrations are being accepted at this time.
+            </p>
+            <div className="space-y-3">
+              <Link href="/events">
+                <Button className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600">
+                  Back to Events
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   if (isSuccess) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
@@ -231,7 +263,7 @@ export default function EventRegistrationPage() {
                 <div className="flex items-center gap-3">
                   <Users className="w-5 h-5 text-cyan-400" />
                   <span>
-                    {event.attendees}/{event.maxAttendees} registered
+                    {event.attendees}/{event.registrationLimit || event.maxAttendees} registered
                   </span>
                 </div>
               </div>
@@ -240,10 +272,10 @@ export default function EventRegistrationPage() {
                 <div className="w-full bg-gray-700 rounded-full h-2">
                   <div
                     className="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${(event.attendees / event.maxAttendees) * 100}%` }}
+                    style={{ width: `${(event.attendees / (event.registrationLimit || event.maxAttendees)) * 100}%` }}
                   />
                 </div>
-                <p className="text-sm text-gray-400 mt-2">{event.maxAttendees - event.attendees} spots remaining</p>
+                <p className="text-sm text-gray-400 mt-2">{(event.registrationLimit || event.maxAttendees) - event.attendees} spots remaining</p>
               </div>
             </div>
           </div>

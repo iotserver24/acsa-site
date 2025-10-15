@@ -25,6 +25,23 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     
+    // Get event details to check registration limits
+    const { eventDatabase } = await import('@/lib/database')
+    const event = await eventDatabase.getEventById(body.eventId)
+    
+    if (!event) {
+      return NextResponse.json({ 
+        error: 'Event not found.' 
+      }, { status: 404 })
+    }
+    
+    // Check if event is active
+    if (event.isActive === false) {
+      return NextResponse.json({ 
+        error: 'Registration is not available for this event.' 
+      }, { status: 400 })
+    }
+    
     // Check for existing registrations with same email or phone for this event
     const existingRegistrations = await registrationDatabase.getRegistrationsByEvent(body.eventId)
     
@@ -41,6 +58,16 @@ export async function POST(request: NextRequest) {
     if (phoneExists) {
       return NextResponse.json({ 
         error: 'Registration failed: This phone number has already been registered for this event.' 
+      }, { status: 400 })
+    }
+    
+    // Check registration limit - use registrationLimit if set, otherwise use maxAttendees
+    const registrationLimit = event.registrationLimit || event.maxAttendees
+    const currentRegistrations = existingRegistrations.length
+    
+    if (currentRegistrations >= registrationLimit) {
+      return NextResponse.json({ 
+        error: 'Registration failed: This event is full. No more registrations are being accepted.' 
       }, { status: 400 })
     }
     
