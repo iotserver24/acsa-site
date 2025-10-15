@@ -151,13 +151,17 @@ export default function EventsPage() {
                             <div className="flex items-center gap-2 mb-2">
                               <Users className="w-4 h-4 text-cyan-400" />
                               <span className="text-sm text-gray-300 font-mono">
-                                {event.attendees}/{event.maxAttendees} registered
+                                {event.attendees}/{event.registrationLimit || event.maxAttendees} registered
                               </span>
                             </div>
                             <div className="w-full bg-gray-700 rounded-full h-2 mb-3">
                               <div
-                                className="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full transition-all duration-300"
-                                style={{ width: `${(event.attendees / event.maxAttendees) * 100}%` }}
+                                className={`h-2 rounded-full transition-all duration-300 ${
+                                  event.attendees >= (event.registrationLimit || event.maxAttendees)
+                                    ? 'bg-gradient-to-r from-red-500 to-red-600' 
+                                    : 'bg-gradient-to-r from-cyan-500 to-blue-500'
+                                }`}
+                                style={{ width: `${Math.min((event.attendees / (event.registrationLimit || event.maxAttendees)) * 100, 100)}%` }}
                               />
                             </div>
                             {event.registrationLimit && event.registrationLimit !== event.maxAttendees && (
@@ -175,12 +179,21 @@ export default function EventsPage() {
                                 View Details
                               </Button>
                             </Link>
-                            <Link href={`/events/register/${event.id}`} className="flex-1">
-                              <Button className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-medium py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 font-heading">
-                                Register Now
-                                <ArrowRight className="w-4 h-4 ml-2" />
+                            {event.attendees >= (event.registrationLimit || event.maxAttendees) ? (
+                              <Button 
+                                disabled 
+                                className="flex-1 bg-gradient-to-r from-red-500 to-red-600 text-white font-medium py-3 rounded-xl font-heading cursor-not-allowed opacity-75"
+                              >
+                                Event Full
                               </Button>
-                            </Link>
+                            ) : (
+                              <Link href={`/events/register/${event.id}`} className="flex-1">
+                                <Button className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-medium py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 font-heading">
+                                  Register Now
+                                  <ArrowRight className="w-4 h-4 ml-2" />
+                                </Button>
+                              </Link>
+                            )}
                           </div>
                         </div>
                       </div>

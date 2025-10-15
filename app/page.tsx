@@ -322,16 +322,25 @@ export default function HomePage() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Users className="h-5 w-5 text-cyan-400" />
-                        <span className="font-semibold">{latestEvent.attendees}/{latestEvent.maxAttendees} registered</span>
+                        <span className="font-semibold">{latestEvent.attendees}/{latestEvent.registrationLimit || latestEvent.maxAttendees} registered</span>
                       </div>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4">
-                      <Link href={`/events/register/${latestEvent.id}`}>
-                        <Button className="bg-cyan-500 text-white font-semibold hover:bg-cyan-600 px-6 py-3 rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/30">
-                          Register Now
-                          <ArrowRight className="w-4 h-4 ml-2" />
+                      {latestEvent.attendees >= (latestEvent.registrationLimit || latestEvent.maxAttendees) ? (
+                        <Button 
+                          disabled 
+                          className="bg-red-500 text-white font-semibold px-6 py-3 rounded-xl cursor-not-allowed opacity-75"
+                        >
+                          Event Full
                         </Button>
-                      </Link>
+                      ) : (
+                        <Link href={`/events/register/${latestEvent.id}`}>
+                          <Button className="bg-cyan-500 text-white font-semibold hover:bg-cyan-600 px-6 py-3 rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/30">
+                            Register Now
+                            <ArrowRight className="w-4 h-4 ml-2" />
+                          </Button>
+                        </Link>
+                      )}
                       <Link href="/events">
                         <Button
                           variant="outline"

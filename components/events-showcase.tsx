@@ -193,7 +193,7 @@ export function EventsShowcase() {
                       <div className="flex items-center gap-3 text-gray-300">
                         <Users className="w-4 h-4 text-cyan-400 flex-shrink-0" />
                         <span className="text-sm font-medium">
-                          {event.attendees}/{event.maxAttendees} registered
+                          {event.attendees}/{event.registrationLimit || event.maxAttendees} registered
                         </span>
                       </div>
                     </div>
@@ -205,7 +205,7 @@ export function EventsShowcase() {
                       </Badge>
                       
                       {/* Registration Status */}
-                      {event.attendees >= event.maxAttendees ? (
+                      {event.attendees >= (event.registrationLimit || event.maxAttendees) ? (
                         <Badge className="bg-red-500/90 text-white">Full</Badge>
                       ) : (
                         <Badge className="bg-green-500/90 text-white">Open</Badge>
@@ -214,11 +214,19 @@ export function EventsShowcase() {
 
                     {/* Action Buttons */}
                     <div className="flex gap-3 pt-2">
-                      <Link href={`/events/register/${event.id}`} className="flex-1">
-                        <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-white group-hover:scale-105 transition-transform">
-                          Register Now
-                          <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      {event.attendees >= (event.registrationLimit || event.maxAttendees) ? (
+                        <Button 
+                          disabled 
+                          className="flex-1 bg-red-500 text-white cursor-not-allowed opacity-75"
+                        >
+                          Event Full
                         </Button>
+                      ) : (
+                        <Link href={`/events/register/${event.id}`} className="flex-1">
+                          <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-white group-hover:scale-105 transition-transform">
+                            Register Now
+                            <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                          </Button>
                       </Link>
                     </div>
                   </CardContent>
