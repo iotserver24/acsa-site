@@ -289,6 +289,47 @@ export default function AdminPage() {
     }
   }
 
+  const downloadAllRegistrationsAsExcel = () => {
+    if (registrations.length === 0) return
+
+    // Create CSV content (Excel can open CSV files)
+    const headers = ['Name', 'USN', 'Email', 'Phone', 'Branch Name', 'Academic Year', 'Event Title', 'Registration Date']
+    const rows = registrations.map(reg => {
+      const event = events.find(e => e.id === reg.eventId)
+      return [
+        reg.name,
+        reg.usn,
+        reg.email,
+        `="${reg.phone}"`, // Force Excel to treat phone as text
+        reg.branchName,
+        reg.academicYear,
+        event?.title || 'Unknown',
+        new Date(reg.registeredAt).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        })
+      ]
+    })
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `all_registrations_${new Date().toISOString().split('T')[0]}.csv`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
   // Function to check and mark events as past
   const checkPastEvents = () => {
     const now = new Date()
@@ -926,34 +967,55 @@ export default function AdminPage() {
         {/* Registrations Tab */}
         {activeTab === 'registrations' && (
           <div>
-            <h2 className="text-2xl font-bold text-white mb-6">All Registrations</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <h2 className="text-2xl font-bold text-white">All Registrations</h2>
+              <Button
+                onClick={downloadAllRegistrationsAsExcel}
+                variant="outline"
+                className="border-green-600 text-green-400 hover:bg-green-400/10 w-full sm:w-auto"
+                disabled={registrations.length === 0}
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Export All to Excel
+              </Button>
+            </div>
             {registrations.length === 0 ? (
               <p className="text-gray-400">No registrations found.</p>
             ) : (
-              <div className="grid gap-4">
-                {registrations.map((registration) => {
-                  const event = events.find(e => e.id === registration.eventId)
-                  return (
-                    <Card key={registration.id} className="bg-gray-900 border-gray-700">
-                      <CardContent className="p-4">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                          <div>
-                            <h4 className="text-white font-medium">
-                              {registration.name}
-                            </h4>
-                            <p className="text-gray-400 text-sm">{registration.email}</p>
-                            <p className="text-gray-500 text-xs">
-                              Event: {event?.title || 'Unknown'} • {registration.branchName} • {registration.academicYear}
-                            </p>
-                          </div>
-                          <div className="text-gray-500 text-xs">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-white/10">
+                      <th className="text-left py-3 px-4 font-semibold text-cyan-400">Name</th>
+                      <th className="text-left py-3 px-4 font-semibold text-cyan-400">USN</th>
+                      <th className="text-left py-3 px-4 font-semibold text-cyan-400">Email</th>
+                      <th className="text-left py-3 px-4 font-semibold text-cyan-400">Phone</th>
+                      <th className="text-left py-3 px-4 font-semibold text-cyan-400">Branch</th>
+                      <th className="text-left py-3 px-4 font-semibold text-cyan-400">Year</th>
+                      <th className="text-left py-3 px-4 font-semibold text-cyan-400">Event</th>
+                      <th className="text-left py-3 px-4 font-semibold text-cyan-400">Registered</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {registrations.map((registration) => {
+                      const event = events.find(e => e.id === registration.eventId)
+                      return (
+                        <tr key={registration.id} className="border-b border-white/5 hover:bg-white/5">
+                          <td className="py-3 px-4 font-medium">{registration.name}</td>
+                          <td className="py-3 px-4 text-gray-300">{registration.usn}</td>
+                          <td className="py-3 px-4 text-gray-300">{registration.email}</td>
+                          <td className="py-3 px-4 text-gray-300">{registration.phone}</td>
+                          <td className="py-3 px-4 text-gray-300">{registration.branchName}</td>
+                          <td className="py-3 px-4 text-gray-300">{registration.academicYear}</td>
+                          <td className="py-3 px-4 text-gray-300">{event?.title || 'Unknown'}</td>
+                          <td className="py-3 px-4 text-gray-400 text-sm">
                             {new Date(registration.registeredAt).toLocaleDateString()}
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  )
-                })}
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
               </div>
             )}
           </div>
