@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
     
     if (currentRegistrations >= registrationLimit) {
       return NextResponse.json({ 
-        error: 'Registration failed: This event is full. No more registrations are being accepted.' 
+        error: 'Registration failed: This event has reached its registration limit. No more registrations are being accepted.' 
       }, { status: 400 })
     }
     
