@@ -131,7 +131,7 @@ ${tableData}
       reg.name,
       reg.usn,
       reg.email,
-      `="${reg.phone}"`, // Force Excel to treat phone as text
+      reg.phone, // Remove the = prefix to fix mobile number format
       reg.branchName,
       reg.academicYear,
       formatRegistrationDate(reg.registeredAt)
