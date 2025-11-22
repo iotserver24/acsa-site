@@ -88,3 +88,5 @@ acsa-site/
 ## License
 
 This project is licensed under the MIT License.
+
+this branch performs image optimisations
