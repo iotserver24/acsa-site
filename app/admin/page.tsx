@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useAlert } from "@/components/ui/alert"
 import { Trash2, Edit, Plus, Users, Calendar, Eye, Lock, LogOut, Settings, UserCheck, UserX, Clock, Download, Menu, X } from "lucide-react"
 import type { Event, Registration } from "@/lib/database"
+import { CLUB_YEARS, CURRENT_CLUB_YEAR } from "@/lib/academic-year"
 
 interface AdminCredentials {
   username: string
@@ -47,6 +48,7 @@ export default function AdminPage() {
     image: "",
     registrationLimit: "",
     isActive: true,
+    clubYear: CURRENT_CLUB_YEAR,
   })
 
   useEffect(() => {
@@ -250,6 +252,7 @@ export default function AdminPage() {
       image: "",
       registrationLimit: "",
       isActive: true,
+      clubYear: CURRENT_CLUB_YEAR,
     })
   }
 
@@ -267,6 +270,7 @@ export default function AdminPage() {
       image: event.image,
       registrationLimit: event.registrationLimit?.toString() || "",
       isActive: event.isActive !== false,
+      clubYear: event.clubYear || CURRENT_CLUB_YEAR,
     })
     setShowEventForm(true)
   }
@@ -692,6 +696,22 @@ export default function AdminPage() {
                     </div>
 
                     <div>
+                      <Label htmlFor="clubYear" className="text-gray-300">Club Year</Label>
+                      <select
+                        id="clubYear"
+                        value={eventForm.clubYear}
+                        onChange={(e) => setEventForm({...eventForm, clubYear: e.target.value})}
+                        className="w-full h-10 rounded-md bg-gray-800 border border-gray-600 text-white px-3"
+                      >
+                        {CLUB_YEARS.map((year) => (
+                          <option key={year} value={year}>
+                            {year}{year === CURRENT_CLUB_YEAR ? " (current)" : " (archive)"}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
                       <Label htmlFor="image" className="text-gray-300">Image URL</Label>
                       <Input
                         id="image"
@@ -788,7 +808,7 @@ export default function AdminPage() {
                               </span>
                             )}
                             <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-cyan-500/20 text-cyan-300 text-xs rounded">
-                              {event.category}
+                              {event.category} · {event.clubYear || "2025-26"}
                             </span>
                           </div>
                           <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 lg:gap-6 text-gray-300 text-xs sm:text-sm mb-2">
@@ -911,7 +931,7 @@ export default function AdminPage() {
                                 Past Event
                               </span>
                               <span className="px-2 py-1 bg-cyan-500/20 text-cyan-300 text-xs rounded">
-                                {event.category}
+                                {event.category} · {event.clubYear || "2025-26"}
                               </span>
                             </div>
                             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-gray-300 text-sm mb-2">

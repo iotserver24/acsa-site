@@ -6,10 +6,13 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "db:schema": "psql \"$DATABASE_URL\" -v ON_ERROR_STOP=1 -f scripts/schema.sql",
+    "db:import": "python3 scripts/import-postgres.py"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
+    "@neondatabase/serverless": "^1.1.0",
     "@radix-ui/react-accordion": "1.2.2",
     "@radix-ui/react-alert-dialog": "1.1.4",
     "@radix-ui/react-aspect-ratio": "1.1.1",
@@ -59,7 +62,6 @@
     "react-hook-form": "^7.60.0",
     "react-resizable-panels": "^2.1.7",
     "recharts": "2.15.4",
-    "redis": "^5.8.2",
     "sonner": "^1.7.4",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",

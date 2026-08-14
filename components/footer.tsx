@@ -73,7 +73,7 @@ export function Footer() {
 
         {/* Bottom Section */}
         <div className="mt-6 pt-6 border-t border-white/10 text-center text-sm text-gray-300 font-mono">
-          <p>&copy; 2025 ACSA - Advanced Communication Student Association. All rights reserved.</p>
+          <p>&copy; 2026 ACSA - Advanced Communication Student Association. All rights reserved.</p>
         </div>
       </div>
     </footer>

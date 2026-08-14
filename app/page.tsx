@@ -117,9 +117,12 @@ export default function HomePage() {
           {/* Title */}
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4" style={{ fontFamily: "'Orbitron', 'Arial', sans-serif", letterSpacing: '0.06em' }}>
-              ACSA 2025-26
+              ACSA 2026-27
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 mx-auto rounded-full"></div>
+            <p className="text-gray-400 mt-3" style={{ fontFamily: "'Orbitron', 'Arial', sans-serif" }}>
+              Previous year · 2025-26 core team
+            </p>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 mx-auto rounded-full mt-4"></div>
           </div>
           
           {/* Group Picture */}

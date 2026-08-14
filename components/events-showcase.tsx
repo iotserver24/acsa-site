@@ -227,7 +227,8 @@ export function EventsShowcase() {
                             Register Now
                             <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                           </Button>
-                      </Link>
+                        </Link>
+                      )}
                     </div>
                   </CardContent>
                 </Card>

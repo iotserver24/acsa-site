@@ -28,3 +28,6 @@ next-env.d.ts
 
 # data directory (contains user data)
 /data/
+
+# Redis/Postgres migration dumps (contains PII)
+data-export/

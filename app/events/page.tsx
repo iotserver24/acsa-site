@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Calendar, Clock, MapPin, Users, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import type { Event } from "@/lib/database"
+import { CURRENT_CLUB_YEAR, PREVIOUS_CLUB_YEAR } from "@/lib/academic-year"
 
 export default function EventsPage() {
   const [events, setEvents] = useState<Event[]>([])
@@ -36,8 +37,8 @@ export default function EventsPage() {
     })
   }
 
-  const upcomingEvents = events.filter(event => new Date(event.date) > new Date())
-  const pastEvents = events.filter(event => new Date(event.date) <= new Date())
+  const upcomingEvents = events.filter((event) => (event.clubYear || PREVIOUS_CLUB_YEAR) === CURRENT_CLUB_YEAR)
+  const pastEvents = events.filter((event) => (event.clubYear || PREVIOUS_CLUB_YEAR) !== CURRENT_CLUB_YEAR)
 
   if (loading) {
     return (
@@ -84,13 +85,13 @@ export default function EventsPage() {
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-3 mb-12">
               <Calendar className="w-8 h-8 text-cyan-400" />
-              <h2 className="text-4xl font-bold font-heading">Upcoming Events</h2>
+              <h2 className="text-4xl font-bold font-heading">Upcoming Events · {CURRENT_CLUB_YEAR}</h2>
             </div>
 
             {upcomingEvents.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-gray-400 text-xl font-mono">No upcoming events at the moment.</p>
-                <p className="text-gray-500 mt-2 font-mono text-base">Check back soon for new exciting events!</p>
+                <p className="text-gray-400 text-xl font-mono">No {CURRENT_CLUB_YEAR} events yet.</p>
+                <p className="text-gray-500 mt-2 font-mono text-base">New events added from admin will show up here.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -116,6 +117,9 @@ export default function EventsPage() {
                           <div className="flex items-center gap-3 mb-4">
                             <span className="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-sm font-medium font-mono">
                               {event.category}
+                            </span>
+                            <span className="px-3 py-1 bg-white/10 text-gray-200 rounded-full text-sm font-medium font-mono">
+                              {event.clubYear || CURRENT_CLUB_YEAR}
                             </span>
                             {event.featured && (
                               <span className="px-3 py-1 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-300 rounded-full text-sm font-medium font-mono">
@@ -210,7 +214,7 @@ export default function EventsPage() {
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-3 mb-12">
               <Clock className="w-8 h-8 text-gray-400" />
-              <h2 className="text-4xl font-bold font-heading">Past Events</h2>
+              <h2 className="text-4xl font-bold font-heading">Past Events · {PREVIOUS_CLUB_YEAR}</h2>
             </div>
 
             {pastEvents.length === 0 ? (
@@ -242,6 +246,9 @@ export default function EventsPage() {
                         <div className="mb-4">
                           <span className="px-3 py-1 bg-gray-500/20 text-gray-300 rounded-full text-sm font-medium font-mono">
                             {event.category}
+                          </span>
+                          <span className="ml-2 px-3 py-1 bg-white/10 text-gray-200 rounded-full text-sm font-medium font-mono">
+                            {event.clubYear || PREVIOUS_CLUB_YEAR}
                           </span>
                         </div>
 
