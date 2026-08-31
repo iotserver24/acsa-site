@@ -217,6 +217,18 @@ export const TEAM_BY_YEAR: Record<ClubYear, TeamMember[]> = {
         linkedin: "#",
       },
     },
+    {
+      id: 19,
+      name: "Darshan S L",
+      role: "Class Representative (7th Sem)",
+      usn: "NNM23AC016",
+      image: "/team/26-27/class-representative-7rd-semester.webp",
+      social: {
+        instagram: "https://www.instagram.com/darshan.s.linganagoudra?igsi=dHF5ZXc0bm9zc2hk",
+        linkedin: "https://www.linkedin.com/in/darshan-sadashivanagouda-linganagoudra-220367311?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+        github: "https://github.com/darshan320",
+      },
+    },
   ],
   [PREVIOUS_CLUB_YEAR]: [
     {
