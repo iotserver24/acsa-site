@@ -20,7 +20,7 @@ export const TEAM_BY_YEAR: Record<ClubYear, TeamMember[]> = {
       name: "Avinash Shetty",
       role: "President",
       usn: "NNM23AC008",
-      image: "/placeholder-user.jpg",
+      image: "/team/26-27/avinash-shetty.webp",
       social: {
         instagram: "https://www.instagram.com/shetty_avinash_28",
         linkedin: "https://www.linkedin.com/in/avinash-shetty-7a17b734a",
