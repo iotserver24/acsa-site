@@ -14,7 +14,210 @@ export type TeamMember = {
 }
 
 export const TEAM_BY_YEAR: Record<ClubYear, TeamMember[]> = {
-  [CURRENT_CLUB_YEAR]: [],
+  [CURRENT_CLUB_YEAR]: [
+    {
+      id: 1,
+      name: "Avinash Shetty",
+      role: "President",
+      usn: "NNM23AC008",
+      image: "/placeholder-user.jpg",
+      social: {
+        instagram: "https://www.instagram.com/shetty_avinash_28",
+        linkedin: "https://www.linkedin.com/in/avinash-shetty-7a17b734a",
+        github: "https://github.com/Avinash-Shetty2006",
+      },
+    },
+    {
+      id: 2,
+      name: "Siddharth R",
+      role: "Vice President",
+      usn: "NNM24AC049",
+      image: "/team/26-27/siddharth-r.webp",
+      social: {
+        instagram: "https://www.instagram.com/Si_dharthh",
+        linkedin: "https://www.linkedin.com/in/siddharth-r-105782305?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
+        github: "https://github.com/Siddharth1968",
+      },
+    },
+    {
+      id: 3,
+      name: "Bhavish Kumar M",
+      role: "Secretary",
+      usn: "NNM24AC011",
+      image: "/team/26-27/bhavish-kumar-m.webp",
+      social: {
+        instagram: "https://www.instagram.com/bhavissshhhh",
+        linkedin: "https://www.linkedin.com/in/bhavish-kumar-m-27a3243a0",
+      },
+    },
+    {
+      id: 4,
+      name: "Manvith H L",
+      role: "Treasurer",
+      usn: "NNM24AC027",
+      image: "/team/26-27/manvith-h-l.webp",
+      social: {
+        instagram: "https://www.instagram.com/h_l_manvith?igsi=MXEycGhha2k3dTB0YQ==",
+        linkedin: "https://in.linkedin.com/in/manvithlokesh",
+      },
+    },
+    {
+      id: 5,
+      name: "Deepthi R",
+      role: "Joint Treasurer",
+      usn: "NN25ACT013",
+      image: "/team/26-27/deepthi-r.webp",
+      social: {
+        instagram: "https://www.instagram.com/_deepthir.jogi_27",
+        linkedin: "#",
+      },
+    },
+    {
+      id: 6,
+      name: "Chandana Marathe",
+      role: "Cultural Co-Head",
+      usn: "NN25ACT010",
+      image: "/team/26-27/chandana-marathe.webp",
+      social: {
+        instagram: "https://www.instagram.com/chandanamarathe",
+        linkedin: "#",
+      },
+    },
+    {
+      id: 7,
+      name: "Adwaith H U", 
+      role: "Branch Captain",
+      usn: "NNM23AC002",
+      image: "/team/nnm23ac002.JPG",
+      social: {
+        instagram: "https://www.instagram.com/adwaith.hu?igsh=c21weWEwMm01ZzJq",
+        linkedin: "https://www.linkedin.com/in/adwaithhu/",
+      },
+    },
+    {
+      id: 8,
+      name: "Anish Kumar",
+      role: "Technical Head",
+      usn: "NNM24AC008",
+      image: "/team/26-27/anish-kumar.webp",
+      social: {
+        instagram: "https://www.instagram.com/anish_kumar1006/",
+        linkedin: "https://www.linkedin.com/in/anish-kumar-1a5bb133a/",
+        github: "https://github.com/iotserver24",
+      },
+    },
+    {
+      id: 9,
+      name: "Glen Christen Tauro",
+      role: "Technical Co-Head",
+      usn: "NN25ACT018",
+      image: "/team/26-27/glen-christen-tauro.webp",
+      social: {
+        instagram: "https://www.instagram.com/glen_tauro?igsh=MXdrbnZ2dHA0OTRkbA==&igsi=MXdrbnZ2dHA0OTRkbA==",
+        linkedin: "https://www.linkedin.com/in/glen-tauro-a81355378?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+        github: "https://github.com/GlenTauro",
+      },
+    },
+    {
+      id: 10,
+      name: "Siddharth Pai K",
+      role: "Joint Secretary",
+      usn: "NN25ACT056",
+      image: "/team/26-27/siddharth-pai-k.webp",
+      social: {
+        instagram: "https://www.instagram.com/paisiddu07?utm_source=qr&igsi=MXdkZjM4ZzJlb3NrdA==",
+        linkedin: "https://www.linkedin.com/in/k-siddharth-pai-5454b7379?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+      },
+    },
+    {
+      id: 11,
+      name: "Manish",
+      role: "Event Management Head",
+      usn: "NNM24AC025",
+      image: "/team/26-27/manish.webp",
+      social: {
+        instagram: "https://www.instagram.com/manish__achar_?igsi=dm1uaTZyZWxodDF0",
+        linkedin: "https://www.linkedin.com/in/manish-achar?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+      },
+    },
+    {
+      id: 12,
+      name: "Manvi Shetty",
+      role: "Event Management Co-Head",
+      usn: "NN25ACT030",
+      image: "/team/26-27/manvi-shetty.webp",
+      social: {
+        instagram: "https://www.instagram.com/manvi.shettyy",
+        linkedin: "#",
+      },
+    },
+    {
+      id: 13,
+      name: "Vibhav Kamat",
+      role: "Social Media Team",
+      usn: "NN25ACT066",
+      image: "/team/26-27/vibhav-kamat.webp",
+      social: {
+        instagram: "https://www.instagram.com/vibhav_kamat",
+        linkedin: "#",
+      },
+    },
+    {
+      id: 14,
+      name: "Hithesh P M",
+      role: "Sports Head",
+      usn: "NNM24AC019",
+      image: "/team/26-27/hithesh-p-m.webp",
+      social: {
+        instagram: "https://www.instagram.com/_hithesh_polya",
+        linkedin: "https://www.linkedin.com/in/hithesh-polya-3847a6361?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
+      },
+    },
+    {
+      id: 15,
+      name: "Manvith",
+      role: "Social Media Head",
+      usn: "NNM24AC026",
+      image: "/team/26-27/manvith-social-media.webp",
+      social: {
+        instagram: "https://www.instagram.com/manvithh_?igsi=YzZ3eGJ5bGwzZGpm",
+        linkedin: "https://www.linkedin.com/in/manvith1320?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+      },
+    },
+    {
+      id: 16,
+      name: "Ashlesh Acharya",
+      role: "Cultural Head",
+      usn: "NNM24AC010",
+      image: "/team/nnm24ac010.jpg",
+      social: {
+        instagram: "https://www.instagram.com/_ashuacharya_?utm_source=qr&igsi=em03NG5wdDNqZjYz",
+        linkedin: "https://www.linkedin.com/in/ashleshacharya?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+      },
+    },
+    {
+      id: 17,
+      name: "Gowthami",
+      role: "Sports Co-Head",
+      usn: "NN25ACT019",
+      image: "/team/26-27/gowthami.webp",
+      social: {
+        instagram: "#",
+        linkedin: "https://www.linkedin.com/in/gowthami-poojari-7ab7a3429?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+      },
+    },
+    {
+      id: 18,
+      name: "Shereen Melora Agera",
+      role: "Social Media Team",
+      usn: "NN25ACT051",
+      image: "/team/26-27/shereen-melora-agera.webp",
+      social: {
+        instagram: "#",
+        linkedin: "#",
+      },
+    },
+  ],
   [PREVIOUS_CLUB_YEAR]: [
     {
       id: 1,

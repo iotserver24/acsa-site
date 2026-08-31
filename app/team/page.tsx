@@ -29,9 +29,9 @@ export default function TeamPage() {
               key={i}
               className="star"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
+                left: `${(i * 37.7) % 100}%`,
+                top: `${(i * 61.3) % 100}%`,
+                animationDelay: `${((i * 17) % 30) / 10}s`,
               }}
             />
           ))}
@@ -62,7 +62,6 @@ export default function TeamPage() {
                   style={{ fontFamily: "'Orbitron', 'Arial', sans-serif" }}
                 >
                   {clubYear}
-                  {clubYear === PREVIOUS_CLUB_YEAR ? " · Alumni" : ""}
                 </button>
               ))}
             </div>
